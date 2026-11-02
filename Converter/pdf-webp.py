@@ -19,7 +19,7 @@ for pdf_file in input_folder.rglob("*.pdf"):
         for index, page in enumerate(document):
             pix = page.get_pixmap(
                 dpi=144, 
-                alpha=False
+                alpha=False,
                 )
 
             image = Image.frombytes(
