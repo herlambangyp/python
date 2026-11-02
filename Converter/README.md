@@ -42,22 +42,17 @@ Aktifkan virtual environment:
 
 Atau sesuaikan dengan CLI yang digunakan
 
-## Instal Dependency
+## Inisialisasi Script Python
 
+Jalankan:
 ```bash
-python -m pip install -r requirements.txt
+py -m pip install -r requirements.txt
 ```
-
-Dependency yang digunakan:
-
-| Package | Fungsi |
-|---|---|
-| PyMuPDF | Membaca dan merender halaman PDF |
-| Pillow | Memproses dan menyimpan gambar WebP |
 
 ## Input File PDF
 
 **!!! Jangan menghapus folder input saat konversi berjalan !!!**
+
 Masukkan file PDF atau folder berisi file pdf, ke dalam folder `Input pdf`.
 
 Struktur folder berisi file pdf dapat dibuat seperti berikut:
@@ -83,7 +78,7 @@ REPOSITORY/
 ## Menjalankan Script
 
 ```bash
-python pdf-webp.py
+py pdf-webp.py
 ```
 
 Hasil konversi akan disimpan di dalam folder `Output webp`.
@@ -152,10 +147,10 @@ Pengaturan konversi dapat diubah langsung melalui script Python.
 | `method` | 6 | Tingkat optimasi encoding WebP |
 
 
-## Catatan
+## Catatan untuku sendiri di masa depan
 
-- File `requirements.txt` digunakan untuk menginstal dependency yang dibutuhkan.
 - Folder `Input pdf` merupakan lokasi file PDF yang akan diproses.
+- Jalankan `py -m pip freeze > requirements.txt` untuk mendokumentasikan package python
 
 ## Dokumentasi Dependency
 
