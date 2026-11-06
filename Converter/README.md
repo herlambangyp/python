@@ -2,6 +2,10 @@
 
 Script Python sederhana untuk mengonversi file PDF menjadi gambar WebP
 
+**Note:** Untuk panduan general python dan cara menggunakan code ini, sebaiknya cek halaman utama (README.md):
+https://github.com/herlambangyp/python
+
+
 ## Requirements
 
 - Python 3.10 atau lebih baru.
