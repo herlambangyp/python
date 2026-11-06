@@ -67,9 +67,11 @@ Document.pdf
 Hasil:
 
 ```text
-Document-HALAMAN_1.webp
-Document-HALAMAN_2.webp
-Document-HALAMAN_3.webp
+outpot/
+└── Document/
+    ├── Document-HALAMAN_1.webp
+    ├── Document-HALAMAN_2.webp
+    └── Document-HALAMAN_3.webp
 ```
 
 ### PDF di dalam subfolder
