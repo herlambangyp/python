@@ -1,7 +1,10 @@
 # Time Calculator CLI
 
-Program kalkulator waktu sederhana berbasis Command Line Interface (CLI) yang dibuat menggunakan Python.
-Program ini memungkinkan pengguna menghitung waktu di masa depan atau masa lalu berdasarkan waktu saat ini, dengan menambahkan atau mengurangi sejumlah hari, jam, maupun menit.
+Kalkulator waktu sederhana berbasis Command Line Interface (CLI) yang dibuat menggunakan Python. Misalnya, untuk menghitung 473 jam dari sekarang itu tanggal berapa, jam berapa. Atau 77 hari dari sekarang itu tanggal berapa, dsb
+
+**Note:** Untuk panduan general python dan cara menggunakan code ini, sebaiknya cek halaman utama (README.md):
+https://github.com/herlambangyp/python
+
 
 ## Requirements
 
@@ -16,12 +19,7 @@ Jalankan program menggunakan perintah:
 python main.py
 ```
 
-Ikuti instruksi yang ditampilkan pada terminal:
-
-1. Pilih operasi penambahan atau pengurangan waktu.
-2. Pilih satuan waktu yang ingin digunakan.
-3. Masukkan jumlah waktu.
-4. Program akan menampilkan hasil perhitungan berdasarkan waktu saat ini.
+Ikuti instruksi yang ditampilkan pada terminal
 
 ## Catatan
 
