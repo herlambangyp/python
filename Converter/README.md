@@ -2,65 +2,22 @@
 
 Script Python sederhana untuk mengonversi file PDF menjadi gambar WebP
 
-## Fitur
-
-- Mengonversi file PDF menjadi gambar WebP.
-- Mendukung PDF dengan satu maupun banyak halaman.
-- Mencari file PDF secara otomatis, termasuk di dalam subfolder.
-- Mempertahankan struktur subfolder dari direktori input.
-- Mengatur resolusi hasil konversi pada 144 DPI.
-- Menggunakan WebP quality 90 dan method 6.
-- Memberikan penamaan file otomatis berdasarkan jumlah halaman PDF.
-
-## Persyaratan
+## Requirements
 
 - Python 3.10 atau lebih baru.
-- Git (jika ingin melakukan clone repository).
-- Koneksi internet untuk menginstal dependency pertama kali.
+- Koneksi internet untuk menginstal library dan package pertama kali.
 
-## Membuat Virtual Environment (opsional)
+## Penggunaan
 
-Buat virtual environment khusus untuk project ini:
+**PENTING! Jangan menghapus folder `input` saat script berjalan**
 
-```bash
-py -m venv .venv
-```
-
-Aktifkan virtual environment:
-
-**PowerShell:**
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-**CMD (Command Prompt):**
-
-```cmd
-.venv\Scripts\activate.bat
-```
-
-Atau sesuaikan dengan CLI yang digunakan
-
-## Inisialisasi Script Python
-
-Jalankan:
-```bash
-py -m pip install -r requirements.txt
-```
-
-## Input File PDF
-
-**!!! Jangan menghapus folder input saat konversi berjalan !!!**
-
-Masukkan file PDF atau folder berisi file pdf, ke dalam folder `Input pdf`.
-
+Masukkan file PDF atau folder berisi file pdf, ke dalam folder `input`.
 Struktur folder berisi file pdf dapat dibuat seperti berikut:
 
 ```text
 REPOSITORY/
 │
-├── Input pdf/
+├── input/
 │   ├── document.pdf
 │   │
 │   ├── Folder A/
@@ -75,13 +32,13 @@ REPOSITORY/
 └── README.md
 ```
 
-## Menjalankan Script
+### Menjalankan Script
 
 ```bash
 py pdf-webp.py
 ```
 
-Hasil konversi akan disimpan di dalam folder `Output webp`.
+Hasil konversi akan disimpan di dalam folder `output`.
 
 ## Contoh Hasil Konversi
 
@@ -120,7 +77,7 @@ Document-HALAMAN_3.webp
 File input:
 
 ```text
-Input pdf/
+input/
 └── Folder A/
     └── Document.pdf
 ```
@@ -128,31 +85,9 @@ Input pdf/
 Hasil:
 
 ```text
-Output webp/
+output/
 └── Folder A/
     └── Document.webp
 ```
 
 Struktur subfolder sumber akan dipertahankan pada direktori output.
-
-## Pengaturan Konversi
-
-Pengaturan konversi dapat diubah langsung melalui script Python.
-
-| Parameter | Nilai | Keterangan |
-|---|---|---|
-| `dpi` | 144 | Resolusi rendering PDF |
-| `alpha` | False | Tidak menggunakan transparansi |
-| `quality` | 90 | Kualitas kompresi WebP |
-| `method` | 6 | Tingkat optimasi encoding WebP |
-
-
-## Catatan untuku sendiri di masa depan
-
-- Folder `Input pdf` merupakan lokasi file PDF yang akan diproses.
-- Jalankan `py -m pip freeze > requirements.txt` untuk mendokumentasikan package python
-
-## Dokumentasi Dependency
-
-- [PyMuPDF Documentation](https://pymupdf.readthedocs.io/en/latest/)
-- [Pillow Documentation](https://pillow.readthedocs.io/en/stable/)

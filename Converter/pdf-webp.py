@@ -6,8 +6,8 @@ from pathlib import Path
 questionary.print("\n---- Menginisialisasi script converter pdf ke webp ---- \n", style="bold fg:ansigreen")
 
 BASE_DIR = Path(__file__).resolve().parent
-input_folder = BASE_DIR / "Input pdf"
-output_folder = BASE_DIR / "Output webp"
+input_folder = BASE_DIR / "input"
+output_folder = BASE_DIR / "output"
 
 def tanyakan_dulu():
     global output_format, dpi, kualitas
@@ -21,22 +21,21 @@ def tanyakan_dulu():
     
     dpi = questionary.text(
         "Masukkan DPI: ",
-        default="144",
+        default="180",
         validate=lambda value: value.isdigit() and 72 <= int(value) or "DPI harus berupa angka dan harus lebih dari 72"
         ).ask()
     
     dpi = int(dpi)
 
     kualitas = questionary.text(
-        "Kualitas Gambar (1-100): ",
-        instruction="(Semakin besar kualitas, semakin besar ukuran file)",
+        "Kualitas (1-100): ",
         default="90",
         validate=lambda value: value.isdigit() and 1 <= int(value) <= 100 or "Kualitas harus direntang 1 sampai 100",
     ).ask()
 
     questionary.print(f"\nFormat yang dipilih: {output_format}", style="fg:ansigreen")
     questionary.print(f"DPI: {dpi}", style="fg:ansigreen")
-    questionary.print(f"Kualitas Gambar: {kualitas}\n", style="fg:ansigreen")
+    questionary.print(f"Kualitas: {kualitas}\n", style="fg:ansigreen")
 
     semuaBenar = questionary.confirm( 
         "Apakah semua sudah benar?", 
@@ -44,7 +43,11 @@ def tanyakan_dulu():
         ).ask()
     
     if not semuaBenar:
-        lalu = questionary.select("Ada yang salah? Lalu?", choices=["Ulangi input data", "Keluar dari script"]).ask()
+        lalu = questionary.select(
+            "Ada yang salah? Lalu?", 
+            choices=["Ulangi input data", "Keluar dari script"],
+            instruction="(Gunakan tombol panah untuk memilih, Enter untuk konfirmasi)"
+            ).ask()
 
         if lalu == "Keluar dari script":
             questionary.print("Keluar dari script...", style="bold fg:ansired")
@@ -54,11 +57,12 @@ def tanyakan_dulu():
         return tanyakan_dulu()
     
     else:
-        questionary.print("\nMenjalankan Script Converter...\n", style="bold fg:ansigreen")
+        questionary.print("\nMenjalankan Script Converter...", style="bold fg:ansigreen")
 
 tanyakan_dulu()
 
 output_folder.mkdir(exist_ok=True)
+print(f"jumlah dokumen pdf yang ditemukan: {len(list(input_folder.rglob('*.pdf')))}")
 
 for pdf_file in input_folder.rglob("*.pdf"):
     relative_folder = pdf_file.parent.relative_to(input_folder)
@@ -93,11 +97,11 @@ for pdf_file in input_folder.rglob("*.pdf"):
                 method=6
             )
 
-            questionary.print(f"\nSedang Convert: {output_file} \n", style="fg:ansiblue")
-            pass
+            questionary.print(f"\nSedang Convert: {output_file}", style="fg:ansiblue")
 
     except Exception as e:
-        questionary.print(f"Ada Error saat convert {pdf_file} \n Error: {e}", style="bold fg:ansired")
+        questionary.print(f"Ada Error saat convert {pdf_file} \n >>Error: {e}", style="bold fg:ansired")
+        
 
     finally:
         document.close()
