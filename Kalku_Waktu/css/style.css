@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f4f6;
+    padding: 30px;
+}
+
+main {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 24px;
+    background: white;
+    border-radius: 12px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 6px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+}
+
+button {
+    margin-top: 24px;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: wait;
+    opacity: 0.5;
+}
+
+#hasil {
+    margin-top: 24px;
+    font-weight: bold;
+    line-height: 1.6;
+}

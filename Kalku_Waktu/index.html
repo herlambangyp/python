@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kalkulator Waktu</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.29.0/full/pyodide.js"></script>
+
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <main>
+        <h1>Kalkulator Waktu</h1>
+
+        <label for="operasi">Operasi waktu</label>
+        <select id="operasi">
+            <option value="tambah">Tambah waktu</option>
+            <option value="kurangi">Kurangi waktu</option>
+        </select>
+
+        <label for="tipe">Satuan waktu</label>
+        <select id="tipe">
+            <option value="Hari">Hari</option>
+            <option value="Jam" selected>Jam</option>
+            <option value="Menit">Menit</option>
+        </select>
+
+        <label for="jumlah">Jumlah waktu</label>
+        <input type="number" id="jumlah" min="0" step="1" value="1">
+
+        <button id="btnHitung" disabled>
+            Memuat Python...
+        </button>
+
+        <p id="hasil">Menunggu kalkulator siap...</p>
+    </main>
+
+</body>
+</html>

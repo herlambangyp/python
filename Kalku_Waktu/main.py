@@ -1,74 +1,37 @@
-import questionary # Doc: https://questionary.readthedocs.io/en/stable/index.html
 from datetime import datetime, timedelta
+# from python.viaCLI import pakeCLI, tulisKeCLI
+from python.dictionary import satuan, hari, bulan
 
-sekarang = datetime.now()
-# Dictionary untuk mapping
-satuan = {
-    'Hari': 'days',
-    'Jam': 'hours',
-    'Menit': 'minutes',
-}
-hari = {
-    "Monday": "Senin",
-    "Tuesday": "Selasa",
-    "Wednesday": "Rabu",
-    "Thursday": "Kamis",
-    "Friday": "Jumat",
-    "Saturday": "Sabtu",
-    "Sunday": "Minggu"
-}
-bulan = {
-    1: "Januari",
-    2: "Februari",
-    3: "Maret",
-    4: "April",
-    5: "Mei",
-    6: "Juni",
-    7: "Juli",
-    8: "Agustus",
-    9: "September",
-    10: "Oktober",
-    11: "November",
-    12: "Desember"
-}
-questionary.print(f"\n---- Waktu Sekarang: {sekarang.strftime('%H:%M')}, {hari[sekarang.strftime('%A')]}, {sekarang.strftime('%d')} {bulan[int(sekarang.strftime('%m'))]} {sekarang.strftime('%Y')}\n", style="bold")
+# if 1==1:
+#     operasi, tipe, waktuInput, sekarang = pakeCLI()
 
+# dataWaktu = int(waktuInput)
 
+# if operasi == "tambah waktu":
+#     hasil = sekarang + timedelta(**{satuan[tipe]: dataWaktu})
+# else:
+#     hasil = sekarang - timedelta(**{satuan[tipe]: dataWaktu})
+    
+def hitung_waktu(operasi, tipe, jumlah):
+    sekarang = datetime.now()
 
-def tanyaUtama():
-    global operasi, tipe, konfirmasi, waktuInput, dataWaktu
-    operasi = questionary.select(
-        "Pilih operasi waktu:",
-        choices=["tambah waktu", "kurangi waktu"],
-        default="tambah waktu",).ask()
+    if operasi == "tambah waktu":
+        hasil = sekarang + timedelta(**{satuan[tipe]: jumlah})
+    else:
+        hasil = sekarang - timedelta(**{satuan[tipe]: jumlah})
 
-    tipe = questionary.select(
-        "Pilih satuan waktu:",
-        choices=["Hari", "Jam", "Menit"],
-        default="Jam",).ask()
+    if tipe == "Hari":
+        waktu = ""
+    else:
+        waktu = hasil.strftime("%H:%M") + " "
 
-    konfirmasi = questionary.confirm(f"Akan menghitung {operasi} beberapa {tipe} dari sekarang, benar?").ask()
-    if not konfirmasi:
-        tindakan = questionary.select(
-        "Apa yg ingin dilakukan?",
-        choices=["Ulangi input data", "Keluar dari script"],
-        default="Ulangi input data",).ask()
-        if tindakan == "Keluar dari script":
-            questionary.print("Keluar dari script...", style="bold fg:ansired")
-            exit()
-        else:
-            return tanyaUtama()
-tanyaUtama()
+    return (
+        f"{waktu}"
+        f"{hari[hasil.strftime('%A')]}, "
+        f"{hasil.strftime('%d')} "
+        f"{bulan[hasil.month]} "
+        f"{hasil.year}"
+    )
 
-waktuInput = questionary.text(f"Ingin di {operasi} berapa {tipe} dari sekarang?",validate=lambda value: value.isdigit() or "Hanya menghitung bilangan bulat untuk saat ini").ask()
-dataWaktu = int(waktuInput)
-
-if operasi == "tambah waktu":
-    hasil = sekarang + timedelta(**{satuan[tipe]: dataWaktu})
-else:
-    hasil = sekarang - timedelta(**{satuan[tipe]: dataWaktu})
-
-if tipe == "Hari":
-    questionary.print(f"\nHasil {operasi} {dataWaktu} {tipe} dari sekarang: \n{hari[hasil.strftime('%A')]}, {hasil.strftime('%d')} {bulan[int(hasil.strftime('%m'))]} {hasil.strftime('%Y')}", style="fg:ansigreen")
-else:
-    questionary.print(f"\nHasil {operasi} {dataWaktu} {tipe} dari sekarang: \n{hasil.strftime('%H:%M')} {hari[hasil.strftime('%A')]}, {hasil.strftime('%d')} {bulan[int(hasil.strftime('%m'))]} {hasil.strftime('%Y')}", style="fg:ansigreen")
+# if 1==1:
+#     tulisKeCLI(tipe, operasi, dataWaktu, hasil)
