@@ -11,11 +11,15 @@ with fileLog.open('w', encoding='utf-8') as file:
 questionary.print("\n---- Menginisialisasi script converter pdf ke webp ---- \n", style="bold fg:ansigreen")
 input_folder = Path("input")
 output_folder = Path("output")
+jumlahPdf = len(list(input_folder.rglob('*.pdf')))
 
-def tulisLog(message, tipe="info", heading=""):
+def tulisLog(message, tipe="info", heading="", tulisKeCLI=True):
     with fileLog.open("a", encoding="utf-8") as file:
         file.write(f"{heading}[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}\n")
+    if tulisKeCLI:
+        pesanCLI(message, tipe, heading)
 
+def pesanCLI(message, tipe="info", heading=""):
     tipePesan = {
         "info": "fg:ansiblue",
         "error": "fg:ansired",
@@ -51,10 +55,10 @@ def tanyakan_dulu():
         validate=lambda value: value.isdigit() and 1 <= int(value) <= 100 or "Kualitas harus direntang 1 sampai 100",
     ).ask()
 
-    questionary.print(f"\nDitemukan: {len(list(input_folder.rglob('*.pdf')))} file PDF")
-    questionary.print(f"Diformat ke: {output_format}", style="fg:ansigreen")
-    questionary.print(f"DPI: {dpi}", style="fg:ansigreen")
-    questionary.print(f"Kualitas: {kualitas}\n", style="fg:ansigreen")
+    questionary.print(f"\nDitemukan: {jumlahPdf} file PDF", style="fg:ansigreen")
+    questionary.print(f"Akan Diformat ke: {output_format}", style="fg:ansigreen")
+    questionary.print(f"DPI: {dpi}px", style="fg:ansigreen")
+    questionary.print(f"Kualitas: {kualitas}%\n", style="fg:ansigreen")
 
     konfirmasi = questionary.select( 
         "Apakah data diatas sudah benar?", 
@@ -78,7 +82,8 @@ def tanyakan_dulu():
         return tanyakan_dulu()
     
     else:
-        questionary.print("\nMenjalankan Script Converter...", style="bold fg:ansigreen")
+        tulisLog(f"\n \nJumlah PDF: {jumlahPdf} \nFormat convert: .{output_format.lower()} \nDPI: {dpi}px \nKualitas: {kualitas}%",tulisKeCLI=False)
+        tulisLog("Menjalankan Script Converter...", tipe="success", heading="\n")
 
 tanyakan_dulu()
 output_folder.mkdir(exist_ok=True)
