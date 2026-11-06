@@ -4,12 +4,15 @@ __pycache__/
 *$py.class
 *.so
 .Python
+log.txt
 build/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
+input/
+output/
 lib/
 lib64/
 parts/

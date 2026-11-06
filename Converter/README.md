@@ -27,7 +27,7 @@ REPOSITORY/
 │   └── Folder B/
 │       └── document-3.pdf
 │
-├── pdf-webp.py
+├── main.py
 ├── requirements.txt
 └── README.md
 ```
@@ -35,7 +35,7 @@ REPOSITORY/
 ### Menjalankan Script
 
 ```bash
-py pdf-webp.py
+py main.py
 ```
 
 Hasil konversi akan disimpan di dalam folder `output`.
