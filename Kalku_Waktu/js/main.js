@@ -1,19 +1,40 @@
 let pyodide
 
+async function muatFilePython(path, tujuan) {
+    const response = await fetch(path)
+
+    if (!response.ok) {
+        throw new Error(`Gagal memuat ${path}`)
+    }
+
+    const kode = await response.text()
+
+    pyodide.FS.writeFile(tujuan, kode)
+}
+
 async function initPython() {
     pyodide = await loadPyodide()
 
-    const response = await fetch("./main.py")
-    const kodePython = await response.text()
+    await muatFilePython(
+        "./python/dictionary.py",
+        "/home/pyodide/python/dictionary.py"
+    )
 
-    await pyodide.runPythonAsync(kodePython)
+    await muatFilePython(
+        "./kalkulasi.py",
+        "/home/pyodide/kalkulasi.py"
+    )
+
+    pyodide.runPython(`
+        import importlib
+        importlib.invalidate_caches()
+
+        from kalkulasi import hitung_waktu
+    `)
 
     document.getElementById("btnHitung").disabled = false
     document.getElementById("btnHitung").textContent = "Hitung"
-
-    document.getElementById("hasil").textContent = "Python siap digunakan"
 }
-
 async function hitung() {
     const operasi = document.getElementById("operasi").value
     const tipe = document.getElementById("tipe").value
