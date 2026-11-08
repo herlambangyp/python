@@ -12,6 +12,7 @@ def halo():
     return "Python berhasil dipanggil!"
 
 def hitung(sekarang=None, variabelAngka=0, operasi='tambah', satuan='days'):
+    variabelAngka = int(variabelAngka)
     if sekarang is None:
         sekarang = datetime.now()
 

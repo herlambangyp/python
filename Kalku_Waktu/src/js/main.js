@@ -39,6 +39,6 @@ function kirimHitung(){
         return
     }
     // variabel pyodide diambil oleh interpreter.js
-    hasilHitung.innerHTML = pyodide.runPython(`main.hitung(variabelAngka = ${inputAngka.value}, operasi=${pilihanMode.value}, satuan=${pilihanSatuanWaktu.value})`)
-
+    hasilHitung.innerHTML = pyodide.runPython(`main.hitung(variabelAngka='${inputAngka.value}', operasi='${pilihanMode.value}', satuan='${pilihanSatuanWaktu.value}')`)
+    
 }
