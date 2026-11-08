@@ -1,7 +1,16 @@
 let kamus = {
     'tambah': 'kedepan',
     'kurang': 'sebelumnya'
-}
+},
+sekarang = new Date(),
+tahun = sekarang.getFullYear(),
+indexHari = sekarang.getDay(),
+namaHari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'][indexHari],
+indexBulan = sekarang.getMonth(),
+namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'][indexBulan]
+
+tanggalSekarang.textContent = `${namaHari}, ${sekarang.getDate()} ${namaBulan} ${sekarang.getFullYear()}`
+jamSekarang.textContent = sekarang.toLocaleTimeString('id-ID', {hour: '2-digit',minute: '2-digit',hour12: false})
 
 function pesanDitombol() {
     if (inputJumlahWaktu.value.length > 0) {
@@ -39,6 +48,6 @@ function kirimHitung(){
         return
     }
     // variabel pyodide diambil oleh interpreter.js
-    hasilHitung.innerHTML = pyodide.runPython(`main.hitung(variabelAngka='${inputAngka.value}', operasi='${pilihanMode.value}', satuan='${pilihanSatuanWaktu.value}')`)
+    hasilHitung.innerHTML = pyodide.runPython(`main.hitung(variabelAngka='${inputJumlahWaktu.value}', operasi='${pilihanMode.value}', satuan='${pilihanSatuanWaktu.value}')`)
     
 }
