@@ -32,3 +32,13 @@ pilihanMode.onchange = o => {
             break;
     }
 }
+
+function kirimHitung(){
+
+    if (pilihanMode.value === "Pilih Mode Kalkulator" || pilihanSatuanWaktu.value === 'Pilih Jenis' || inputJumlahWaktu.value.length < 1){
+        return
+    }
+    // variabel pyodide diambil oleh interpreter.js
+    hasilHitung.innerHTML = pyodide.runPython(`main.hitung(variabelAngka = ${inputAngka.value}, operasi=${pilihanMode.value}, satuan=${pilihanSatuanWaktu.value})`)
+
+}

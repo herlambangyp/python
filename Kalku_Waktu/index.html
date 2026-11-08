@@ -8,11 +8,10 @@
     <title>Kalkulator Waktu</title>
 
     <link rel="stylesheet" href="./src/css/tailwind.css">
+    <link rel="stylesheet" href="./src/css/main.css">
 
     <script src="https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.js"></script>
 
-    <script type="module" src="./src/js/main.js"></script>
-    <script type="module" src="./src/js/interpreter.js"></script>
 </head>
 
 <body>
@@ -46,6 +45,13 @@
                     </div>
                 </div>
             </div>
+            <div class="text-success w-fit h-fit opacity-0 absolute">
+                <svg class="w-6 rounded-[50%] stroke-3 stroke-success" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="23" fill="none" />
+                    <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                </svg>
+            </div>
             <div>
                 <label class="label mb-0.5">Pilih Tindakan:</label>
                 <select id="pilihanMode" class="select">
@@ -58,7 +64,7 @@
                 <label class="label mb-0.5">Pilih Jenis Waktu:</label>
                 <select id="pilihanSatuanWaktu" class="select hidden">
                     <option disabled selected>Pilih Jenis</option>
-                    <option value="bulan">Bulan</option>
+                    <!-- <option value="bulan">Bulan</option> -->
                     <option value="minggu">Minggu</option>
                     <option value="hari">Hari</option>
                     <option value="jam">Jam</option>
@@ -71,7 +77,10 @@
                 <input id="inputJumlahWaktu" type="number" class="input" placeholder="Masukan Jumlah Disini..."
                     oninput="pesanDitombol()" />
             </div>
-            <button id="btnMulaiHitung" class="btn btn-neutral mt-4"><span class="loading loading-spinner loading-xs"></span>Memuat Interpreter Python..</button>
+            <div>Hasil : <span id="hasilHitung"></span></div>
+            <button onclick="kirimHitung()" id="btnMulaiHitung" class="btn btn-neutral mt-4"><span
+                    class="loading loading-spinner loading-xs"></span><span id="loadingPython">Memuat Interpreter
+                    Python...</span></button>
             <div class="mt-4 w-full text-center text-[7px] md:text-[8px] opacity-50">
                 Package & Framework:<br>
                 Vite 8.3.6 |
@@ -83,6 +92,8 @@
         </fieldset>
 
     </main>
+    <script src="./src/js/interpreter.js"></script>
+    <script src="./src/js/main.js"></script>
 </body>
 
 </html>
