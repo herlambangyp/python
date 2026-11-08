@@ -1,45 +1,89 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Kalkulator Waktu</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./src/css/tailwind.css">
 
     <!-- Pyodide -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.29.0/full/pyodide.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.js"></script> -->
 
     <script src="js/main.js" defer></script>
 </head>
+
 <body>
+    <main class="flex items-center justify-center h-dvh p-3">
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+            <legend class="fieldset-legend">Kalkulator Waktu Python</legend>
+            <div class="stats shadow mb-0">
+                <div class="stat p-0">
+                    <div class="stat-title">Sekarang Tanggal:</div>
+                    <div class="stat-value text-[18px] md:text-[20px] ">Minggu, 08 November 2026</div>
+                    <div class="stat-desc italic">Jam 23:19</div>
+                </div>
+            </div>
+            <div class="w-full -mb-3 relative -top-1.5">
+                <div class="collapse collapse-arrow bg-transparent border-0 opacity-70">
+                    <input id="collapse-1-toggle" type="checkbox" class="peer" />
+                    <label for="collapse-1-toggle" class="fixed inset-0 hidden peer-checked:block"></label>
+                    <div class="px-0 py-1 collapse-title font-semibold">
+                        Kalkulator apa ini?
+                    </div>
+                    <div class="px-0 py-1 collapse-content text-sm z-1">
+                        Kalkulator ini digunakan untuk menghitung waktu.
+                        Misalnya 100 jam dari sekarang itu jam berapa,
+                        atau 18391261 detik dari sekarang itu jam berapa, dsb. 
+                        Semua perhitungan dilakukan oleh Python <b>bukan JS (Javascript)</b><br>
+                        <br>
+                        <b>Note:</b> Ini adalah project pribadi<br><br>
+                        Project ini untuk menguji interpreter Python 
+                        di lingkungan web tanpa server, dengan memanfaatkan Web Assembly
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+            <div>
+            <label class="label mb-0.5">Pilih Tindakan:</label>
+            <select id="pilihanMode" class="select">
+                <option disabled selected>Pilih Mode Kalkulator</option>
+                <option value="tambah">(+) Beberapa Waktu Kedepan</option>
+                <option value="kurang">(-) Beberapa Waktu Kebelakang</option>
+            </select>
+            </div>
+            <div id="inputJenis" class="hidden">
+                <label class="label mb-0.5">Pilih Jenis Waktu:</label>
+                <select id="pilihanSatuanWaktu" class="select hidden">
+                    <option disabled selected>Pilih Jenis</option>
+                    <option value="bulan">Bulan</option>
+                    <option value="minggu">Minggu</option>
+                    <option value="hari">Hari</option>
+                    <option value="jam">Jam</option>
+                    <option value="menit">Menit</option>
+                </select>
+            </div>
 
-    <main>
-        <h1>Kalkulator Waktu</h1>
+            <div id="inputAngka" class="hidden">
+                <label id="jenisDiText" class="label capitalize mb-0.5"></label>
+                <input id="inputJumlahWaktu" type="number" class="input" placeholder="Masukan Jumlah Disini..."
+                    oninput="pesanDitombol()" />
+            </div>
+            <button id="btnMulaiHitung" class="btn btn-neutral mt-4">Hitung</button>
+            <div class="mt-4 w-full text-center text-[7px] md:text-[8px] opacity-50">
+                Package & Framework:<br>
+                Vite 8.3.6 | 
+                Tailwind CSS 4.3.5 | 
+                DaisyUi 5.7.50 | 
+                Python 3.10 |
+                Pyodide 314.0
+            </div>
+        </fieldset>
 
-        <label for="operasi">Operasi waktu</label>
-        <select id="operasi">
-            <option value="tambah">Tambah waktu</option>
-            <option value="kurangi">Kurangi waktu</option>
-        </select>
-
-        <label for="tipe">Satuan waktu</label>
-        <select id="tipe">
-            <option value="Hari">Hari</option>
-            <option value="Jam" selected>Jam</option>
-            <option value="Menit">Menit</option>
-        </select>
-
-        <label for="jumlah">Jumlah waktu</label>
-        <input type="number" id="jumlah" min="0" step="1" value="1">
-
-        <button id="btnHitung" disabled>
-            Memuat Python...
-        </button>
-
-        <p id="hasil">Menunggu kalkulator siap...</p>
     </main>
-
+    <script src="./src/js/main.js"></script>
 </body>
+
 </html>
