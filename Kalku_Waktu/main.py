@@ -7,6 +7,29 @@ kamus = {
     'jam': 'hours',
     'menit': 'minutes',
 }
+hari = {
+    "Monday": "Senin",
+    "Tuesday": "Selasa",
+    "Wednesday": "Rabu",
+    "Thursday": "Kamis",
+    "Friday": "Jumat",
+    "Saturday": "Sabtu",
+    "Sunday": "Minggu"
+}
+bulan = {
+    1: "Januari",
+    2: "Februari",
+    3: "Maret",
+    4: "April",
+    5: "Mei",
+    6: "Juni",
+    7: "Juli",
+    8: "Agustus",
+    9: "September",
+    10: "Oktober",
+    11: "November",
+    12: "Desember"
+}
 
 def halo():
     return "Python berhasil dipanggil!"
@@ -17,9 +40,11 @@ def hitung(sekarang=None, variabelAngka=0, operasi='tambah', satuan='days'):
         sekarang = datetime.now()
 
     if operasi=='tambah':
-        return sekarang + timedelta(**{kamus[satuan]:variabelAngka})
+        hasil = sekarang + timedelta(**{kamus[satuan]:variabelAngka})
+        return f"{hari[hasil.strftime('%A')]}, {hasil.strftime('%d')} {bulan[int(hasil.strftime('%m'))]} {hasil.strftime('%Y')} Jam {hasil.strftime('%H:%M')}"
     
     if operasi == 'kurang':
-        return sekarang - timedelta(**{kamus[satuan]:variabelAngka})
+        hasil = sekarang - timedelta(**{kamus[satuan]:variabelAngka})
+        return f"{hari[hasil.strftime('%A')]}, {hasil.strftime('%d')} {bulan[int(hasil.strftime('%m'))]} {hasil.strftime('%Y')} Jam {hasil.strftime('%H:%M')}"
 
 

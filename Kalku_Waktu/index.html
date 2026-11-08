@@ -14,8 +14,8 @@
 
 </head>
 
-<body>
-    <main class="flex items-center justify-center h-dvh p-3">
+<body class="h-full m-0">
+    <main class="flex items-center justify-center h-svh">
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend class="fieldset-legend">Kalkulator Waktu Python</legend>
             <div class="stats shadow mb-0">
@@ -74,11 +74,10 @@
 
             <div id="inputAngka" class="hidden">
                 <label id="jenisDiText" class="label capitalize mb-0.5"></label>
-                <input id="inputJumlahWaktu" type="number" class="input" placeholder="Masukan Jumlah Disini..."
-                    oninput="pesanDitombol()" />
+                <input id="inputJumlahWaktu" type="number" class="input" placeholder="Masukan Jumlah Disini..."/>
             </div>
             <div>Hasil : <span id="hasilHitung"></span></div>
-            <button onclick="kirimHitung()" id="btnMulaiHitung" class="btn btn-neutral mt-4"><span
+            <button id="btnMulaiHitung" class="btn btn-neutral mt-4"><span
                     class="loading loading-spinner loading-xs"></span><span id="loadingPython">Memuat Interpreter
                     Python...</span></button>
             <div class="mt-4 w-full text-center text-[7px] md:text-[8px] opacity-50">
@@ -92,8 +91,8 @@
         </fieldset>
 
     </main>
-    <script src="./src/js/interpreter.js"></script>
-    <script src="./src/js/main.js"></script>
+    <script type="module" src="./src/js/interpreter.js"></script>
+    <script type="module" src="./src/js/main.js"></script>
 </body>
 
 </html>

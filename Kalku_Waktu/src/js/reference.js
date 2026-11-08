@@ -1,7 +1,6 @@
 // CUMA JS REFERENSI. TIDAK ADA LOGIKA YG DIEKSEKUSI DISiNI
 
 const sekarang = new Date()
-
 // Mengambil JAM saja (0 - 23)
 const jam = sekarang.getHours()
 

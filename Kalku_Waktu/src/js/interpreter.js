@@ -49,5 +49,13 @@ async function initPython() {
         btnMulaiHitung.innerHTML = "Hitung"
     }, 3000)
 }
+export function kirimHitung(){
 
+    if (pilihanMode.value === "Pilih Mode Kalkulator" || pilihanSatuanWaktu.value === 'Pilih Jenis' || inputJumlahWaktu.value.length < 1){
+        return
+    }
+    // variabel pyodide diambil oleh interpreter.js
+    hasilHitung.innerHTML = pyodide.runPython(`main.hitung(variabelAngka='${inputJumlahWaktu.value}', operasi='${pilihanMode.value}', satuan='${pilihanSatuanWaktu.value}')`)
+    
+}
 initPython()
