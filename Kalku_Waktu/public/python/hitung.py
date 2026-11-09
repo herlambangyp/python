@@ -5,6 +5,7 @@ kamus = {
     'hari': 'days',
     'jam': 'hours',
     'menit': 'minutes',
+    'detik': 'seconds',
     'Beberapa Waktu Kedepan' : 'tambah',
     'Beberapa Waktu Kebelakang' : 'kurang',
     'tambah': 'kedepan',

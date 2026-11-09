@@ -6,6 +6,7 @@ kamus = {
     'hari': 'days',
     'jam': 'hours',
     'menit': 'minutes',
+    'detik': 'seconds',
     'Beberapa Waktu Kedepan' : 'tambah',
     'Beberapa Waktu Kebelakang' : 'kurang',
     'tambah': 'kedepan',
@@ -49,7 +50,7 @@ def tanyaUtama():
 
     tipe = questionary.select(
         "Pilih satuan waktu:",
-        choices=["Minggu", "Hari", "Jam", "Menit"],
+        choices=["Minggu", "Hari", "Jam", "Menit", "Detik"],
         default="Hari",).ask()
 
     konfirmasi = questionary.confirm(f"Akan menghitung beberapa {tipe.lower()} {kamus[kamus[operasi]]}, benar?").ask()
