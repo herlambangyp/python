@@ -31,8 +31,8 @@ bulan = {
     12: "Desember"
 }
 
-def halo():
-    return "Python berhasil dipanggil!"
+def loaded():
+    return "Berhasil Load Python"
 
 def hitung(sekarang=None, variabelAngka=0, operasi='tambah', satuan='days'):
     variabelAngka = int(variabelAngka)

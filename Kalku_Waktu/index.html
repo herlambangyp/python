@@ -18,7 +18,7 @@
     <main class="flex items-center justify-center h-svh">
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
             <legend class="fieldset-legend">Kalkulator Waktu Python</legend>
-            <div class="stats shadow mb-0">
+            <div class="stats mb-0">
                 <div class="stat p-0">
                     <div class="stat-title">Sekarang Tanggal:</div>
                     <div id="tanggalSekarang" class="stat-value text-[18px] md:text-[20px] ">Minggu, 08 November 2026</div>
@@ -76,21 +76,23 @@
                 <label id="jenisDiText" class="label capitalize mb-0.5"></label>
                 <input id="inputJumlahWaktu" type="number" class="input" placeholder="Masukan Jumlah Disini..."/>
             </div>
-            <div>Hasil : <span id="hasilHitung"></span></div>
-            <button id="btnMulaiHitung" class="btn btn-neutral mt-4"><span
-                    class="loading loading-spinner loading-xs"></span><span id="loadingPython">Memuat Interpreter
-                    Python...</span></button>
+            <div class="hidden" id="contHasil"><b>Hasil: </b><span id="hasilHitung" class="text-success"></span></div>
+            <button id="btnMulaiHitung" class="btn btn-neutral mt-4">
+                <span id="loadingPython" class="loading loading-spinner loading-xs"></span><span id="pesanLoading">Memuat Interpreter Python...</span></button>
             <div class="mt-4 w-full text-center text-[7px] md:text-[8px] opacity-50">
                 Package & Framework:<br>
                 Vite 8.3.6 |
                 Tailwind CSS 4.3.5 |
                 DaisyUi 5.7.50 |
                 Python 3.10 |
-                Pyodide 314.0
+                Pyodide 314.0.7
             </div>
         </fieldset>
 
     </main>
+    <template>
+        <div id="contLoading"></div>
+    </template>
     <script type="module" src="./src/js/interpreter.js"></script>
     <script type="module" src="./src/js/main.js"></script>
 </body>
