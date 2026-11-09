@@ -25,16 +25,20 @@ export async function initPython(onStatus = () => {}) {
 
         status('Memeriksa engine PDF...')
         const versi = pyodide.runPython(`
-import pymupdf
-pymupdf.VersionBind
+            import pymupdf
+            pymupdf.VersionBind
         `)
 
         console.log('PyMuPDF:', versi)
         console.log('Pyodide:', pyodide.version)
         console.log(pyodide.runPython('import sys; sys.version'))
 
-        status(`Python ${pyodide.runPython('sys.version')} berhasil dimuat di browser!`, 'success')
+        const versiPython = pyodide.runPython(`
+            import sys
+            f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+        `)
 
+        status(`Python ${versiPython} berhasil dimuat di browser!`, 'success')
         return pyodide
 
     } catch (error) {
