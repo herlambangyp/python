@@ -1,28 +1,63 @@
-# Time Calculator CLI
+# Time Calculator
 
-Kalkulator waktu sederhana berbasis Command Line Interface (CLI) yang dibuat menggunakan Python. Misalnya, untuk menghitung 473 jam dari sekarang itu tanggal berapa, jam berapa. Atau 77 hari dari sekarang itu tanggal berapa, dsb
+Kalkulator waktu berbasis Python untuk menghitung beberapa waktu kedepan atau kebelakang.
 
-**Note:** Untuk panduan general python dan cara menggunakan code ini, sebaiknya cek halaman utama (README.md):
+Misalnya, menghitung 473 jam dari sekarang akan menghasilkan tanggal dan waktu yang sesuai. Begitu pula dengan perhitungan 77 hari sebelumnya atau beberapa satuan waktu lainnya.
+
+Proyek ini menyediakan dua antarmuka penggunaan:
+- **CLI (Command Line Interface):** dijalankan melalui terminal menggunakan Python.
+- **Web Interface:** dijalankan melalui browser menggunakan Pyodide, yang memungkinkan Python berjalan di lingkungan WebAssembly.
+
+**Note:** Untuk panduan umum Python dan dokumentasi proyek lainnya, silakan kunjungi README utama:
 https://github.com/herlambangyp/python
-
 
 ## Requirements
 
+### CLI
 - Python 3.10 atau lebih baru.
-- Koneksi internet untuk menginstal library dan package pertama kali.
+- Library Python yang tercantum dalam `requirements.txt`.
 
-## Penggunaan
+### Web Interface
+- Node.js dan NPM.
+- Koneksi internet untuk memuat Pyodide dan menginstal package yang diperlukan.
 
-Jalankan program menggunakan perintah:
+## Penggunaan melalui CLI
+
+Jalankan program melalui terminal:
 
 ```bash
-python main.py
+py main.py
 ```
 
-Ikuti instruksi yang ditampilkan pada terminal
+Ikuti instruksi yang ditampilkan pada terminal.
+
+## Penggunaan melalui Web
+
+Masuk ke direktori proyek, kemudian instal dependencies:
+
+```bash
+npm install
+```
+
+Jalankan development server:
+
+```bash
+npm run dev
+```
+
+Buka alamat lokal yang ditampilkan oleh Vite pada browser.
+
+Untuk membuat versi production:
+
+```bash
+npm run build
+```
+
+Hasil build akan tersedia di direktori `dist`.
 
 ## Catatan
 
-- Perhitungan menggunakan waktu lokal pada perangkat yang menjalankan program.
+- Perhitungan menggunakan waktu lokal perangkat yang menjalankan program.
 - Input saat ini hanya mendukung bilangan bulat.
-- Nama hari dan bulan diterjemahkan menggunakan dictionary agar tetap menggunakan bahasa Indonesia tanpa bergantung pada pengaturan locale sistem.
+- Nama hari dan bulan diterjemahkan hanya di bahasa Indonesia
+- Web Interface menggunakan Pyodide untuk menjalankan Python melalui WebAssembly di browser.

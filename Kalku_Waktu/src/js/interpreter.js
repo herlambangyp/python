@@ -39,7 +39,7 @@ export async function initPython() {
         }, 2500)
 
         pyodide = await loadPyodide()
-        const response = await fetch('./main.py')
+        const response = await fetch('./python/hitung.py')
         kodePython = await response.text()
 
         pyodide.FS.writeFile('/home/pyodide/main.py', kodePython)

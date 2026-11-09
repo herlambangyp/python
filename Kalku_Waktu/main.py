@@ -1,4 +1,5 @@
 from datetime import timedelta, datetime
+from "public/python/hitung.py" import hitung
 
 kamus = {
     'minggu':'weeks',
@@ -35,20 +36,6 @@ bulan = {
 }
 sekarang = datetime.now()
 
-def loaded():
-    return "Berhasil Load Python"
-
-def hitung(anchorWaktu=sekarang, variabelAngka=0, operasi='tambah', satuan='days'):
-    variabelAngka = int(variabelAngka)
-
-    if operasi=='tambah':
-        hasil = anchorWaktu + timedelta(**{satuan or kamus[satuan]:variabelAngka})
-        return f"{hari[hasil.strftime('%A')]}, {hasil.strftime('%d')} {bulan[int(hasil.strftime('%m'))]} {hasil.strftime('%Y')} Jam {hasil.strftime('%H:%M')}"
-    
-    if operasi == 'kurang':
-        hasil = anchorWaktu - timedelta(**{satuan or kamus[satuan]:variabelAngka})
-        return f"{hari[hasil.strftime('%A')]}, {hasil.strftime('%d')} {bulan[int(hasil.strftime('%m'))]} {hasil.strftime('%Y')} Jam {hasil.strftime('%H:%M')}"
-
 def tanyaUtama():
     import questionary
     
@@ -78,7 +65,7 @@ def tanyaUtama():
             return tanyaUtama()
     else:
         waktuInput = questionary.text(f"Ingin di hitung berapa {tipe.lower()} {kamus[kamus[operasi]]}?",validate=lambda value: value.isdigit() or "Hanya menghitung bilangan bulat untuk saat ini").ask()
-        questionary.print(f"\nHasil hitungan {waktuInput} {tipe.lower()} {kamus[kamus[operasi]]}:\n{hitung(variabelAngka=waktuInput, operasi=kamus[operasi], satuan=kamus[tipe.lower()])}", style="fg:ansigreen")
+        questionary.print(f"\nHasil hitungan {waktuInput} {tipe.lower()} {kamus[kamus[operasi]]}:\n{hitung(variabelAngka=waktuInput, operasi=kamus[operasi], satuan=tipe.lower())}", style="fg:ansigreen")
         questionary.print("\n---- Script Selesai ----", style="bold")
-tanyaUtama()
-
+if __name__ == "__main__":
+    tanyaUtama()
