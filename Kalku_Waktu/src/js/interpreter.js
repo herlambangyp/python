@@ -13,7 +13,7 @@ const inputJumlahWaktu = document.getElementById('inputJumlahWaktu'),
     hasilHitung = document.getElementById('hasilHitung'),
     contHasil = document.getElementById('contHasil')
 
-let pyodide, pesanLoad
+let pyodide, pesanLoad, timerLoading, timerLoading2
 
 function textRandom() {
     let kalimat = [
@@ -35,7 +35,13 @@ export async function initPython() {
     try {
         pesanLoad = setInterval(() => {
             pesanLoading.textContent = textRandom()
-        }, 2500)
+        }, 4000)
+        timerLoading = setTimeout(() => {
+            pesanTambahan.classList.remove('hidden')
+        }, 10000)
+        timerLoading2 = setTimeout(() => {
+            pesanTambahan.textContent = `Ini bukan stuck loading, mohon tunggu sedikit lagi...`
+        }, 20000)
 
         pyodide = await loadPyodide()
         const response = await fetch('./python/hitung.py')
@@ -54,12 +60,15 @@ export async function initPython() {
         </svg>
       </div>
     `
-    pesanLoading.textContent = pesanPython
+        pesanLoading.textContent = pesanPython
     } catch (e) {
         console.error('Terjadi Error : \n', e)
         pesanLoading.textContent = e
     } finally {
         clearInterval(pesanLoad)
+        clearTimeout(timerLoading)
+        clearTimeout(timerLoading2)
+        pesanTambahan.classList.add('hidden')
         btnMulaiHitung.disabled = false
         setTimeout(() => {
             loadingPython.classList.add('hidden')
