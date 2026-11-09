@@ -1,5 +1,4 @@
-import { loadPyodide } from "pyodide";
-
+import { loadPyodide } from 'https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.mjs'
 // Selector Global:
 // Type Input
 const inputJumlahWaktu = document.getElementById('inputJumlahWaktu'),
@@ -38,9 +37,7 @@ export async function initPython() {
             pesanLoading.textContent = textRandom()
         }, 2500)
 
-        pyodide = await loadPyodide({
-            indexURL: `${import.meta.env.BASE_URL}pyodide/`
-        })
+        pyodide = await loadPyodide()
         const response = await fetch('./python/hitung.py')
         kodePython = await response.text()
 
@@ -57,7 +54,7 @@ export async function initPython() {
         </svg>
       </div>
     `
-        pesanLoading.textContent = pesanPython
+    pesanLoading.textContent = pesanPython
     } catch (e) {
         console.error('Terjadi Error : \n', e)
         pesanLoading.textContent = e

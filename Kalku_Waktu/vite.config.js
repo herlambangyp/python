@@ -1,13 +1,11 @@
+
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import { existsSync, rmSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 export default defineConfig({
-    optimizeDeps: {
-        exclude: ['pyodide']
-    },
-
+    base: './',
     plugins: [
         tailwindcss(),
 

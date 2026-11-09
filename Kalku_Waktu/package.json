@@ -3,20 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-"scripts": {
-    "predev": "node scripts/copy-pyodide.mjs",
+  "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/copy-pyodide.mjs",
     "build": "vite build",
     "preview": "vite preview"
-},
+  },
   "devDependencies": {
     "daisyui": "^5.7.50",
     "vite": "^8.3.6"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.5",
-    "pyodide": "^314.0.7",
     "tailwindcss": "^4.3.5",
     "vite-plugin-static-copy": "^4.1.1"
   }

@@ -32,8 +32,12 @@ py main.py
 Ikuti instruksi yang ditampilkan pada terminal.
 
 ## Penggunaan melalui Web
+### Melalui online
 
-Masuk ke direktori proyek, kemudian instal dependencies:
+Akses Link Ini : https://herlambangyp.github.io/waktu/
+
+### Melalui lokal
+Download dan masuk folder Kalku_Waktu, kemudian instal dependencies:
 
 ```bash
 npm install
