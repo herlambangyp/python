@@ -1,4 +1,4 @@
-import { loadPyodide } from 'https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.mjs'
+import { loadPyodide } from 'https://cdn.jsdelivr.net/pyodide/v0.29.4/full/pyodide.mjs'
 // Selector Global:
 // Type Input
 const inputJumlahWaktu = document.getElementById('inputJumlahWaktu'),
@@ -44,12 +44,24 @@ export async function initPython() {
         }, 20000)
 
         pyodide = await loadPyodide()
-        const response = await fetch('./python/hitung.py')
-        kodePython = await response.text()
 
+        let response = await fetch('./python/hitung.py')
+        kodePython = await response.text()
         pyodide.FS.writeFile('/home/pyodide/hitung.py', kodePython)
         pyodide.runPython(`import hitung`)
         let pesanPython = pyodide.runPython('hitung.loaded()')
+
+        await pyodide.loadPackage("pillow")
+
+        response = await fetch('./python/compatibility.py')
+        kodePython = await response.text()
+        pyodide.FS.writeFile('/home/pyodide/compatibility.py', kodePython)
+        pyodide.runPython(`import compatibility`)
+        let cekwebp = pyodide.runPython('compatibility.cekWebp()')
+
+        console.log(cekwebp)
+        console.log(pyodide.version)
+        console.log(pyodide.runPython("import sys; sys.version"))
 
         loadingPython.classList.remove('loading', 'loading-spinner', 'loading-xs')
         loadingPython.innerHTML = `
