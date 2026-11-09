@@ -1,5 +1,3 @@
-import './style.css'
-
 const $ = (selector) => document.querySelector(selector)
 const pdfInput = $('#pdfInput')
 const dropzone = $('#dropzone')
