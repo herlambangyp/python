@@ -39,7 +39,7 @@ export async function initPython() {
         }, 2500)
 
         pyodide = await loadPyodide({
-            indexURL: `${import.meta.env.BASE_URL}assets/`
+            indexURL: `${import.meta.env.BASE_URL}pyodide/`
         })
         const response = await fetch('./python/hitung.py')
         kodePython = await response.text()
