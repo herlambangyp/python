@@ -7,8 +7,6 @@ const inputJumlahWaktu = document.getElementById('inputJumlahWaktu'),
     pilihanMode = document.getElementById('pilihanMode'),
     pilihanSatuanWaktu = document.getElementById('pilihanSatuanWaktu'),
     // Type Element
-    inputAngka = document.getElementById('inputAngka'),
-    inputJenis = document.getElementById('inputJenis'),
     loadingPython = document.getElementById('loadingPython'),
     pesanLoading = document.getElementById('pesanLoading'),
     hasilHitung = document.getElementById('hasilHitung'),
@@ -42,9 +40,9 @@ export async function initPython() {
         const response = await fetch('./python/hitung.py')
         kodePython = await response.text()
 
-        pyodide.FS.writeFile('/home/pyodide/main.py', kodePython)
-        pyodide.runPython(`import main`)
-        let pesanPython = pyodide.runPython('main.loaded()')
+        pyodide.FS.writeFile('/home/pyodide/hitung.py', kodePython)
+        pyodide.runPython(`import hitung`)
+        let pesanPython = pyodide.runPython('hitung.loaded()')
 
         loadingPython.classList.remove('loading', 'loading-spinner', 'loading-xs')
         loadingPython.innerHTML = `
@@ -66,7 +64,6 @@ export async function initPython() {
             loadingPython.classList.add('hidden')
             pesanLoading.textContent = "Hitung"
         }, 3000)
-        return true
     }
 }
 export function kirimHitung() {
@@ -74,8 +71,8 @@ export function kirimHitung() {
     if (pilihanMode.value === "Pilih Mode Kalkulator" || pilihanSatuanWaktu.value === 'Pilih Jenis' || inputJumlahWaktu.value.length < 1) {
         return
     }
-    // variabel pyodide diambil oleh interpreter.js
+
     contHasil.classList.remove('hidden')
-    hasilHitung.innerHTML = pyodide.runPython(`main.hitung(variabelAngka='${inputJumlahWaktu.value}', operasi='${pilihanMode.value}', satuan='${pilihanSatuanWaktu.value}')`)
+    hasilHitung.innerHTML = pyodide.runPython(`hitung.hitung(variabelAngka='${inputJumlahWaktu.value}', operasi='${pilihanMode.value}', satuan='${pilihanSatuanWaktu.value}')`)
 
 }

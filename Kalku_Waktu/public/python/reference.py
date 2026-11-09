@@ -1,4 +1,8 @@
 # CUMA JS REFERENSI. TIDAK ADA LOGIKA YG DIEKSEKUSI DISiNI
+from datetime import timedelta, datetime
+
+# wjaktu sekarang
+sekarang = datetime.now()
 
 # 09 November 2026
 sekarang.strftime("%d %B %Y")

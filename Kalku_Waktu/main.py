@@ -1,5 +1,5 @@
 from datetime import timedelta, datetime
-from "public/python/hitung.py" import hitung
+from public.python.hitung import hitung
 
 kamus = {
     'minggu':'weeks',
