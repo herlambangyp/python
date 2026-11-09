@@ -1,6 +1,4 @@
 from datetime import timedelta, datetime
-import questionary
-
 
 kamus = {
     'minggu':'weeks',
@@ -51,9 +49,11 @@ def hitung(anchorWaktu=sekarang, variabelAngka=0, operasi='tambah', satuan='days
         hasil = anchorWaktu - timedelta(**{satuan or kamus[satuan]:variabelAngka})
         return f"{hari[hasil.strftime('%A')]}, {hasil.strftime('%d')} {bulan[int(hasil.strftime('%m'))]} {hasil.strftime('%Y')} Jam {hasil.strftime('%H:%M')}"
 
-questionary.print(f"\n---- Waktu Sekarang: {hari[sekarang.strftime('%A')]}, {sekarang.strftime('%d')} {bulan[int(sekarang.strftime('%m'))]} {sekarang.strftime('%Y')} Jam {sekarang.strftime('%H:%M')} ----\n", style="bold")
-
 def tanyaUtama():
+    import questionary
+    
+    questionary.print(f"\n---- Waktu Sekarang: {hari[sekarang.strftime('%A')]}, {sekarang.strftime('%d')} {bulan[int(sekarang.strftime('%m'))]} {sekarang.strftime('%Y')} Jam {sekarang.strftime('%H:%M')} ----\n", style="bold")
+
     global operasi, tipe, konfirmasi, waktuInput, dataWaktu
     operasi = questionary.select(
         "Pilih operasi hitung:",
