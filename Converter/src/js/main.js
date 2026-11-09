@@ -1,5 +1,4 @@
-import { initPython } from './interpreter.js'
-
+import { initPython, registerConversionHandler} from './interpreter.js'
 const $ = (selector) => document.querySelector(selector),
 pdfInput = $('#pdfInput'),
 dropzone = $('#dropzone'),
@@ -236,15 +235,15 @@ window.addEventListener('pdf-conversion-error', event => {
 
 async function startPython() {
     try {
-        pyodide = await initPython(({ message, type }) => {
-            pythonStatusText.textContent = message
-
+        pyodide = await initPython(({ message, type }) => {          
+          pythonStatusText.textContent = message
             pythonStatus.className = type === 'success'
                 ? 'alert alert-success mb-6'
                 : type === 'error'
                     ? 'alert alert-error mb-6'
                     : 'alert alert-info mb-6'
         })
+        registerConversionHandler(pyodide)
 
         iconLoading.innerHTML=`
       <div class="text-success-content w-fit h-fit">

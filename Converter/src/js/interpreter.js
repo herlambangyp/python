@@ -49,3 +49,27 @@ export async function initPython(onStatus = () => {}) {
         throw error
     }
 }
+
+export function registerConversionHandler(pyodide) {
+    window.addEventListener('pdf-convert', async event => {
+        const { files, options } = event.detail
+
+        console.log('File PDF:', files)
+        console.log('Opsi konversi:', options)
+
+        try {
+            window.dispatchEvent(new Event('pdf-conversion-start'))
+
+            // Fungsi konversi Python akan dipanggil di sini
+
+        } catch (error) {
+            console.error('Konversi gagal:', error)
+
+            window.dispatchEvent(new CustomEvent('pdf-conversion-error', {
+                detail: {
+                    message: error.message
+                }
+            }))
+        }
+    })
+}
