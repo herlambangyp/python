@@ -59,9 +59,9 @@ export async function initPython() {
         pyodide.runPython(`import compatibility`)
         let cekwebp = pyodide.runPython('compatibility.cekWebp()')
 
-        const wheelUrl = new URL('./pymupdf-1.27.2.3.whl',document.baseURI).href
-        await pyodide.loadPackage(wheelUrl)
-        console.log('PyMuPDF berhasil dimuat')
+        // const wheelUrl = new URL('./pymupdf-1.27.2.3.whl',document.baseURI).href
+        // await pyodide.loadPackage(wheelUrl)
+        // console.log('PyMuPDF berhasil dimuat')
         console.log(cekwebp)
         console.log(pyodide.version)
         console.log(pyodide.runPython("import sys; sys.version"))
