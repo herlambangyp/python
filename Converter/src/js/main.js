@@ -1,18 +1,26 @@
-const $ = (selector) => document.querySelector(selector)
-const pdfInput = $('#pdfInput')
-const dropzone = $('#dropzone')
-const fileList = $('#fileList')
-const emptyFiles = $('#emptyFiles')
-const fileCount = $('#fileCount')
-const clearFiles = $('#clearFiles')
-const convertButton = $('#convertButton')
-const dpiInput = $('#dpiInput')
-const qualityInput = $('#qualityInput')
-const themeToggle = $('#themeToggle')
-const themeIcon = $('#themeIcon')
-const toast = $('#toast')
-const toastMessage = $('#toastMessage')
+import { initPython } from './interpreter.js'
 
+const $ = (selector) => document.querySelector(selector),
+pdfInput = $('#pdfInput'),
+dropzone = $('#dropzone'),
+fileList = $('#fileList'),
+emptyFiles = $('#emptyFiles'),
+fileCount = $('#fileCount'),
+clearFiles = $('#clearFiles'),
+convertButton = $('#convertButton'),
+dpiInput = $('#dpiInput'),
+qualityInput = $('#qualityInput'),
+themeToggle = $('#themeToggle'),
+themeIcon = $('#themeIcon'),
+toast = $('#toast'),
+toastMessage = $('#toastMessage'),
+pythonStatus = $('#pythonStatus'),
+pythonStatusText = $('#pythonStatusText'),
+iconLoading = $('#iconLoading')
+
+
+let pythonReady = false
+let pyodide
 let selectedFiles = []
 
 const formatBytes = (bytes) => {
@@ -73,7 +81,7 @@ const renderFiles = () => {
 
   fileCount.textContent = `${selectedFiles.length} file`
   clearFiles.disabled = selectedFiles.length === 0
-  convertButton.disabled = selectedFiles.length === 0
+  convertButton.disabled = selectedFiles.length === 0 || !pythonReady
 }
 
 const addFiles = (fileCollection) => {
@@ -226,5 +234,34 @@ window.addEventListener('pdf-conversion-error', event => {
   showToast(event.detail?.message || 'Terjadi kesalahan saat konversi.')
 })
 
+async function startPython() {
+    try {
+        pyodide = await initPython(({ message, type }) => {
+            pythonStatusText.textContent = message
+
+            pythonStatus.className = type === 'success'
+                ? 'alert alert-success mb-6'
+                : type === 'error'
+                    ? 'alert alert-error mb-6'
+                    : 'alert alert-info mb-6'
+        })
+
+        iconLoading.innerHTML=`
+      <div class="text-success-content w-fit h-fit">
+        <svg class="w-6 rounded-[50%] stroke-3 stroke-success-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark__circle" cx="26" cy="26" r="23" fill="none" />
+          <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+        </svg>
+      </div>`
+        pythonReady = true
+        renderFiles()
+
+    } catch (error) {
+        pythonReady = false
+        renderFiles()
+    }
+}
+
+startPython()
 renderFiles()
 renderResults([])
