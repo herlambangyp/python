@@ -12,10 +12,11 @@ export async function initPython(onStatus = () => { }) {
         const { loadPyodide } = await import(
             `${pyodidePath}pyodide.mjs`
         )
-        
-        status('Membuat Sistem Virtual Python...')
-        pyodide = await loadPyodide()
 
+        status('Membuat Sistem Virtual Python...')
+        pyodide = await loadPyodide({
+            indexURL: new URL(pyodidePath, document.baseURI).href
+        })
         status('Memuat package Pillow...')
         await pyodide.loadPackage('pillow')
 
