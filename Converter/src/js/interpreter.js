@@ -52,9 +52,9 @@ f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
 export async function registerConversionHandler(pyodide) {
 
     // Ambil kode Python dari folder proyek
-    const converterUrl = new URL('../../converter.py', import.meta.url)
+    const converterUrl = new URL(`${import.meta.env.BASE_URL}python/converter.py`, import.meta.url)
+    console.log(`Lokasi converter ada di: ${import.meta.env.BASE_URL}python/converter.py`)
     const response = await fetch(converterUrl)
-
     if (!response.ok) {
         throw new Error('Gagal memuat converter.py')
     }
