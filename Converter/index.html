@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="id" data-theme="light">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,57 +8,121 @@
 
   <link rel="stylesheet" href="./src/css/style.css">
 </head>
+
 <body class="min-h-screen bg-base-200 text-base-content">
   <header class="border-b border-base-300 bg-base-100">
     <div class="navbar mx-auto max-w-6xl px-4 sm:px-6">
-      <div class="flex-1 gap-3">
-        <div class="grid size-10 place-items-center rounded-xl bg-primary text-primary-content font-bold">P</div>
-        <div><div class="font-bold">PDF<span class="text-primary">.</span>to WebP</div><div class="text-xs text-base-content/60">Local document converter</div></div>
+      <div class="flex-1">
+        <div>
+          <div class="font-bold"><span class="text-primary">HYP </span>Converter</div>
+          <div class="text-xs text-base-content/60">Convert file dengan perangkatmu secara lokal</div>
+        </div>
       </div>
       <button id="themeToggle" class="btn btn-ghost btn-circle" type="button" aria-label="Ganti tema">
-        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+        </svg>
       </button>
     </div>
   </header>
 
   <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-    <section class="mb-8 max-w-2xl">
-      <div class="mb-3"><span class="badge badge-primary badge-outline">PDF TOOL</span><span class="ml-2 text-xs text-base-content/50">Python + WebAssembly</span></div>
-      <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Ubah PDF menjadi <span class="text-primary">WebP.</span></h1>
-      <p class="mt-3 leading-relaxed text-base-content/65">Konversi setiap halaman PDF menjadi gambar WebP. Pilih dokumen, atur kualitas hasil, lalu proses langsung di browser.</p>
+    <section class="mb-8">
+      <div class="mb-3"><span class="badge badge-primary badge-outline">Doument Convert</span><span
+          class="ml-2 text-xs text-base-content/50">Python + WebAssembly</span></div>
+      <h1 class="text-3xl font-bold tracking-tight sm:text-4xl"><span class="text-primary">HYP </span> Converter</h1>
+      <p class="mt-3 leading-relaxed text-base-content/65 gap-3 flex flex-col md:gap-0 md:inline">
+        Convert dokumen PDF ke format WEBP secara lokal dengan perangkatmu
+      </p>
     </section>
     <div id="pythonStatus" class="alert alert-info mb-6">
-        <span id="iconLoading"><span class="loading loading-spinner loading-sm"></span></span>
-        <span id="pythonStatusText">
-            Menunggu inisialisasi Python...
-        </span>
+      <span id="iconLoading"><span class="loading loading-spinner loading-sm"></span></span>
+      <span id="pythonStatusText">
+        Menunggu inisialisasi Python...
+      </span>
+    </div>
+    <div
+      class="collapse collapse-arrow border border-base-300 bg-base-100 shadow-sm text-base-content/60 px-6 py-2 mb-3">
+      <input id="collapse-1-toggle" type="checkbox" class="peer" />
+      <label for="collapse-1-toggle" class="fixed inset-0 hidden peer-checked:block"></label>
+      <div class="px-0 py-1 collapse-title font-semibold">
+        Bagaimana Converter Bekerja?
+      </div>
+      <div class="px-0 py-1 collapse-content text-sm z-1">
+        <b>Semua proses convert dijalankan di perangkatmu!</b><br>
+        Tanpa server, tanpa database, tanpa upload ke internet,
+        tanpa limit! Silahkan convert ribuan file tanpa batas!
+        <br><br>
+
+        <b>Menggunakan sistem virtual Python</b><br>
+        Web ini akan membuat semacam "Sistem Virtual" untuk menjalankan Python.
+        Sistem ini berjalan sepenuhnya diperangkatmu.
+        <span class="text-info">Tenang, ini tidak menggunakan penyimpanan sama sekali.</span> 
+        Saat kamu tutup web ini, seluruh sistem virtual akan terhapus dan dihancurkan
+        <br><br>
+
+        <b>Kenapa perlu python? Bukannya dengan Javascript saja cukup?</b><br>
+        Karena Ini adalah project belajar pribadi. Tujuanya untuk menguji interpreter Python
+        di lingkungan web tanpa server, dengan memanfaatkan Web Assembly. Teknologi atau stack yang digunakan, bisa kamu cek di footer bawah
+        <br><br>
+
+        <b>Source-code:</b> 
+        <a class="link" href="https://github.com/herlambangyp/python/tree/main/Converter">
+          Klik Disini
+        </a>
+
+
+      </div>
     </div>
     <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(280px,0.85fr)]">
       <section class="space-y-5">
         <div class="card border border-base-300 bg-base-100 shadow-sm">
-          <div class="card-body gap-4 p-5 sm:p-6">
+          <div class="card-body gap-4 p-6">
             <div class="flex items-center justify-between gap-3">
-              <div><h2 class="font-semibold">Dokumen PDF</h2><p class="mt-1 text-sm text-base-content/55">Pilih satu atau beberapa file sekaligus.</p></div>
+              <div>
+                <h2 class="font-semibold">Dokumen PDF</h2>
+                <p class="mt-1 text-sm text-base-content/55">Pilih satu atau beberapa file sekaligus.</p>
+              </div>
               <span id="fileCount" class="badge badge-ghost">0 file</span>
             </div>
-            <label id="dropzone" for="pdfInput" class="group flex min-h-52 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-base-300 bg-base-200/50 px-5 py-8 text-center transition hover:border-primary/60 hover:bg-primary/5">
-              <div class="mb-4 grid size-14 place-items-center rounded-2xl bg-base-100 text-primary shadow-sm text-2xl">↑</div>
+            <label id="dropzone" for="pdfInput"
+              class="group flex min-h-52 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-base-300 bg-base-200/50 px-5 py-8 text-center transition hover:border-primary/60 hover:bg-primary/5">
+              <div class="mb-4 grid size-14 place-items-center rounded-2xl bg-base-100 text-primary shadow-sm text-2xl">
+                ↑</div>
               <span class="font-semibold">Klik untuk memilih PDF</span>
               <span class="mt-1 text-sm text-base-content/55">atau tarik dan lepaskan file di sini</span>
-              <span class="mt-4 text-xs text-base-content/40">Format PDF · Multi-file didukung</span>
+              <span class="mt-4 text-xs text-base-content/40"><b>Ini bukan upload ke internet</b><br>Filemu diupload ke sistem virtual Python</span>
               <input id="pdfInput" class="hidden" type="file" accept="application/pdf,.pdf" multiple>
             </label>
-            <div class="flex items-center justify-between gap-3"><h3 class="text-sm font-semibold">Daftar file</h3><button id="clearFiles" class="btn btn-ghost btn-xs" type="button" disabled>Hapus semua</button></div>
-            <div id="fileList" class="space-y-2"><div id="emptyFiles" class="rounded-xl border border-base-300 border-dashed px-4 py-6 text-center text-sm text-base-content/45">Belum ada dokumen yang dipilih.</div></div>
+            <div class="flex items-center justify-between gap-3">
+              <h3 class="text-sm font-semibold">Daftar file</h3><button id="clearFiles" class="btn btn-ghost btn-xs"
+                type="button" disabled>Hapus semua</button>
+            </div>
+            <div id="fileList" class="space-y-2">
+              <div id="emptyFiles"
+                class="rounded-xl border border-base-300 border-dashed px-4 py-6 text-center text-sm text-base-content/45">
+                Belum ada dokumen yang dipilih.</div>
+            </div>
           </div>
         </div>
 
         <div class="card border border-base-300 bg-base-100 shadow-sm">
           <div class="card-body gap-4 p-5 sm:p-6">
-            <div class="flex items-center justify-between gap-3"><div><h2 class="font-semibold">Hasil konversi</h2><p class="mt-1 text-sm text-base-content/55">File WebP yang selesai diproses muncul di sini.</p></div><span id="resultCount" class="badge badge-ghost">0 hasil</span></div>
-            <div id="results" class="rounded-xl border border-base-300 border-dashed px-4 py-8 text-center text-sm text-base-content/45">Belum ada hasil konversi.</div>
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <h2 class="font-semibold">Hasil konversi</h2>
+                <p class="mt-1 text-sm text-base-content/55">File WebP yang selesai diproses muncul di sini.</p>
+              </div><span id="resultCount" class="badge badge-ghost">0 hasil</span>
+            </div>
+            <div id="results"
+              class="rounded-xl border border-base-300 border-dashed px-4 py-8 text-center text-sm text-base-content/45">
+              Belum ada hasil konversi.</div>
             <div id="progressWrap" class="hidden space-y-2">
-              <div class="flex justify-between text-xs text-base-content/60"><span id="progressLabel">Memproses...</span><span id="progressValue">0%</span></div>
+              <div class="flex justify-between text-xs text-base-content/60"><span
+                  id="progressLabel">Memproses...</span><span id="progressValue">0%</span></div>
               <progress id="progressBar" class="progress progress-primary w-full" value="0" max="100"></progress>
             </div>
           </div>
@@ -67,37 +132,59 @@
       <aside class="space-y-5">
         <div class="card border border-base-300 bg-base-100 shadow-sm">
           <div class="card-body gap-5 p-5 sm:p-6">
-            <div><h2 class="font-semibold">Pengaturan output</h2><p class="mt-1 text-sm text-base-content/55">Sesuaikan kualitas gambar hasil konversi.</p></div>
+            <div>
+              <h2 class="font-semibold">Pengaturan output</h2>
+              <p class="mt-1 text-sm text-base-content/55">Sesuaikan kualitas gambar hasil konversi.</p>
+            </div>
             <div class="space-y-2">
-              <div class="flex items-center justify-between"><label for="dpiInput" class="text-sm font-medium">Resolusi (DPI)</label><span id="dpiValue" class="badge badge-primary badge-outline">150 DPI</span></div>
-              <input id="dpiInput" type="range" min="72" max="300" step="1" value="150" class="range range-primary range-sm">
+              <div class="flex items-center justify-between"><label for="dpiInput" class="text-sm font-medium">Resolusi
+                  (DPI)</label><span id="dpiValue" class="badge badge-primary badge-outline">150 DPI</span></div>
+              <input id="dpiInput" type="range" min="72" max="300" step="1" value="150"
+                class="range range-primary range-sm">
               <div class="flex justify-between text-xs text-base-content/45"><span>72</span><span>300 DPI</span></div>
-              <p class="text-xs leading-relaxed text-base-content/50">DPI lebih tinggi menghasilkan gambar lebih detail dan ukuran file lebih besar.</p>
+              <p class="text-xs leading-relaxed text-base-content/50">DPI lebih tinggi menghasilkan gambar lebih detail
+                dan ukuran file lebih besar.</p>
             </div>
             <div class="divider my-0"></div>
             <div class="space-y-2">
-              <div class="flex items-center justify-between"><label for="qualityInput" class="text-sm font-medium">Kualitas WebP</label><span id="qualityValue" class="badge badge-primary badge-outline">85%</span></div>
-              <input id="qualityInput" type="range" min="50" max="100" step="1" value="85" class="range range-primary range-sm">
+              <div class="flex items-center justify-between"><label for="qualityInput"
+                  class="text-sm font-medium">Kualitas WebP</label><span id="qualityValue"
+                  class="badge badge-primary badge-outline">85%</span></div>
+              <input id="qualityInput" type="range" min="50" max="100" step="1" value="85"
+                class="range range-primary range-sm">
               <div class="flex justify-between text-xs text-base-content/45"><span>50%</span><span>100%</span></div>
-              <p class="text-xs leading-relaxed text-base-content/50">Kualitas tinggi menjaga detail, tetapi ukuran file bisa bertambah.</p>
+              <p class="text-xs leading-relaxed text-base-content/50">Kualitas tinggi menjaga detail, tetapi ukuran file
+                bisa bertambah.</p>
             </div>
             <div class="divider my-0"></div>
             <div class="space-y-3">
-              <div class="flex items-center justify-between text-sm"><span class="text-base-content/60">Format output</span><span class="badge badge-success badge-outline font-semibold">WEBP</span></div>
-              <div class="flex items-center justify-between text-sm"><span class="text-base-content/60">Mode konversi</span><span class="font-medium">Setiap halaman</span></div>
-              <div class="flex items-center justify-between text-sm"><span class="text-base-content/60">Pemrosesan</span><span class="font-medium">Browser lokal</span></div>
+              <div class="flex items-center justify-between text-sm"><span class="text-base-content/60">Format
+                  output</span><span class="badge badge-success badge-outline font-semibold">WEBP</span></div>
+              <div class="flex items-center justify-between text-sm"><span class="text-base-content/60">Mode
+                  konversi</span><span class="font-medium">Setiap halaman</span></div>
+              <div class="flex items-center justify-between text-sm"><span
+                  class="text-base-content/60">Pemrosesan</span><span class="font-medium">Browser lokal</span></div>
             </div>
-            <button id="convertButton" class="btn btn-primary mt-1 w-full" type="button" disabled>Mulai konversi</button>
+            <button id="convertButton" class="btn btn-primary mt-1 w-full" type="button" disabled>Mulai
+              konversi</button>
             <p class="text-center text-xs text-base-content/45">File tidak perlu diunggah ke server.</p>
           </div>
         </div>
-        <div class="alert border border-info/20 bg-info/5 text-sm"><span class="text-info">ⓘ</span><span class="text-base-content/65">Konversi direncanakan berjalan secara lokal menggunakan PyMuPDF dan Pillow melalui Pyodide.</span></div>
+        <div class="alert border border-info/20 bg-info/5 text-sm"><span class="text-info">ⓘ</span><span
+            class="text-base-content/65">Konversi direncanakan berjalan secara lokal menggunakan PyMuPDF dan Pillow
+            melalui Pyodide.</span></div>
       </aside>
     </div>
 
-    <footer class="mt-10 flex flex-col gap-2 border-t border-base-300 pt-5 text-xs text-base-content/45 sm:flex-row sm:items-center sm:justify-between"><span>PDF to WebP Converter</span><span>Python · Pyodide · PyMuPDF · Pillow</span></footer>
+    <footer
+      class="mt-10 flex flex-col gap-2 border-t border-base-300 pt-5 text-xs text-base-content/45 sm:flex-row sm:items-center sm:justify-between">
+      <span>PDF to WebP Converter</span><span>Python · Pyodide · PyMuPDF · Pillow</span>
+    </footer>
   </main>
-  <div id="toast" class="toast toast-end toast-bottom z-50 hidden"><div class="alert alert-info shadow-lg"><span id="toastMessage"></span></div></div>
+  <div id="toast" class="toast toast-end toast-bottom z-50 hidden">
+    <div class="alert alert-info shadow-lg"><span id="toastMessage"></span></div>
+  </div>
   <script type="module" src="./src/js/main.js"></script>
 </body>
+
 </html>

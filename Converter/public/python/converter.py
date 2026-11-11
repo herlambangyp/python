@@ -6,13 +6,7 @@ import pymupdf
 from PIL import Image
 
 
-async def convert_pdf(
-    pdf_path,
-    output_dir,
-    dpi=150,
-    quality=85,
-    progress_callback=None
-):
+async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callback=None):
     pdf_path = Path(pdf_path)
     output_dir = Path(output_dir)
 

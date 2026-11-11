@@ -1,15 +1,19 @@
 
-import { loadPyodide } from 'https://cdn.jsdelivr.net/pyodide/v0.29.4/full/pyodide.mjs'
-
 let pyodide
 
-export async function initPython(onStatus = () => {}) {
+export async function initPython(onStatus = () => { }) {
     const status = (message, type = 'loading') => {
         onStatus({ message, type })
     }
 
     try {
-        status('Menginisialisasi runtime Python...')
+        const pyodidePath = `${import.meta.env.BASE_URL}pyodide/`
+
+        const { loadPyodide } = await import(
+            `${pyodidePath}pyodide.mjs`
+        )
+        
+        status('Membuat Sistem Virtual Python...')
         pyodide = await loadPyodide()
 
         status('Memuat package Pillow...')
@@ -36,7 +40,7 @@ f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
         console.log('PyMuPDF:', versi)
         console.log('Pyodide:', pyodide.version)
 
-        status(`Python ${versiPython} berhasil dimuat di browser!`, 'success')
+        status(`System Virtual Python ${versiPython} berhasil dibuat`, 'success')
 
         return pyodide
 
@@ -177,7 +181,7 @@ await converter.convert_pdf(
                     // Hapus PDF sementara
                     try {
                         pyodide.FS.unlink(inputPath)
-                    } catch {}
+                    } catch { }
 
                     // Hapus folder hasil sementara di Python
                     pyodide.globals.set('cleanup_dir', outputDir)
