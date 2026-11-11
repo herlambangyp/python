@@ -4,6 +4,7 @@ import { render } from './render.js'
 const $ = (selector) => document.querySelector(selector)
 render($('#deskripsi'), './component/section/deskripsi.html')
 render($('#FAQ'), './component/FAQ.html')
+render($('#header'), './component/header.html')
 render($('#footer'), './component/footer.html')
 
 const pdfInput = $('#pdfInput'),
