@@ -4,5 +4,10 @@ export async function render(element, path) {
     throw new Error(`Gagal memuat komponen: ${path}`)
   }
 
+  try{
   element.innerHTML = await response.text()
+  }
+  catch(e){
+    console.log(`eror di element `, path, ' | Eror:\n', e)
+  }
 }

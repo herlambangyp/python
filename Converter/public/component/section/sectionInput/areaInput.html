@@ -1,0 +1,17 @@
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <h2 class="font-semibold">Dokumen PDF</h2>
+                <p class="mt-1 text-sm text-base-content/55">Pilih satu atau beberapa file sekaligus.</p>
+              </div>
+              <span id="fileCount" class="badge badge-ghost">0 file</span>
+            </div>
+            <label id="dropzone" for="pdfInput"
+              class="group flex min-h-52 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-base-300 bg-base-200/50 px-5 py-8 text-center transition hover:border-primary/60 hover:bg-primary/5">
+              <div class="mb-4 grid size-14 place-items-center rounded-2xl bg-base-100 text-primary shadow-sm text-2xl">
+                ↑</div>
+              <span class="font-semibold">Klik untuk memilih PDF</span>
+              <span class="mt-1 text-sm text-base-content/55">atau tarik dan lepaskan file di sini</span>
+              <span class="mt-4 text-xs text-base-content/40"><b>Ini bukan upload ke internet</b><br>Filemu diupload ke
+                sistem virtual Python</span>
+              <input id="pdfInput" class="hidden" type="file" accept="application/pdf,.pdf" multiple>
+            </label>

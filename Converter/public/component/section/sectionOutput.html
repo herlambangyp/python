@@ -1,0 +1,36 @@
+
+        <div class="card border border-base-300 bg-base-100 shadow-sm">
+          <div class="card-body gap-4 p-5 sm:p-6">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <h2 class="font-semibold">Hasil konversi</h2>
+                <p class="mt-1 text-sm text-base-content/55">File WebP yang selesai diproses muncul di sini.</p>
+              </div><span id="resultCount" class="badge badge-ghost">0 hasil</span>
+            </div>
+            <div id="results"
+              class="rounded-xl border border-base-300 border-dashed px-4 py-8 text-center text-sm text-base-content/45">
+              Belum ada hasil konversi.</div>
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-base-content/60">Format output</span>
+                <span class="badge badge-success badge-outline font-semibold">WEBP</span>
+              </div>
+              <div class="flex items-center justify-between text-sm"><span class="text-base-content/60">Mode
+                  konversi</span><span class="font-medium">Setiap halaman</span></div>
+              <div class="flex items-center justify-between text-sm"><span
+                  class="text-base-content/60">Pemrosesan</span><span class="font-medium">Browser lokal</span></div>
+            </div>
+
+            <button id="convertButton" class="btn btn-primary mt-1 w-full" type="button" disabled>Mulai
+              konversi</button>
+            <div id="progressWrap" class="hidden space-y-2">
+              <div class="flex justify-between text-xs text-base-content/60"><span
+                  id="progressLabel">Memproses...</span><span id="progressValue">0%</span></div>
+              <progress id="progressBar" class="progress progress-primary w-full" value="0" max="100"></progress>
+            </div>
+          </div>
+        </div>
+        <div class="alert border border-info/20 bg-info/5 text-sm"><span class="text-info">ⓘ</span><span
+            class="text-base-content/65">Convert berjalan secara lokal! Merefresh halaman akan menghancurkan seluruh
+            proses dan sitem convert</span></div>

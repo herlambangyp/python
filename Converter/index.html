@@ -4,7 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF to WebP Converter</title>
+  <meta name="author" content="Herlambang YP">
+
+  <!-- By Herlambang YP -->
+  <title>Document Converter</title>
+  <meta name="keywords" content="convert, pdf, png, jpg, file converter, pdf convert">
+  <meta name="description" content="Convert dokumen PDF ke format WEBP secara lokal tanpa upload ke internet, tanpa proses server, tanpa limit!">
+
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="favicon.svg" sizes="any" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
   <link rel="stylesheet" href="./src/css/style.css">
 </head>
@@ -12,148 +21,27 @@
 <body class="min-h-screen bg-base-200 text-base-content">
 
   <header id="header"></header>
-
-  <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-
+  <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12"> 
     <section id="deskripsi"></section>
-
+    
     <div id="pythonStatus" class="alert alert-info mb-6">
-      <span id="iconLoading"><span class="loading loading-spinner loading-sm"></span></span>
-      <span id="pythonStatusText">
-        Menunggu inisialisasi Python...
+      <span id="iconLoading">
+        <span class="loading loading-spinner loading-sm"></span>
       </span>
+      <span id="pythonStatusText">Menunggu inisialisasi Python...</span>
     </div>
-
     <div id="FAQ"></div>
 
     <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(280px,0.85fr)]">
-      <section class="space-y-5">
-        <div class="card border border-base-300 bg-base-100 shadow-sm">
-          <div class="card-body gap-4 p-6">
-            <div class="flex items-center justify-between gap-3">
-              <div>
-                <h2 class="font-semibold">Dokumen PDF</h2>
-                <p class="mt-1 text-sm text-base-content/55">Pilih satu atau beberapa file sekaligus.</p>
-              </div>
-              <span id="fileCount" class="badge badge-ghost">0 file</span>
-            </div>
-            <label id="dropzone" for="pdfInput"
-              class="group flex min-h-52 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-base-300 bg-base-200/50 px-5 py-8 text-center transition hover:border-primary/60 hover:bg-primary/5">
-              <div class="mb-4 grid size-14 place-items-center rounded-2xl bg-base-100 text-primary shadow-sm text-2xl">
-                ↑</div>
-              <span class="font-semibold">Klik untuk memilih PDF</span>
-              <span class="mt-1 text-sm text-base-content/55">atau tarik dan lepaskan file di sini</span>
-              <span class="mt-4 text-xs text-base-content/40"><b>Ini bukan upload ke internet</b><br>Filemu diupload ke
-                sistem virtual Python</span>
-              <input id="pdfInput" class="hidden" type="file" accept="application/pdf,.pdf" multiple>
-            </label>
-            <div class="flex items-center justify-between gap-3">
-              <h3 class="text-sm font-semibold">Daftar file</h3><button id="clearFiles" class="btn btn-ghost btn-xs"
-                type="button" disabled>Hapus semua</button>
-            </div>
-            <div id="fileList" class="space-y-2">
-              <div id="emptyFiles"
-                class="rounded-xl border border-base-300 border-dashed px-4 py-6 text-center text-sm text-base-content/45">
-                Belum ada dokumen yang dipilih.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card border border-base-300 bg-base-100 shadow-sm">
-          <div class="card-body gap-5 p-5 sm:p-6">
-            <div>
-              <h2 class="font-semibold">Pengaturan output</h2>
-              <p class="mt-1 text-sm text-base-content/55">Sesuaikan kualitas gambar hasil konversi.</p>
-            </div>
-
-            <div class="space-y-3">
-              <div class="flex items-center justify-between text-sm">
-                <h2 class="font-semibold">Format output</h2>
-                <select id="formatInput" class="select border-0 shadow-none w-32">
-                  <option value="webp">WebP</option>
-                  <option value="png">PNG</option>
-                  <option value="jpeg">JPEG / JPG</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="divider my-0"></div>
-
-            <div class="space-y-2">
-              <div class="flex items-center justify-between"><label for="dpiInput" class="text-sm font-medium">Resolusi
-                  (DPI)</label>
-                <span class="badge badge-primary badge-outline"><input class="w-10" min="72" max="300" type="number"
-                    value="150" id="dpiValue">DPI</span>
-              </div>
-              <input id="dpiInput" type="range" min="72" max="300" step="1" value="150"
-                class="range range-primary range-sm">
-              <div class="flex justify-between text-xs text-base-content/45"><span>72</span><span>300 DPI</span></div>
-              <p class="text-xs leading-relaxed text-base-content/50">DPI lebih tinggi menghasilkan gambar lebih detail
-                dan ukuran file lebih besar.</p>
-            </div>
-            <div class="divider my-0"></div>
-            <div class="space-y-2">
-              <div class="flex items-center justify-between"><label for="qualityInput"
-                  class="text-sm font-medium">Kualitas WebP</label>
-                <span class="badge badge-primary badge-outline"><input class="w-10" min="50" max="100" type="number"
-                    value="85" id="qualityValue">%</span>
-              </div>
-              <input id="qualityInput" type="range" min="50" max="100" step="1" value="85"
-                class="range range-primary range-sm">
-              <div class="flex justify-between text-xs text-base-content/45"><span>50%</span><span>100%</span></div>
-              <p class="text-xs leading-relaxed text-base-content/50">Kualitas tinggi menjaga detail, tetapi ukuran file
-                bisa bertambah.</p>
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-      <aside class="space-y-5">
-
-        <div class="card border border-base-300 bg-base-100 shadow-sm">
-          <div class="card-body gap-4 p-5 sm:p-6">
-            <div class="flex items-center justify-between gap-3">
-              <div>
-                <h2 class="font-semibold">Hasil konversi</h2>
-                <p class="mt-1 text-sm text-base-content/55">File WebP yang selesai diproses muncul di sini.</p>
-              </div><span id="resultCount" class="badge badge-ghost">0 hasil</span>
-            </div>
-            <div id="results"
-              class="rounded-xl border border-base-300 border-dashed px-4 py-8 text-center text-sm text-base-content/45">
-              Belum ada hasil konversi.</div>
-
-            <div class="space-y-3">
-              <div class="flex items-center justify-between text-sm">
-                <span class="text-base-content/60">Format output</span>
-                <span class="badge badge-success badge-outline font-semibold">WEBP</span>
-              </div>
-              <div class="flex items-center justify-between text-sm"><span class="text-base-content/60">Mode
-                  konversi</span><span class="font-medium">Setiap halaman</span></div>
-              <div class="flex items-center justify-between text-sm"><span
-                  class="text-base-content/60">Pemrosesan</span><span class="font-medium">Browser lokal</span></div>
-            </div>
-
-            <button id="convertButton" class="btn btn-primary mt-1 w-full" type="button" disabled>Mulai
-              konversi</button>
-            <div id="progressWrap" class="hidden space-y-2">
-              <div class="flex justify-between text-xs text-base-content/60"><span
-                  id="progressLabel">Memproses...</span><span id="progressValue">0%</span></div>
-              <progress id="progressBar" class="progress progress-primary w-full" value="0" max="100"></progress>
-            </div>
-          </div>
-        </div>
-        <div class="alert border border-info/20 bg-info/5 text-sm"><span class="text-info">ⓘ</span><span
-            class="text-base-content/65">Convert berjalan secara lokal! Merefresh halaman akan menghancurkan seluruh
-            proses dan sitem convert</span></div>
-      </aside>
+      <section id="sectionInput" class="space-y-5"></section>
+      <aside id="sectionOutput" class="space-y-5"></aside>
     </div>
 
     <footer id="footer"></footer>
   </main>
-  <div id="toast" class="toast toast-end toast-bottom z-50 hidden">
-    <div class="alert alert-info shadow-lg"><span id="toastMessage"></span></div>
-  </div>
+
+  <div id="toast" class="toast toast-end toast-bottom z-50 hidden"><div class="alert alert-info shadow-lg"><span id="toastMessage"></span></div></div>
+  
   <script type="module" src="./src/js/main.js"></script>
 </body>
 

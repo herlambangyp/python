@@ -2,10 +2,16 @@ import { initPython, mulaiConvert } from './interpreter.js'
 import { render } from './render.js'
 
 const $ = (selector) => document.querySelector(selector)
-render($('#deskripsi'), './component/section/deskripsi.html')
-render($('#FAQ'), './component/FAQ.html')
-render($('#header'), './component/header.html')
-render($('#footer'), './component/footer.html')
+await Promise.all([
+  render($('#deskripsi'), './component/section/deskripsi.html'),
+
+  render($('#sectionInput'), './component/section/sectionInput.html'),
+
+  render($('#sectionOutput'), './component/section/sectionOutput.html'),
+  render($('#FAQ'), './component/FAQ.html'),
+  render($('#header'), './component/header.html'),
+  render($('#footer'), './component/footer.html')
+])
 
 const pdfInput = $('#pdfInput'),
   dropzone = $('#dropzone'),
