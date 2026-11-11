@@ -5,44 +5,43 @@ export async function initPython(onStatus = () => { }) {
     const status = (message, type = 'loading') => {
         onStatus({ message, type })
     }
+    let kodePython
 
     try {
-        const pyodidePath = `${import.meta.env.BASE_URL}pyodide/`
+        let pyodidePath = `${import.meta.env.BASE_URL}pyodide/`,
+            wheelUrl
 
         const { loadPyodide } = await import(
-            `${pyodidePath}pyodide.mjs`
+            `${import.meta.env.BASE_URL}pyodide/pyodide.mjs`
         )
 
         status('Membuat Sistem Virtual Python...')
-        pyodide = await loadPyodide({
-            indexURL: new URL(pyodidePath, document.baseURI).href
-        })
+        pyodide = await loadPyodide({indexURL: new URL(pyodidePath, document.baseURI).href})
+
+        // Load Wheel Pillow
         status('Memuat package Pillow...')
-        await pyodide.loadPackage('pillow')
-
-        status('Memuat engine PDF...')
-        const wheelUrl = new URL(
-            './pymupdf-1.27.2.3.whl',
-            document.baseURI
-        ).href
-
+        wheelUrl = new URL('./python/wheel/pillow-11.3.0.whl',document.baseURI).href
         await pyodide.loadPackage(wheelUrl)
 
-        const versi = pyodide.runPython(`
-import pymupdf
-pymupdf.VersionBind
-        `)
+        // Load Wheel Pymupdf        
+        status('Memuat engine PDF...')
+        wheelUrl = new URL('./python/wheel/pymupdf-1.27.2.3.whl',document.baseURI).href
+        await pyodide.loadPackage(wheelUrl)
 
-        const versiPython = pyodide.runPython(`
-import sys
-f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
-        `)
+        // Semua module python wajib disimpan di penyimpanan virtual /home/pyodide/ <---disini
+        // Load module converter.py
+        status('Memuat Converter Python...')
+        let response = await fetch('./python/converter.py')
+        kodePython = await response.text()
+        pyodide.FS.writeFile('/home/pyodide/converter.py', kodePython)
+        pyodide.runPython(`import converter`)
+        console.log(`Status Converter: `, pyodide.runPython(`converter.loaded()`))
 
-        console.log('PyMuPDF:', versi)
-        console.log('Pyodide:', pyodide.version)
-
-        status(`System Virtual Python ${versiPython} berhasil dibuat`, 'success')
-
+        // Inisialisasi Python Selesai
+        setTimeout(()=>{
+            const versiPython = pyodide.runPython(`import sys; f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"`)
+            status(`System Virtual Python ${versiPython} berhasil dibuat`, 'success')
+        }, 1000)
         return pyodide
 
     } catch (error) {
@@ -52,40 +51,7 @@ f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
     }
 }
 
-
-// Memuat converter.py dan mendaftarkan event konversi
-export async function registerConversionHandler(pyodide) {
-
-    // Ambil kode Python dari folder proyek
-    const converterUrl = new URL(`${import.meta.env.BASE_URL}python/converter.py`, import.meta.url)
-    console.log(`Lokasi converter ada di: ${import.meta.env.BASE_URL}python/converter.py`)
-    const response = await fetch(converterUrl)
-    if (!response.ok) {
-        throw new Error('Gagal memuat converter.py')
-    }
-
-    const pythonCode = await response.text()
-
-    // Masukkan converter.py ke filesystem Pyodide
-    pyodide.FS.writeFile(
-        '/converter.py',
-        pythonCode,
-        { encoding: 'utf8' }
-    )
-
-    // Impor modul Python
-    pyodide.runPython(`
-import sys
-import importlib
-
-if '/' not in sys.path:
-    sys.path.insert(0, '/')
-
-importlib.invalidate_caches()
-import converter
-    `)
-
-    console.log('Modul converter.py berhasil dimuat')
+export async function mulaiConvert(pyodide) {
 
     // Dengarkan permintaan konversi dari main.js
     window.addEventListener('pdf-convert', async event => {

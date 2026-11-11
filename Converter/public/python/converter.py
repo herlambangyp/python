@@ -5,6 +5,8 @@ from pathlib import Path
 import pymupdf
 from PIL import Image
 
+def loaded():
+    return "Converter Siap Digunakan"
 
 async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callback=None):
     pdf_path = Path(pdf_path)

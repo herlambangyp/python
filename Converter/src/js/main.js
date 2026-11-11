@@ -1,4 +1,4 @@
-import { initPython, registerConversionHandler} from './interpreter.js'
+import { initPython, mulaiConvert} from './interpreter.js'
 const $ = (selector) => document.querySelector(selector),
 pdfInput = $('#pdfInput'),
 dropzone = $('#dropzone'),
@@ -128,11 +128,17 @@ clearFiles.addEventListener('click', () => {
 dropzone.addEventListener('drop', event => addFiles(event.dataTransfer.files))
 
 dpiInput.addEventListener('input', () => {
-  $('#dpiValue').textContent = `${dpiInput.value} DPI`
+  $('#dpiValue').value = `${dpiInput.value}`
+})
+$('#dpiValue').addEventListener('input', () => {
+  dpiInput.value = `${$('#dpiValue').value}`
 })
 
 qualityInput.addEventListener('input', () => {
-  $('#qualityValue').textContent = `${qualityInput.value}%`
+  $('#qualityValue').value = `${qualityInput.value}`
+})
+$('#qualityValue').addEventListener('input', () => {
+  qualityInput.value = `${$('#qualityValue').value}`
 })
 
 const setTheme = theme => {
@@ -243,7 +249,7 @@ async function startPython() {
                     ? 'alert alert-error mb-6'
                     : 'alert alert-info mb-6'
         })
-        registerConversionHandler(pyodide)
+        mulaiConvert(pyodide)
 
         iconLoading.innerHTML=`
       <div class="text-success-content w-fit h-fit">
