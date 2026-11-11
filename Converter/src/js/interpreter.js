@@ -8,11 +8,11 @@ export async function initPython(onStatus = () => { }) {
     let kodePython
 
     try {
-        let pyodidePath = `${import.meta.env.BASE_URL}pyodide/`,
+        let pyodidePath = `pyodide/`,
             wheelUrl
 
         const { loadPyodide } = await import(
-            `${import.meta.env.BASE_URL}pyodide/pyodide.mjs`
+            `pyodide/pyodide.mjs`
         )
 
         status('Membuat Sistem Virtual Python...')

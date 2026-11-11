@@ -1,26 +1,33 @@
-import { initPython, mulaiConvert} from './interpreter.js'
-const $ = (selector) => document.querySelector(selector),
-pdfInput = $('#pdfInput'),
-dropzone = $('#dropzone'),
-fileList = $('#fileList'),
-emptyFiles = $('#emptyFiles'),
-fileCount = $('#fileCount'),
-clearFiles = $('#clearFiles'),
-convertButton = $('#convertButton'),
-dpiInput = $('#dpiInput'),
-qualityInput = $('#qualityInput'),
-themeToggle = $('#themeToggle'),
-themeIcon = $('#themeIcon'),
-toast = $('#toast'),
-toastMessage = $('#toastMessage'),
-pythonStatus = $('#pythonStatus'),
-pythonStatusText = $('#pythonStatusText'),
-iconLoading = $('#iconLoading')
+import { initPython, mulaiConvert } from './interpreter.js'
+import { render } from './render.js'
+
+const $ = (selector) => document.querySelector(selector)
+render($('#deskripsi'), './component/section/deskripsi.html')
+render($('#FAQ'), './component/FAQ.html')
+render($('#footer'), './component/footer.html')
+
+const pdfInput = $('#pdfInput'),
+  dropzone = $('#dropzone'),
+  fileList = $('#fileList'),
+  emptyFiles = $('#emptyFiles'),
+  fileCount = $('#fileCount'),
+  clearFiles = $('#clearFiles'),
+  convertButton = $('#convertButton'),
+  dpiInput = $('#dpiInput'),
+  qualityInput = $('#qualityInput'),
+  themeToggle = $('#themeToggle'),
+  themeIcon = $('#themeIcon'),
+  toast = $('#toast'),
+  toastMessage = $('#toastMessage'),
+  pythonStatus = $('#pythonStatus'),
+  pythonStatusText = $('#pythonStatusText'),
+  iconLoading = $('#iconLoading')
 
 
 let pythonReady = false
 let pyodide
 let selectedFiles = []
+
 
 const formatBytes = (bytes) => {
   if (bytes < 1024) return `${bytes} B`
@@ -68,10 +75,10 @@ const renderFiles = () => {
       remove.type = 'button'
       remove.setAttribute('aria-label', `Hapus ${file.name}`)
       remove.textContent = '×'
-      remove.addEventListener('click', () => {
+      remove.onclick = o => {
         selectedFiles.splice(index, 1)
         renderFiles()
-      })
+      }
 
       row.append(icon, details, remove)
       fileList.append(row)
@@ -101,29 +108,29 @@ const addFiles = (fileCollection) => {
   renderFiles()
 }
 
-pdfInput.addEventListener('change', event => {
-  addFiles(event.target.files)
+pdfInput.onchange = o => {
+  addFiles(o.target.files)
   pdfInput.value = ''
-})
+}
 
-clearFiles.addEventListener('click', () => {
+clearFiles.onclick = o => {
   selectedFiles = []
   renderFiles()
-})
+}
 
-;['dragenter', 'dragover'].forEach(eventName => {
-  dropzone.addEventListener(eventName, event => {
-    event.preventDefault()
-    dropzone.classList.add('is-dragging')
+  ;['dragenter', 'dragover'].forEach(eventName => {
+    dropzone.addEventListener(eventName, event => {
+      event.preventDefault()
+      dropzone.classList.add('is-dragging')
+    })
   })
-})
 
-;['dragleave', 'drop'].forEach(eventName => {
-  dropzone.addEventListener(eventName, event => {
-    event.preventDefault()
-    dropzone.classList.remove('is-dragging')
+  ;['dragleave', 'drop'].forEach(eventName => {
+    dropzone.addEventListener(eventName, event => {
+      event.preventDefault()
+      dropzone.classList.remove('is-dragging')
+    })
   })
-})
 
 dropzone.addEventListener('drop', event => addFiles(event.dataTransfer.files))
 
@@ -240,31 +247,31 @@ window.addEventListener('pdf-conversion-error', event => {
 })
 
 async function startPython() {
-    try {
-        pyodide = await initPython(({ message, type }) => {          
-          pythonStatusText.textContent = message
-            pythonStatus.className = type === 'success'
-                ? 'alert alert-success mb-6'
-                : type === 'error'
-                    ? 'alert alert-error mb-6'
-                    : 'alert alert-info mb-6'
-        })
-        mulaiConvert(pyodide)
+  try {
+    pyodide = await initPython(({ message, type }) => {
+      pythonStatusText.textContent = message
+      pythonStatus.className = type === 'success'
+        ? 'alert alert-success mb-6'
+        : type === 'error'
+          ? 'alert alert-error mb-6'
+          : 'alert alert-info mb-6'
+    })
+    mulaiConvert(pyodide)
 
-        iconLoading.innerHTML=`
+    iconLoading.innerHTML = `
       <div class="text-success-content w-fit h-fit">
         <svg class="w-6 rounded-[50%] stroke-3 stroke-success-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
           <circle class="checkmark__circle" cx="26" cy="26" r="23" fill="none" />
           <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
         </svg>
       </div>`
-        pythonReady = true
-        renderFiles()
+    pythonReady = true
+    renderFiles()
 
-    } catch (error) {
-        pythonReady = false
-        renderFiles()
-    }
+  } catch (error) {
+    pythonReady = false
+    renderFiles()
+  }
 }
 
 startPython()
