@@ -1,7 +1,7 @@
 
 let pyodide
 
-export async function initPython(onStatus = () => { }) {
+export async function initPython(onStatus =o=> { }) {
     const status = (message, type = 'loading') => {
         onStatus({ message, type })
     }
