@@ -8,6 +8,6 @@ export async function render(element, path) {
   element.innerHTML = await response.text()
   }
   catch(e){
-    console.log(`eror di element `, path, ' | Eror:\n', e)
+    console.error(`eror di element `, path, ' | Eror:\n', e)
   }
 }

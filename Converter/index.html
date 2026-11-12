@@ -9,7 +9,8 @@
   <!-- By Herlambang YP -->
   <title>Document Converter</title>
   <meta name="keywords" content="convert, pdf, png, jpg, file converter, pdf convert">
-  <meta name="description" content="Convert dokumen PDF ke format WEBP secara lokal tanpa upload ke internet, tanpa proses server, tanpa limit!">
+  <meta name="description"
+    content="Convert dokumen PDF ke format WEBP secara lokal tanpa upload ke internet, tanpa proses server, tanpa limit!">
 
   <link rel="icon" href="favicon.ico" sizes="48x48">
   <link rel="icon" href="favicon.svg" sizes="any" type="image/svg+xml">
@@ -18,30 +19,33 @@
   <link rel="stylesheet" href="./src/css/style.css">
 </head>
 
-<body class="min-h-screen bg-base-200 text-base-content">
+<body class="min-h-screen">
+  <header>
 
-  <header id="header"></header>
-  <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12"> 
-    <section id="deskripsi"></section>
-    
-    <div id="pythonStatus" class="alert alert-info mb-6">
-      <span id="iconLoading">
-        <span class="loading loading-spinner loading-sm"></span>
-      </span>
-      <span id="pythonStatusText">Menunggu inisialisasi Python...</span>
-    </div>
-    <div id="FAQ"></div>
+  </header>
+  <main>
+    <section>
+      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+        <legend class="fieldset-legend">Page details</legend>
 
-    <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(280px,0.85fr)]">
-      <section id="sectionInput" class="space-y-5"></section>
-      <aside id="sectionOutput" class="space-y-5"></aside>
-    </div>
+        <label class="label">Title</label>
+        <input type="text" class="input" placeholder="My awesome page" />
 
-    <footer id="footer"></footer>
+        <label class="label">Slug</label>
+        <input type="text" class="input" placeholder="my-awesome-page" />
+
+        <label class="label">Author</label>
+        <input type="text" class="input" placeholder="Name" />
+      </fieldset>
+    </section>
+
+    <section>
+      <div id="toast" class="toast toast-end toast-bottom z-50 hidden">
+        <div class="alert alert-info shadow-lg"><span id="toastMessage"></span></div>
+      </div>
+    </section>
   </main>
 
-  <div id="toast" class="toast toast-end toast-bottom z-50 hidden"><div class="alert alert-info shadow-lg"><span id="toastMessage"></span></div></div>
-  
   <script type="module" src="./src/js/main.js"></script>
 </body>
 
