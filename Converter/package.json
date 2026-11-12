@@ -15,6 +15,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.3.5",
     "pyodide": "^0.29.4",
+    "remixicon": "^4.9.1",
     "tailwindcss": "^4.3.5"
   }
 }

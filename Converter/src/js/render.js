@@ -5,7 +5,7 @@ export async function render(element, path) {
   }
 
   try{
-  element.innerHTML = await response.text()
+  document.querySelector(element).innerHTML = await response.text()
   }
   catch(e){
     console.error(`eror di element `, path, ' | Eror:\n', e)

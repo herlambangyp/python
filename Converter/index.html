@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id" data-theme="light">
+<html lang="id" data-theme="dark">
 
 <head>
   <meta charset="UTF-8">
@@ -19,31 +19,13 @@
   <link rel="stylesheet" href="./src/css/style.css">
 </head>
 
-<body class="min-h-screen">
-  <header>
+<body class="px-4">
 
-  </header>
-  <main>
-    <section>
-      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-        <legend class="fieldset-legend">Page details</legend>
+  <header id="header" class="sticky top-0 pt-2"></header>
 
-        <label class="label">Title</label>
-        <input type="text" class="input" placeholder="My awesome page" />
-
-        <label class="label">Slug</label>
-        <input type="text" class="input" placeholder="my-awesome-page" />
-
-        <label class="label">Author</label>
-        <input type="text" class="input" placeholder="Name" />
-      </fieldset>
-    </section>
-
-    <section>
-      <div id="toast" class="toast toast-end toast-bottom z-50 hidden">
-        <div class="alert alert-info shadow-lg"><span id="toastMessage"></span></div>
-      </div>
-    </section>
+  <main class="min-h-screen flex items-center justify-center">
+    <section id="mainCard"></section>
+    <section id="toastContainer"></section>
   </main>
 
   <script type="module" src="./src/js/main.js"></script>

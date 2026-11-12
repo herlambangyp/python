@@ -12,6 +12,7 @@ downloads/
 eggs/
 .eggs/
 input/*
+hindari/
 !input/.gitkeep
 output/
 lib/
