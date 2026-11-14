@@ -36,8 +36,8 @@ let pythonReady = false
 let pyodide
 let selectedFiles = []
 
-iconLoading.innerHTML = `<span class="loading loading-spinner loading-sm"></span>`
-pythonStatusText.textContent = `Menunggu inisialisasi Python...`
+iconLoading.textContent = `✖`
+pythonStatusText.textContent = `<b>ERROR: NodeJs Tewas Mengenaskan oleh CORS policy</b><br>Untuk mempreview web ini diperlukan development server yang sesuai. <b>Membuka file html langsung akan dicegat oleh keamanan browser CORS policy</b>. Akibatnya seluruh upaya fetch js akan "dibunuh secara brutal"`
 
 const formatBytes = (bytes) => {
   if (bytes < 1024) return `${bytes} B`

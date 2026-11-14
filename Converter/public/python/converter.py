@@ -85,7 +85,7 @@ async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callba
 
             results.append(str(output_file))
 
-            # Kirim informasi progress ke JavaScript
+            # informasi progress yang diterima js
             if progress_callback is not None:
                 progress_callback(
                     index + 1,
@@ -93,7 +93,7 @@ async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callba
                     f"Halaman {index + 1} dari {total}"
                 )
 
-            # Beri kesempatan browser memperbarui UI
+            # jeda Ui
             await asyncio.sleep(0)
 
         return results

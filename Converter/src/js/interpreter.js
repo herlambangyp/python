@@ -1,11 +1,13 @@
 
-let pyodide
+let pyodide,
+    iconLoading = document.getElementById('iconLoading')
 
 export async function initPython(onStatus = () => { }) {
     const status = (message, type = 'loading') => {
         onStatus({ message, type })
     }
     let kodePython
+    iconLoading.innerHTML = `<span class="loading loading-spinner loading-sm"></span>`
 
     try {
         let pyodidePath = `pyodide/`,
@@ -37,10 +39,8 @@ export async function initPython(onStatus = () => { }) {
         pyodide.runPython(`import converter`)
 
         // Inisialisasi Python Selesai
-        setTimeout(() => {
-            const versiPython = pyodide.runPython(`import sys; f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"`)
-            status(`System Virtual Python ${versiPython} berhasil dibuat`, 'success')
-        }, 1000)
+        const versiPython = pyodide.runPython(`import sys; f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"`)
+        status(`Sistem Virtual Python ${versiPython} berhasil dimuat`, 'success')
         return pyodide
 
     } catch (error) {
