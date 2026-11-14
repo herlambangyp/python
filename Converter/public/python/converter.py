@@ -52,7 +52,8 @@ async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callba
             extensions = {
                 'webp': 'webp',
                 'png': 'png',
-                'jpg': 'jpg'
+                'jpg': 'jpeg', 
+                'jpeg': 'jpeg'
             }
 
             if format_output not in extensions:
@@ -69,6 +70,7 @@ async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callba
 
             save_options = {
                 'webp': {'quality': int(quality),'method': 6},
+                'jpeg': {'quality': int(quality),'optimize': True},
                 'jpg': {'quality': int(quality),'optimize': True},
                 'png': {'optimize': True},
 
@@ -76,7 +78,7 @@ async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callba
 
             image.save(
                 output_file,
-                format_output.upper(),
+                extensions[format_output].upper(),
                 **save_options[format_output]
             )
 

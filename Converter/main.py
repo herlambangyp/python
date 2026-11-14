@@ -1,8 +1,9 @@
-import pymupdf # Doc: https://pymupdf.readthedocs.io/en/latest/installation.html
-from PIL import Image # Doc: https://pillow.readthedocs.io/en/stable/installation.html
 import questionary # Doc: https://questionary.readthedocs.io/en/stable/index.html
 from pathlib import Path
 from datetime import datetime
+import asyncio
+from public.python.converter import convert_pdf
+
 
 fileLog = Path('log.txt')
 with fileLog.open('w', encoding='utf-8') as file:
@@ -90,37 +91,32 @@ output_folder.mkdir(exist_ok=True)
 
 for pdf_file in input_folder.rglob("*.pdf"):
     tulisLog(f"Sedang Convert: {pdf_file}", heading="--------- \n")
+
     relative_folder = pdf_file.parent.relative_to(input_folder)
     target_folder = output_folder / relative_folder
-    target_folder.mkdir(parents=True, exist_ok=True)
-    document = pymupdf.open(pdf_file)
+
     try:
-        for index, page in enumerate(document):
-            pix = page.get_pixmap(dpi=dpi, alpha=False,)
-            image = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
-
-            if len(document) > 1:
-                halaman_folder = target_folder / pdf_file.stem.strip()
-                halaman_folder.mkdir(parents=True, exist_ok=True)
-            
-                filename = f"{pdf_file.stem}-HALAMAN_{index + 1}.{output_format.lower()}"
-                output_file = halaman_folder / filename
-            else:
-                filename = f"{pdf_file.stem}.{output_format.lower()}"
-                output_file = target_folder / filename
-
-            image.save(
-                output_file,
-                output_format.upper(),
+        hasil = asyncio.run(
+            convert_pdf(
+                pdf_path=pdf_file,
+                output_dir=target_folder,
+                dpi=dpi,
                 quality=kualitas,
-                method=6
+                format_output=output_format.lower()
             )
-            tulisLog(f"Berhasil Convert: {output_file}", tipe="success")
+        )
+
+        for output_file in hasil:
+            tulisLog(
+                f"Berhasil Convert: {output_file}",
+                tipe="success"
+            )
 
     except Exception as e:
-            tulisLog(f"Ada Error saat convert {pdf_file} \n >>Error: {e}", tipe="error", heading="\n")
-
-    finally:
-        document.close()
-
+        tulisLog(
+            f"Ada Error saat convert {pdf_file} \n >>Error: {e}",
+            tipe="error",
+            heading="\n"
+        )
+        
 tulisLog("---- Script Selesai ----", tipe="success", heading="\n")

@@ -134,7 +134,8 @@ await converter.convert_pdf(
                         const mimeTypes = {
                             webp: 'image/webp',
                             png: 'image/png',
-                            jpeg: 'image/jpeg'
+                            jpeg: 'image/jpeg',
+                            jpg: 'image/jpg'
                         }
 
                         const blob = new Blob([imageBytes], {
