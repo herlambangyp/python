@@ -9,17 +9,60 @@
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+
+  "screenshots": [
   {
-    "src": "pwa-192x192.png",
-    "sizes": "192x192",
+    "src": "screenshots/SCR_Dark.png",
+    "sizes": "1280x823",
     "type": "image/png",
-    "purpose": "any"
+    "form_factor": "wide",
+    "label": "Document Converter desktop, Dark interface"
   },
   {
-    "src": "pwa-512x512.png",
-    "sizes": "512x512",
+    "src": "screenshots/SCR_Light.png",
+    "sizes": "1280x823",
     "type": "image/png",
-    "purpose": "any"
+    "form_factor": "wide",
+    "label": "Document Converter desktop, Light interface"
+  },
+  {
+    "src": "screenshots/SCR_Dark_Mb.png",
+    "sizes": "430x764",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "Document Converter mobile, Dark interface"
+  },
+  {
+    "src": "screenshots/SCR_Light_Mb.png",
+    "sizes": "430x764",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "Document Converter mobile, Light interface"
   }
 ]
 }
