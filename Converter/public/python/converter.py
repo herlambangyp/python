@@ -8,7 +8,7 @@ from PIL import Image
 def loaded():
     return "Converter Siap Digunakan"
 
-async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callback=None):
+async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callback=None, format_output='webp'):
     pdf_path = Path(pdf_path)
     output_dir = Path(output_dir)
 
@@ -60,7 +60,7 @@ async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callba
             # Simpan sebagai WebP
             image.save(
                 output_file,
-                "WEBP",
+                format_output,
                 quality=int(quality),
                 method=6
             )

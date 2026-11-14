@@ -29,7 +29,6 @@ body {
   flex: none;
   place-items: center;
   border-radius: .65rem;
-  background: color-mix(in oklab, var(--color-primary) 10%, transparent);
   color: var(--color-primary);
 }
 

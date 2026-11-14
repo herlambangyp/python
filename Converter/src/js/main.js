@@ -17,11 +17,12 @@ const pdfInput = $('#pdfInput'),
   dropzone = $('#dropzone'),
   fileList = $('#fileList'),
   emptyFiles = $('#emptyFiles'),
-  fileCount = $('#fileCount'),
   clearFiles = $('#clearFiles'),
   convertButton = $('#convertButton'),
   dpiInput = $('#dpiInput'),
   qualityInput = $('#qualityInput'),
+  formatInput = $('#formatInput'),
+  formatOutput = $('#formatOutput'),
   themeToggle = $('#themeToggle'),
   themeIcon = $('#themeIcon'),
   toast = $('#toast'),
@@ -35,6 +36,8 @@ let pythonReady = false
 let pyodide
 let selectedFiles = []
 
+iconLoading.innerHTML = `<span class="loading loading-spinner loading-sm"></span>`
+pythonStatusText.textContent = `Menunggu inisialisasi Python...`
 
 const formatBytes = (bytes) => {
   if (bytes < 1024) return `${bytes} B`
@@ -61,7 +64,7 @@ const renderFiles = () => {
       row.className = 'file-row'
 
       const icon = document.createElement('div')
-      icon.className = 'file-icon text-sm font-bold'
+      icon.className = 'file-icon text-sm font-bold bg-primary/10'
       icon.textContent = 'PDF'
 
       const details = document.createElement('div')
@@ -92,7 +95,6 @@ const renderFiles = () => {
     })
   }
 
-  fileCount.textContent = `${selectedFiles.length} file`
   clearFiles.disabled = selectedFiles.length === 0
   convertButton.disabled = selectedFiles.length === 0 || !pythonReady
 }
@@ -141,19 +143,21 @@ clearFiles.onclick = o => {
 
 dropzone.addEventListener('drop', event => addFiles(event.dataTransfer.files))
 
-dpiInput.addEventListener('input', () => {
+dpiInput.oninput=o=>{
   $('#dpiValue').value = `${dpiInput.value}`
-})
-$('#dpiValue').addEventListener('input', () => {
+}
+$('#dpiValue').oninput=o=>{
   dpiInput.value = `${$('#dpiValue').value}`
-})
+  if ($('#dpiValue').value < 72 || $('#dpiValue').value > 300) showToast('DPI Tidak boleh kurang dari 72 atau lebih dari 300')
+  console.log('DPI Input value = ', $('#dpiValue').value)
+}
 
-qualityInput.addEventListener('input', () => {
+qualityInput.oninput=o=>{
   $('#qualityValue').value = `${qualityInput.value}`
-})
-$('#qualityValue').addEventListener('input', () => {
+}
+$('#qualityValue').oninput=o=>{
   qualityInput.value = `${$('#qualityValue').value}`
-})
+}
 
 const setTheme = theme => {
   document.documentElement.dataset.theme = theme
@@ -176,7 +180,7 @@ const renderResults = results => {
   if (!results.length) {
     container.className = 'rounded-xl border border-base-300 border-dashed px-4 py-8 text-center text-sm text-base-content/45'
     container.textContent = 'Belum ada hasil konversi.'
-    $('#resultCount').textContent = '0 hasil'
+    $('#resultCount').textContent = '0 File'
     return
   }
 
@@ -203,19 +207,19 @@ const renderResults = results => {
     container.append(row)
   })
 
-  $('#resultCount').textContent = `${results.length} hasil`
+  $('#resultCount').textContent = `${results.length} File`
 }
 
 convertButton.addEventListener('click', () => {
   if (!selectedFiles.length) return
-
+  console.log('Output = ', formatOutput.value)
   window.dispatchEvent(new CustomEvent('pdf-convert', {
     detail: {
       files: [...selectedFiles],
       options: {
         dpi: Number(dpiInput.value),
         quality: Number(qualityInput.value),
-        format: 'webp'
+        format: formatOutput.value
       }
     }
   }))
@@ -254,14 +258,19 @@ window.addEventListener('pdf-conversion-error', event => {
 })
 
 async function startPython() {
+  let kamus = {
+    'info': 'alert alert-info mb-3',
+    'loading': 'alert alert-info mb-3',
+    'error': 'alert alert-error mb-3',
+    'success': 'alert alert-success mb-3',
+    'warning': 'alert alert-warning mb-3',
+    'neutral': 'alert alert-neutral mb-3',
+  }
+  pythonStatus.className = kamus[`info`]
   try {
     pyodide = await initPython(({ message, type }) => {
       pythonStatusText.textContent = message
-      pythonStatus.className = type === 'success'
-        ? 'alert alert-success mb-6'
-        : type === 'error'
-          ? 'alert alert-error mb-6'
-          : 'alert alert-info mb-6'
+      pythonStatus.className = kamus[type]
     })
     mulaiConvert(pyodide)
 

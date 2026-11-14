@@ -13,6 +13,7 @@ eggs/
 .eggs/
 input/*
 !input/.gitkeep
+hindari/
 output/
 lib/
 lib64/

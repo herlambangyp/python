@@ -75,7 +75,7 @@ export async function mulaiConvert(pyodide) {
                     '_'
                 )
 
-                const inputPath = `/input/${index}-${safeName}`
+                const inputPath = `/input/${safeName}`
                 const outputDir = `/output/file-${index}`
 
                 // Baca PDF dari browser
@@ -108,6 +108,7 @@ export async function mulaiConvert(pyodide) {
                     pyodide.globals.set('dpi_value', options.dpi)
                     pyodide.globals.set('quality_value', options.quality)
                     pyodide.globals.set('progress_callback', progressCallback)
+                    pyodide.globals.set('format_output', options.format)
 
                     // Jalankan fungsi Python
                     pythonResult = await pyodide.runPythonAsync(`
@@ -116,7 +117,8 @@ await converter.convert_pdf(
     pdf_output_dir,
     dpi_value,
     quality_value,
-    progress_callback
+    progress_callback,
+    format_output
 )
                     `)
 

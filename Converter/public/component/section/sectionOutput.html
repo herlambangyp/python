@@ -1,36 +1,87 @@
+<div class="divider lg:hidden">Akan Diconvert Ke:</div>
+<div class="card border border-base-300 bg-base-100 shadow-sm">
+  <div class="card-body gap-4 p-5">
 
-        <div class="card border border-base-300 bg-base-100 shadow-sm">
-          <div class="card-body gap-4 p-5 sm:p-6">
-            <div class="flex items-center justify-between gap-3">
-              <div>
-                <h2 class="font-semibold">Hasil konversi</h2>
-                <p class="mt-1 text-sm text-base-content/55">File WebP yang selesai diproses muncul di sini.</p>
-              </div><span id="resultCount" class="badge badge-ghost">0 hasil</span>
-            </div>
-            <div id="results"
-              class="rounded-xl border border-base-300 border-dashed px-4 py-8 text-center text-sm text-base-content/45">
-              Belum ada hasil konversi.</div>
+    <div class="space-y-3">
+      <div class="flex items-center justify-between text-sm">
+        <div>
+          <h2 class="font-semibold">Format File Output</h2>
+          <span class="text-xs opacity-60">File diconvert ke format terpilih</span>
+        </div>
+        <select id="formatOutput" class="select select-success w-max">
+          <option disabled>Gambar:</option>
+          <option value="webp">WebP</option>
+          <option value="png">PNG</option>
+          <option value="jpeg">JPEG / JPG</option>
+          <option disabled>Dokumen:</option>
+          <option value="pdf">PDF</option>
+          <option value="docx">DOCX</option>
+          <option value="doc">Doc</option>
+        </select>
 
-            <div class="space-y-3">
-              <div class="flex items-center justify-between text-sm">
-                <span class="text-base-content/60">Format output</span>
-                <span class="badge badge-success badge-outline font-semibold">WEBP</span>
-              </div>
-              <div class="flex items-center justify-between text-sm"><span class="text-base-content/60">Mode
-                  konversi</span><span class="font-medium">Setiap halaman</span></div>
-              <div class="flex items-center justify-between text-sm"><span
-                  class="text-base-content/60">Pemrosesan</span><span class="font-medium">Browser lokal</span></div>
-            </div>
+      </div>
+      <div class="divider my-0"></div>
 
-            <button id="convertButton" class="btn btn-primary mt-1 w-full" type="button" disabled>Mulai
-              konversi</button>
-            <div id="progressWrap" class="hidden space-y-2">
-              <div class="flex justify-between text-xs text-base-content/60"><span
-                  id="progressLabel">Memproses...</span><span id="progressValue">0%</span></div>
-              <progress id="progressBar" class="progress progress-primary w-full" value="0" max="100"></progress>
+      <details class="collapse collapse-arrow bg-transparent border-0">
+        <summary class="px-0 py-2 collapse-title font-semibold after:inset-s-0 after:inset-e-auto ps-5">Pengaturan
+          Lanjutan</summary>
+        <div class="px-0 py-1 collapse-content text-sm z-1">
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between"><label for="dpiInput" class="text-sm font-medium">Resolusi
+                (DPI)</label>
+              <span class="badge badge-primary badge-outline"><input class="w-10" min="72" max="300" type="number"
+                  value="150" id="dpiValue">DPI</span>
             </div>
+            <input id="dpiInput" type="range" min="72" max="300" step="1" value="150"
+              class="range range-primary range-sm">
+            <div class="flex justify-between text-xs text-base-content/45"><span>72</span><span>300 DPI</span></div>
+            <p class="text-xs leading-relaxed text-base-content/50">DPI lebih tinggi menghasilkan gambar lebih detail
+              dan ukuran file lebih besar.</p>
+          </div>
+          <div class="divider my-0"></div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between"><label for="qualityInput"
+                class="text-sm font-medium">Kualitas
+                WebP</label>
+              <span class="badge badge-primary badge-outline"><input class="w-10" min="50" max="100" type="number"
+                  value="85" id="qualityValue">%</span>
+            </div>
+            <input id="qualityInput" type="range" min="50" max="100" step="1" value="85"
+              class="range range-primary range-sm">
+            <div class="flex justify-between text-xs text-base-content/45"><span>50%</span><span>100%</span></div>
+            <p class="text-xs leading-relaxed text-base-content/50">Kualitas tinggi menjaga detail, tetapi ukuran file
+              bisa bertambah.</p>
           </div>
         </div>
-        <div class="alert border border-info/20 bg-info/5 text-sm"><span class="text-info">ⓘ</span><span
-            class="text-base-content/65">Convert berjalan secara lokal! Merefresh halaman akan menghancurkan seluruh
-            proses dan sitem convert</span></div>
+      </details>
+      <button id="convertButton" class="btn btn-primary mt-1 w-full" type="button" disabled>
+        Mulai konversi
+      </button>
+
+      <div id="progressWrap" class="hidden space-y-2">
+        <div class="flex justify-between text-xs text-base-content/60"><span id="progressLabel">Memproses...</span><span
+            id="progressValue">0%</span></div>
+        <progress id="progressBar" class="progress progress-primary w-full" value="0" max="100"></progress>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card border border-base-300 bg-base-100 shadow-sm">
+  <div class="card-body gap-4 p-5">
+    <div class="flex items-center justify-between gap-3">
+      <div>
+        <h2 class="font-semibold">Hasil Convert</h2>
+        <p class="mt-1 text-sm text-base-content/55">Akan muncul di sini</p>
+      </div><span id="resultCount" class="badge badge-ghost">0 File</span>
+    </div>
+
+    <div id="results" class="rounded-xl border-2 border-base-200/50 px-4 py-8 text-center text-sm text-base-content/45">
+      Belum ada file yang di convert
+    </div>
+  </div>
+</div>
+<!-- 
+<div class="alert border border-info/20 bg-info/5 text-sm"><span class="text-info">ⓘ</span><span
+    class="text-base-content/65">Convert berjalan secara lokal! Merefresh halaman akan menghancurkan seluruh
+    proses dan sitem convert</span></div> -->
