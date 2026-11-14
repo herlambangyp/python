@@ -47,22 +47,37 @@ async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callba
                 pix.samples
             )
 
-            # Tentukan nama file
+            format_output = format_output.lower()
+
+            extensions = {
+                'webp': 'webp',
+                'png': 'png',
+                'jpeg': 'jpg'
+            }
+
+            if format_output not in extensions:
+                raise ValueError(f"Format tidak didukung: {format_output}")
+
+            extension = extensions[format_output]
+
             if total > 1:
-                filename = (
-                    f"{pdf_path.stem}-HALAMAN_{index + 1}.webp"
-                )
+                filename = f"{pdf_path.stem}-HALAMAN_{index + 1}.{extension}"
             else:
-                filename = f"{pdf_path.stem}.webp"
+                filename = f"{pdf_path.stem}.{extension}"
 
             output_file = target_folder / filename
 
-            # Simpan sebagai WebP
+            save_options = {
+                'webp': {'quality': int(quality),'method': 6},
+                'jpg': {'quality': int(quality),'optimize': True},
+                'png': {'optimize': True},
+
+            }
+
             image.save(
                 output_file,
-                format_output,
-                quality=int(quality),
-                method=6
+                format_output.upper(),
+                save_options[format_output]
             )
 
             image.close()

@@ -16,16 +16,16 @@ export async function initPython(onStatus = () => { }) {
         )
 
         status('Membuat Sistem Virtual Python...')
-        pyodide = await loadPyodide({indexURL: new URL(pyodidePath, document.baseURI).href})
+        pyodide = await loadPyodide({ indexURL: new URL(pyodidePath, document.baseURI).href })
 
         // Load Wheel Pillow
         status('Memuat package Pillow...')
-        wheelUrl = new URL('./python/wheel/pillow-11.3.0.whl',document.baseURI).href
+        wheelUrl = new URL('./python/wheel/pillow-11.3.0.whl', document.baseURI).href
         await pyodide.loadPackage(wheelUrl)
 
         // Load Wheel Pymupdf        
         status('Memuat engine PDF...')
-        wheelUrl = new URL('./python/wheel/pymupdf-1.27.2.3.whl',document.baseURI).href
+        wheelUrl = new URL('./python/wheel/pymupdf-1.27.2.3.whl', document.baseURI).href
         await pyodide.loadPackage(wheelUrl)
 
         // Semua module python wajib disimpan di penyimpanan virtual /home/pyodide/ <---disini
@@ -38,7 +38,7 @@ export async function initPython(onStatus = () => { }) {
         console.log(`Status Converter: `, pyodide.runPython(`converter.loaded()`))
 
         // Inisialisasi Python Selesai
-        setTimeout(()=>{
+        setTimeout(() => {
             const versiPython = pyodide.runPython(`import sys; f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"`)
             status(`System Virtual Python ${versiPython} berhasil dibuat`, 'success')
         }, 1000)
@@ -132,8 +132,14 @@ await converter.convert_pdf(
 
                         const imageBytes = pyodide.FS.readFile(outputPath)
 
+                        const mimeTypes = {
+                            webp: 'image/webp',
+                            png: 'image/png',
+                            jpeg: 'image/jpeg'
+                        }
+
                         const blob = new Blob([imageBytes], {
-                            type: 'image/webp'
+                            type: mimeTypes[options.format]
                         })
 
                         results.push({
