@@ -13,7 +13,7 @@ await Promise.all([
   render($('#header'), './component/header.html'),
   render($('#footer'), './component/footer.html')
 ])
-await render('[selectFileUmum]','.component/general/optionFile.html', true)
+await render('[selectFileUmum]','./component/general/optionFile.html', true)
 
 const pdfInput = $('#pdfInput'),
   dropzone = $('#dropzone'),
