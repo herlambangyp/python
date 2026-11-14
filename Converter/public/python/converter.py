@@ -49,22 +49,21 @@ async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callba
 
             format_output = format_output.lower()
 
-            extensions = {
+            pillow_formats = {
                 'webp': 'webp',
                 'png': 'png',
                 'jpg': 'jpeg', 
                 'jpeg': 'jpeg'
             }
 
-            if format_output not in extensions:
+            if format_output not in pillow_formats:
                 raise ValueError(f"Format tidak didukung: {format_output}")
-
-            extension = extensions[format_output]
+            
 
             if total > 1:
-                filename = f"{pdf_path.stem}-HALAMAN_{index + 1}.{extension}"
+                filename = f"{pdf_path.stem}-HALAMAN_{index + 1}.{format_output}"
             else:
-                filename = f"{pdf_path.stem}.{extension}"
+                filename = f"{pdf_path.stem}.{format_output}"
 
             output_file = target_folder / filename
 
@@ -78,7 +77,7 @@ async def convert_pdf(pdf_path, output_dir, dpi=150, quality=85, progress_callba
 
             image.save(
                 output_file,
-                extensions[format_output].upper(),
+                pillow_formats[format_output],
                 **save_options[format_output]
             )
 

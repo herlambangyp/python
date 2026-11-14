@@ -37,7 +37,7 @@ def tanyakan_dulu():
     }
     output_format = questionary.select(
         "Pilih format output:", 
-        choices=["WebP","JPEG","PNG"], 
+        choices=["WebP","JPEG","PNG", "JPG"], 
         default="WebP", 
         instruction="(Gunakan tombol panah untuk memilih, Enter untuk konfirmasi)"
         ).ask()
@@ -118,5 +118,5 @@ for pdf_file in input_folder.rglob("*.pdf"):
             tipe="error",
             heading="\n"
         )
-        
+
 tulisLog("---- Script Selesai ----", tipe="success", heading="\n")

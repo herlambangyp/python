@@ -8,8 +8,6 @@ Proyek ini menyediakan dua antarmuka penggunaan:
 - **CLI (Command Line Interface):** dijalankan melalui terminal menggunakan Python.
 - **Web Interface:** dijalankan melalui browser menggunakan Pyodide, yang memungkinkan Python berjalan di lingkungan WebAssembly.
 
-**Note:** Untuk panduan umum Python dan dokumentasi proyek lainnya, silakan kunjungi README utama:
-https://github.com/herlambangyp/python
 
 ## Requirements
 
@@ -22,6 +20,9 @@ https://github.com/herlambangyp/python
 - Koneksi internet untuk memuat Pyodide dan menginstal package yang diperlukan.
 
 ## Penggunaan melalui CLI
+
+**Note untuk CLI:** Untuk panduan general python dan cara menggunakan code ini, sebaiknya cek halaman utama (README.md):
+https://github.com/herlambangyp/python
 
 Jalankan program melalui terminal:
 
