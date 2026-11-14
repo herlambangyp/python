@@ -289,7 +289,34 @@ async function startPython() {
     renderFiles()
   }
 }
+async function aktifkanServiceWorker() {
+    if (!('serviceWorker' in navigator)) return
 
-startPython()
+    try {
+        await navigator.serviceWorker.register('./service-worker.js')
+
+        await navigator.serviceWorker.ready
+
+        if (!navigator.serviceWorker.controller) {
+            await new Promise(resolve => {
+                navigator.serviceWorker.addEventListener(
+                    'controllerchange',
+                    resolve,
+                    { once: true }
+                )
+            })
+        }
+
+        console.log('Service Worker siap mengelola cache.')
+
+    } catch (error) {
+        console.error('Service Worker gagal:', error)
+    }
+}
+
 renderFiles()
 renderResults([])
+
+await aktifkanServiceWorker()
+
+startPython()
