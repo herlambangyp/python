@@ -35,7 +35,6 @@ export async function initPython(onStatus = () => { }) {
         kodePython = await response.text()
         pyodide.FS.writeFile('/home/pyodide/converter.py', kodePython)
         pyodide.runPython(`import converter`)
-        console.log(`Status Converter: `, pyodide.runPython(`converter.loaded()`))
 
         // Inisialisasi Python Selesai
         setTimeout(() => {
