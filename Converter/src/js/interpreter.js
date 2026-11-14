@@ -68,7 +68,7 @@ export async function mulaiConvert(pyodide) {
 
             // Proses setiap PDF yang dipilih
             for (const [index, file] of files.entries()) {
-
+                const fileResults = []
                 const safeName = file.name.replace(
                     /[^a-zA-Z0-9._-]/g,
                     '_'
@@ -142,12 +142,17 @@ await converter.convert_pdf(
                             type: mimeTypes[options.format]
                         })
 
-                        results.push({
+                        fileResults.push({
                             name: outputPath.split('/').pop(),
                             size: blob.size,
                             url: URL.createObjectURL(blob)
                         })
                     }
+                    
+                    results.push({
+                        name: file.name,
+                        pages: fileResults
+                    })
 
                 } finally {
                     // Bebaskan proxy hasil Python

@@ -13,7 +13,7 @@ await Promise.all([
   render($('#header'), './component/header.html'),
   render($('#footer'), './component/footer.html')
 ])
-await render('[selectFileUmum]','./component/general/optionFile.html', true)
+await render('[selectFileUmum]', './component/general/optionFile.html', true)
 
 const pdfInput = $('#pdfInput'),
   dropzone = $('#dropzone'),
@@ -37,6 +37,13 @@ const pdfInput = $('#pdfInput'),
 let pythonReady = false
 let pyodide
 let selectedFiles = []
+const escapeHTML = text => String(text).replace(/[&<>"']/g, char => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#039;'
+}[char]))
 
 iconLoading.textContent = `✖`
 pythonStatusText.textContent = `<b>ERROR: NodeJs Tewas Mengenaskan oleh CORS policy</b><br>Untuk mempreview web ini diperlukan development server yang sesuai. <b>Membuka file html langsung akan dicegat oleh keamanan browser CORS policy</b>. Akibatnya seluruh upaya fetch js akan "dibunuh secara brutal"`
@@ -45,7 +52,19 @@ const formatBytes = (bytes) => {
   if (bytes < 1024) return `${bytes} B`
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
-}
+},
+  singkatNama = (name, maxLength = 14) => {
+    const lastDot = name.lastIndexOf('.'),
+      extension = lastDot !== -1 ? name.slice(lastDot) : '',
+      baseName = lastDot !== -1 ? name.slice(0, lastDot) : name,
+      pageMatch = baseName.match(/-HALAMAN_\d+$/i),
+      pageLabel = pageMatch ? pageMatch[0] : '',
+      fileName = pageMatch ? baseName.slice(0, -pageLabel.length) : baseName
+
+    if (fileName.length <= maxLength) return name
+
+    return `${fileName.slice(0, maxLength)}...${pageLabel}${extension}`
+  }
 
 const showToast = (message) => {
   toastMessage.textContent = message
@@ -55,50 +74,45 @@ const showToast = (message) => {
 }
 
 const renderFiles = () => {
-  fileList.replaceChildren()
+  fileList.innerHTML = selectedFiles.length ? selectedFiles.map((file, index) => `
+        <div class="file-row">
+          <div class="file-icon text-sm font-bold bg-primary/10">
+            PDF
+          </div>
 
-  if (!selectedFiles.length) {
-    fileList.append(emptyFiles)
-    emptyFiles.classList.remove('hidden')
-  } else {
-    selectedFiles.forEach((file, index) => {
-      const row = document.createElement('div')
-      row.className = 'file-row'
+          <div class="min-w-0 flex-1">
+            <div class="file-name text-sm font-medium" title="${file.name}">
+              <span class="lg:hidden">${singkatNama(file.name)}</span>
+              <span class="hidden md:inline">${file.name}</span>
+            </div>
 
-      const icon = document.createElement('div')
-      icon.className = 'file-icon text-sm font-bold bg-primary/10'
-      icon.textContent = 'PDF'
+            <div class="mt-0.5 text-xs text-base-content/50">
+              ${formatBytes(file.size)}
+            </div>
+          </div>
 
-      const details = document.createElement('div')
-      details.className = 'min-w-0 flex-1'
-
-      const name = document.createElement('div')
-      name.className = 'file-name text-sm font-medium'
-      name.textContent = file.name
-      name.title = file.name
-
-      const size = document.createElement('div')
-      size.className = 'mt-0.5 text-xs text-base-content/50'
-      size.textContent = formatBytes(file.size)
-      details.append(name, size)
-
-      const remove = document.createElement('button')
-      remove.className = 'btn btn-ghost btn-sm btn-square text-base-content/45'
-      remove.type = 'button'
-      remove.setAttribute('aria-label', `Hapus ${file.name}`)
-      remove.textContent = '×'
-      remove.onclick = o => {
-        selectedFiles.splice(index, 1)
-        renderFiles()
-      }
-
-      row.append(icon, details, remove)
-      fileList.append(row)
-    })
-  }
+          <button
+            class="btn btn-ghost btn-sm btn-square text-base-content/45"
+            type="button"
+            aria-label="Hapus ${file.name}"
+            data-index="${index}"
+          >
+            ×
+          </button>
+        </div>
+      `).join('')
+    : emptyFiles.outerHTML
 
   clearFiles.disabled = selectedFiles.length === 0
   convertButton.disabled = selectedFiles.length === 0 || !pythonReady
+  fileList.onclick = o => {
+    const button = o.target.closest('[data-index]')
+
+    if (!button) return
+
+    selectedFiles.splice(Number(button.dataset.index), 1)
+    renderFiles()
+  }
 }
 
 const addFiles = (fileCollection) => {
@@ -145,19 +159,19 @@ clearFiles.onclick = o => {
 
 dropzone.addEventListener('drop', event => addFiles(event.dataTransfer.files))
 
-dpiInput.oninput=o=>{
+dpiInput.oninput = o => {
   $('#dpiValue').value = `${dpiInput.value}`
 }
-$('#dpiValue').oninput=o=>{
+$('#dpiValue').oninput = o => {
   dpiInput.value = `${$('#dpiValue').value}`
   if ($('#dpiValue').value < 72 || $('#dpiValue').value > 300) showToast('DPI Tidak boleh kurang dari 72 atau lebih dari 300')
   console.log('DPI Input value = ', $('#dpiValue').value)
 }
 
-qualityInput.oninput=o=>{
+qualityInput.oninput = o => {
   $('#qualityValue').value = `${qualityInput.value}`
 }
-$('#qualityValue').oninput=o=>{
+$('#qualityValue').oninput = o => {
   qualityInput.value = `${$('#qualityValue').value}`
 }
 
@@ -177,39 +191,61 @@ themeToggle.addEventListener('click', () => {
 
 const renderResults = results => {
   const container = $('#results')
-  container.replaceChildren()
 
   if (!results.length) {
     container.className = 'rounded-xl border border-base-300 border-dashed px-4 py-8 text-center text-sm text-base-content/45'
-    container.textContent = 'Belum ada hasil konversi.'
+    container.innerHTML = 'Belum ada hasil konversi.'
     $('#resultCount').textContent = '0 File'
     return
   }
 
-  container.className = 'divide-y divide-base-300'
-  results.forEach(result => {
-    const row = document.createElement('div')
-    row.className = 'result-row'
-    const info = document.createElement('div')
-    info.className = 'min-w-0'
-    const name = document.createElement('div')
-    name.className = 'file-name text-sm font-medium'
-    name.textContent = result.name
-    const size = document.createElement('div')
-    size.className = 'mt-0.5 text-xs text-base-content/50'
-    size.textContent = result.size ? formatBytes(result.size) : 'WebP'
-    info.append(name, size)
+  container.className = 'space-y-3'
 
-    const link = document.createElement('a')
-    link.className = 'btn btn-outline btn-primary btn-sm'
-    link.href = result.url
-    link.download = result.name
-    link.textContent = 'Unduh'
-    row.append(info, link)
-    container.append(row)
-  })
+  const totalPages = results.reduce(
+    (total, file) => total + file.pages.length,
+    0
+  )
 
-  $('#resultCount').textContent = `${results.length} File`
+  container.innerHTML = results.map(file => `
+    <details class="collapse collapse-arrow bg-transparent border-0">
+
+      <summary class="px-0 py-2 collapse-title font-semibold after:inset-s-0 after:inset-e-auto ps-5">
+        <span class="lg:hidden">${escapeHTML(singkatNama(file.name))}</span>
+        <span class="hidden md:inline">${file.name}</span>
+      </summary>
+
+      <div class="px-0 py-1 collapse-content text-sm z-1">
+
+        ${file.pages.map(page => `
+          <div class="result-row">
+
+            <div class="min-w-0">
+              <div class="file-name text-sm text-base-content/75">
+                <span class="lg:hidden">${escapeHTML(singkatNama(page.name, 6))}</span>
+                <span class="hidden lg:inline">${escapeHTML(page.name)}</span>
+              </div>
+
+              <div class="mt-0.5 text-xs text-base-content/50">
+                ${formatBytes(page.size)}
+              </div>
+            </div>
+
+            <a
+              class="btn btn-outline btn-primary btn-sm"
+              href="${page.url}"
+              download="${escapeHTML(page.name)}"
+            >
+              Unduh
+            </a>
+
+          </div>
+        `).join('')}
+
+      </div>
+    </details>
+  `).join('')
+
+  $('#resultCount').textContent = `${results.length} PDF • ${totalPages} Halaman`
 }
 
 convertButton.addEventListener('click', () => {
@@ -290,30 +326,6 @@ async function startPython() {
     pythonReady = false
     renderFiles()
   }
-}
-async function aktifkanServiceWorker() {
-    if (!('serviceWorker' in navigator)) return
-
-    try {
-        await navigator.serviceWorker.register('./service-worker.js')
-
-        await navigator.serviceWorker.ready
-
-        if (!navigator.serviceWorker.controller) {
-            await new Promise(resolve => {
-                navigator.serviceWorker.addEventListener(
-                    'controllerchange',
-                    resolve,
-                    { once: true }
-                )
-            })
-        }
-
-        console.log('Service Worker siap mengelola cache.')
-
-    } catch (error) {
-        console.error('Service Worker gagal:', error)
-    }
 }
 
 renderFiles()
