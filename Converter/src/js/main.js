@@ -1,3 +1,4 @@
+import '../css/style.css'
 import { initPython, mulaiConvert } from './interpreter.js'
 import { render } from './render.js'
 
@@ -316,7 +317,4 @@ async function aktifkanServiceWorker() {
 
 renderFiles()
 renderResults([])
-
-await aktifkanServiceWorker()
-
 startPython()
