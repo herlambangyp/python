@@ -25,6 +25,12 @@ Aktifkan virtual environment:
 
 Atau sesuaikan dengan CLI yang digunakan. Cek di direktori `.venv/Scripts/` cari file activate yang sesuai
 
+**Mematikan VENV:**
+
+```cmd
+deactivate
+```
+
 ## Instal Package Project
 Source code ku kebanyakan memakai library dan package.
 Jadi jalankan ini sebelum menggunakan, agar tidak terjadi reference error

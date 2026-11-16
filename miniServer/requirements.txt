@@ -1,0 +1,10 @@
+altgraph==0.17.5
+packaging==26.3
+pefile==2024.8.26
+prompt_toolkit==3.0.53
+pyinstaller==6.22.3
+pyinstaller-hooks-contrib==2026.10
+pywin32-ctypes==0.2.3
+questionary==2.1.1
+setuptools==84.2.1
+wcwidth==0.9.4
