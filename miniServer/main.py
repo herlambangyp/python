@@ -79,10 +79,10 @@ if __name__ == "__main__":
         questionary.print("Ctrl + C atau tutup terminal ini", style="bold underline fg:ansiyellow", end="")
         questionary.print(" untuk mematikan server.")
 
-        questionary.print("\nSERVER INI DIBUAT SANGAT SPESIFIK UNTUK ENVIRONMENT FRONT END", style="bold")
+        questionary.print("\nSERVER INI DIBUAT SANGAT SPESIFIK UNTUK ENVIRONMENT FRONT END LOKAL", style="bold")
         questionary.print("Tanpa koneksi database, tanpa PHP, tanpa NodeJS (server-side).")
         questionary.print("Arsitektur dibuat sangat spesifik meniru Github-Pages")
-        questionary.print("TIDAK untuk port forwarding ke publik! Sebaiknya baca source-code terkait hal ini", style="bold")
+        questionary.print("TIDAK untuk port forwarding (hosting server) ke publik! Baca source-code terkait hal ini", style="bold")
 
         questionary.print("\n> ",end="")
         questionary.print("Lalu lintas server:", style="fg:ansiyellow")

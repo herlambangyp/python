@@ -8,9 +8,10 @@ Tersedia 2 aplikasi atau script:
 
 ## Fitur
 
-- **Hapus Cache Otomatis:** saat halaman di-*refresh*, seluruh cache html, js, css akan dihapus dan dimuat ulang dari 0
-- **Browser CORS Friendly:** Browser tidak akan menolak request fetch js atau node yang diminta server
-- **Preview di Perangkat lain di jaringan LAN/Wi-Fi yg sama** Izinkan firewall agar bisa diakses perangkat lain
+- **Letakkan dimana saja, dan jadi server.** Letakkan `HYP_miniServer.exe` dimanapun. Maka saat di run, direktori itu akan dijadikan "hosting server"
+- **Hapus Cache Otomatis.** Saat halaman di-*refresh*, seluruh cache html, js, css akan dihapus dan dimuat ulang dari 0
+- **Browser CORS Friendly.** Browser jadi "percata" dan tidak akan menolak request fetch js atau node yang diminta dari server
+- **Preview di Perangkat lain di jaringan LAN/Wi-Fi yg sama.** Izinkan firewall agar bisa diakses perangkat lain
 
 ## Penggunaan (`main.py`)
 Build dulu dengan perintah ini
@@ -25,14 +26,14 @@ Tidak harus ada index.html, aplikasi akan secara otomatis menyediakan "file expl
 
 ## Note:
 
-**SERVER INI DIBUAT SANGAT SPESIFIK UNTUK ENVIRONMENT FRONT END**
+**SERVER INI DIBUAT SANGAT SPESIFIK UNTUK ENVIRONMENT FRONT END LOKAL**
 
 - **Tidak Mendukung:** 
 Eksekusi *server-side* seperti *PHP*, *Node.js backend* (Express, SSR), maupun koneksi langsung ke *database*. Bukan pengganti `npm run dev` ataupun `npm run Preview`
 
 - **Mendukung:** HTML, CSS, Vanilla JavaScript, aset media (gambar, font, JSON), hasil *build* (*static bundle*) framework seperti React (Vite), Vue, atau Svelte
 
-* **JANGAN DIGUNAKAN SEBAGAI GERBANG *PORT FORWARDING* SERVER KE JARINGAN PUBLIK**. Di aplikasi ini, Browser *litteraly* diminta untuk *chill* atau izinkan CORS antar web/jaringan. Jika diekspos ke publik, maka komputer server (komputer yg menjalankan aplikasi server ini) bisa menerima ribuan request berat dari internet (jika penyerang tau link yang di forward). Untuk kasus sesama wifi, masih aman karena kita bisa tahu siapa saja pengguna wifi, dan siapa yang meminta request. Kalo ada yang request gede, tinggal gebukin ae di dunia nyata
+* **JANGAN DIGUNAKAN SEBAGAI GERBANG *PORT FORWARDING* (HOSTING SERVER) KE JARINGAN PUBLIK**. Di aplikasi ini, Browser *litteraly* diminta untuk *chill* atau izinkan CORS antar web/jaringan. Jika dieskpos atau hosting ke publik, maka komputer server (komputer yg menjalankan mini server ini) bisa menerima ribuan request berat dari internet. Untuk kasus sesama wifi, masih aman karena kita bisa tahu siapa saja pengguna wifi, dan siapa yang meminta request. Kalo ada yang request gede, tinggal gebukin ae di dunia nyata
 
 
 ## Terkait mentahan python
