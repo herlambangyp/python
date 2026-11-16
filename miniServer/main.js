@@ -16,6 +16,6 @@ document.querySelector("#main").innerHTML=
 <h1 style="
     margin: 0px 0px 0px 0px;
 ">Server berhasil dijalankan</h1>
-<span style="font-size:12px; opacity:60%;">Module berhasil dimuat oleh erver</span>
+<span style="font-size:12px; opacity:60%;">Module berhasil dimuat oleh server</span>
 </div>
 `
