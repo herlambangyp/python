@@ -86,6 +86,7 @@ if __name__ == "__main__":
 
         questionary.print("\n> ",end="")
         questionary.print("Lalu lintas server:", style="fg:ansiyellow")
+        questionary.print('\nIP yang request - - [Waktu request] "method dan yang di request" kode respon server\n')
         
         webbrowser.open(url)
         
