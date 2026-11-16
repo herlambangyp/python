@@ -12,8 +12,15 @@ Tersedia 2 aplikasi atau script:
 - **Browser CORS Friendly:** Browser tidak akan menolak request fetch js atau node yang diminta server
 - **Preview di Perangkat lain di jaringan LAN/Wi-Fi yg sama** Izinkan firewall agar bisa diakses perangkat lain
 
+## Penggunaan (`main.py`)
+Build dulu dengan perintah ini
+```bash
+py -m PyInstaller --onefile --console --icon="lg.png" --copy-metadata questionary --copy-metadata prompt_toolkit --name "HYP_miniServer" main.py
+```
+Lalu ikuti cara penggunaan aplikasi jadi
+
 ## Penggunaan (Aplikasi jadi)
-Jalankan `HYP_miniServer.exe` di lokasi dimana index.html berada, atau di direktori manapun server ingin dibuat.
+Jalankan `HYP_miniServer.exe` di lokasi dimana index.html berada, atau di direktori/folder manapun server ingin dibuat.
 Tidak harus ada index.html, aplikasi akan secara otomatis menyediakan "file explorer" simpel untuk navigasi
 
 ## Note:
