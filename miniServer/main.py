@@ -30,7 +30,7 @@ def cekIp():
         mainSocket.connect(("8.8.8.8", 80))
         ip = mainSocket.getsockname()[0]
         mainSocket.close()
-        return questionary.print(f"http://{ip}:{PORT}", style="fg:ansigreen bold underline")
+        return questionary.print(f"http://{ip}:{PORT}", style="fg:ansigreen bold underline", end="")
     
     except Exception:
         return questionary.print("ERROR: Gagal ekspose ke jaringan lokal. Apakah jaringan lokal mati?", style="fg:ansired bold")
@@ -55,29 +55,34 @@ if __name__ == "__main__":
     with ReusableTCPServer(("0.0.0.0", PORT), DevHTTPRequestHandler) as httpd:
 
         questionary.print("\n> ",end="")
-        questionary.print("By Herlambang YP", style="bold")
+        questionary.print("By Herlambang YP", style="bold fg:ansiyellow")
         questionary.print("Source-code: ",end="")
-        questionary.print("https..;asdan", style="underline")
-        
+        questionary.print("https://github.com/herlambangyp/python/tree/main/miniServer", style="underline")
+        questionary.print(f"(Ctrl + Klik Link)", style="bold", end="")
+        questionary.print(f" untuk menuju link")
+
         questionary.print(f"\n> Membuat Server Mini di:")
         questionary.print(f"{DIRECTORY}", style="bold")
-
         questionary.print("\n> Server lokal aktif di:")
-        questionary.print(f"{url}", style="fg:ansigreen bold underline")
+        questionary.print(f"{url}", style="fg:ansigreen bold underline", end="")
+        questionary.print(f" (Ctrl + Klik Link)", style="bold", end="")
+        questionary.print(f" untuk menuju link")
 
         questionary.print("\n> Akses di perangkat lain (di jaringan yg sama):")
         cekIp()                
+        questionary.print(f" (Ctrl + Klik Link)", style="bold", end="")
+        questionary.print(f" untuk menuju link")
+        questionary.print(f"  *Izinkan firewall agar bisa diakses perangkat lain")
 
-        questionary.print("\n> ",end="")
-        questionary.print("Info:", style="fg:ansiblue")
-
+        questionary.print("\n> Info:")
         questionary.print("Tekan ",end="")
         questionary.print("Ctrl + C atau tutup terminal ini", style="bold underline fg:ansiyellow", end="")
         questionary.print(" untuk mematikan server.")
+
         questionary.print("\nSERVER INI DIBUAT SANGAT SPESIFIK UNTUK ENVIRONMENT FRONT END", style="bold")
         questionary.print("Tanpa koneksi database, tanpa PHP, tanpa NodeJS (server-side).")
         questionary.print("Arsitektur dibuat sangat spesifik meniru Github-Pages")
-        questionary.print("TIDAK untuk port forwarding ke publik!", style="bold")
+        questionary.print("TIDAK untuk port forwarding ke publik! Sebaiknya baca source-code terkait hal ini", style="bold")
 
         questionary.print("\n> ",end="")
         questionary.print("Lalu lintas server:", style="fg:ansiyellow")
