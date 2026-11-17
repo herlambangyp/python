@@ -1,3 +1,4 @@
+from script.textCLI import pesanCLI
 import http.server
 import socketserver
 import webbrowser
@@ -5,8 +6,7 @@ import os
 import sys
 import socket
 import questionary
-
-# YA YA YA, code garapi, ga kaya python. Bro aku kebiasa JS!
+import html
 
 if getattr(sys, 'frozen', False):
     DIRECTORY = os.path.dirname(sys.executable)
@@ -23,21 +23,36 @@ def cariPortKosong(defaultPort=8000):
 
 PORT = cariPortKosong()
 
-
-def cekIp():
-    try:
-        mainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        mainSocket.connect(("8.8.8.8", 80))
-        ip = mainSocket.getsockname()[0]
-        mainSocket.close()
-        return questionary.print(f"http://{ip}:{PORT}", style="fg:ansigreen bold underline", end="")
-    
-    except Exception:
-        return questionary.print("ERROR: Gagal ekspose ke jaringan lokal. Apakah jaringan lokal mati?", style="fg:ansired bold")
-
 class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
+
+    def send_error(self, code, message=None, explain=None):
+
+        if code == 404:
+            content = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>404 - Not Found</title>
+            </head>
+            <body>
+                <h1>404 - Not Found</h1>
+                <p>Halaman yang kamu cari tidak ditemukan.</p>
+            </body>
+            </html>
+            """.encode("utf-8")
+
+            self.send_response(404)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(content)))
+            self.end_headers()
+
+            if self.command != "HEAD":
+                self.wfile.write(content)
+
+        else:
+            super().send_error(code, message, explain)
 
     def end_headers(self):
         self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
@@ -53,53 +68,12 @@ if __name__ == "__main__":
     url = f"http://localhost:{PORT}"
     
     with ReusableTCPServer(("0.0.0.0", PORT), DevHTTPRequestHandler) as httpd:
-
-        questionary.print("\n> ",end="")
-        questionary.print("By Herlambang YP", style="bold fg:ansicyan")
-        questionary.print("Source-code: ",end="")
-        questionary.print("https://github.com/herlambangyp/python/tree/main/miniServer", style="underline")
-        questionary.print(f"(Ctrl + Klik Link)", style="bold")
-
-        questionary.print(f"\n> Membuat Server Mini di:")
-        questionary.print(f"  {DIRECTORY}", style="bold")
-
-        questionary.print("\n> Server lokal aktif di:")
-        questionary.print("  ",end="")                
-        questionary.print(f"{url}", style="fg:ansigreen bold underline", end="")
-        questionary.print(f" (Ctrl + Klik Link)", style="bold")
-
-        questionary.print("\n> Akses di perangkat lain (di jaringan yg sama):")
-        questionary.print("  ",end="")        
-        cekIp()                
-        questionary.print(" (Ctrl + Klik Link)", style="bold")
-        questionary.print("  *Izinkan firewall agar bisa diakses perangkat lain" )
-        questionary.print("  *Jika tetap tidak tampil di perangkat lain:" )
-        questionary.print("    - Lakukan ping ke perangkat yg dituju melalui CMD" )
-        questionary.print("    - Misalnya: ", end="" )
-        questionary.print("ping ", style="fg:ansiyellow", end="")
-        questionary.print("192.168.11.134 ", style="bold", end="")
-        questionary.print("(ip perangkat lain)")
-        questionary.print("    - Jika ping berhasil, buka lagi website di perangkat lain." )
-        questionary.print("    - Tidak perlu melakukanya untuk semua perangkat" )
-        questionary.print("    - 1 Perangkat terhubung, seharusnya bisa memicu pembaruan seluruh koneksi" )
-
-        questionary.print("\n> Info:")
-        questionary.print("  Tekan ",end="")
-        questionary.print("Ctrl + C atau tutup terminal ini", style="bold underline fg:ansiyellow", end="")
-        questionary.print(" untuk mematikan server.")
-
-        questionary.print("\n  SERVER INI DIBUAT SANGAT SPESIFIK UNTUK ENVIRONMENT FRONT END LOKAL", style="bold")
-        questionary.print("  Tanpa koneksi database, tanpa PHP, tanpa NodeJS (server-side).")
-        questionary.print("  Arsitektur dibuat sangat spesifik meniru Github-Pages")
-        questionary.print("  TIDAK untuk port forwarding (hosting server) ke publik! Baca source-code terkait hal ini", style="bold")
-
-        questionary.print("\n> ",end="")
-        questionary.print("Lalu lintas server:", style="fg:ansiyellow")
-        questionary.print('\nIP yang request - - [Waktu request] "method dan yang di request" kode respon server\n')
-        
-        webbrowser.open(url)
+        pesanCLI(DIRECTORY, PORT, url)
+        # webbrowser.open(url)
         
         try:
             httpd.serve_forever()
+            
         except KeyboardInterrupt:
             questionary.print("\n> Mematikan Server...", style="bold fg:ansired")
+            httpd.server_close()
