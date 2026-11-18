@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIRECTORY LISTING</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0b0e14;
+            color: #e2e8f0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            background-color: #151a24;
+            border: 2px solid #2d3748;
+            border-radius: 0px;
+            box-shadow: 8px 8px 0px #000000;
+        }
+
+        .header {
+            padding: 24px 28px;
+            border-bottom: 2px solid #2d3748;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            background-color: #3b82f6;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 3px;
+            border-radius: 3px;
+        }
+
+        .path-bar {
+            background-color: #0b0e14;
+            padding: 12px 28px;
+            border-bottom: 2px solid #2d3748;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 14px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .path-bar span {
+            color: #3b82f6;
+            font-weight: 700;
+        }
+
+        .list-header {
+            display: grid;
+            grid-template-columns: 1fr 120px;
+            padding: 12px 28px;
+            background-color: #1e2533;
+            border-bottom: 2px solid #2d3748;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+        }
+
+        .list-header div:last-child {
+            text-align: right;
+        }
+
+        .file-list {
+            list-style: none;
+        }
+
+        .file-list li {
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .file-list li:last-child {
+            border-bottom: none;
+        }
+
+        .file-item {
+            display: grid;
+            grid-template-columns: 1fr 120px;
+            align-items: center;
+            padding: 14px 28px;
+            text-decoration: none;
+            color: #e2e8f0;
+            transition: background-color 0.15s, padding-left 0.15s;
+        }
+
+        .file-item:hover {
+            background-color: #1e293b;
+            padding-left: 34px;
+        }
+
+        .item-name {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 15px;
+        }
+
+        .is-folder .item-name {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .file-item:hover .item-name {
+            color: #3b82f6;
+        }
+
+        .item-type {
+            text-align: right;
+            font-size: 12px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 16px 28px;
+            border-top: 2px solid #2d3748;
+            background-color: #0b0e14;
+            font-size: 12px;
+            color: #64748b;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+
+    <svg width="0" height="0" style="display: none;" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ikon Parent Directory (..) -->
+        <symbol id="icon-up" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="square"
+            stroke-linejoin="miter">
+            <path d="M9 14L4 9l5-5" />
+            <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11" />
+        </symbol>
+
+        <!-- Ikon Folder Kotak -->
+        <symbol id="icon-folder" viewBox="0 0 24 24" fill="#3b82f6" stroke="#60a5fa" stroke-width="1.5"
+            stroke-linecap="square" stroke-linejoin="miter">
+            <path d="M2 4h7l2 2h11v14H2V4z" />
+        </symbol>
+
+        <!-- Ikon File Umum -->
+        <symbol id="icon-file" viewBox="0 0 24 24" fill="#1e293b" stroke="#94a3b8" stroke-width="2"
+            stroke-linecap="square" stroke-linejoin="miter">
+            <path d="M4 2h11l5 5v15H4V2z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="8" y1="13" x2="16" y2="13" />
+            <line x1="8" y1="17" x2="13" y2="17" />
+        </symbol>
+
+        <!-- Ikon File Config / System (.cfg, .gitignore) -->
+        <symbol id="icon-config" viewBox="0 0 24 24" fill="#1e293b" stroke="#eab308" stroke-width="2"
+            stroke-linecap="square" stroke-linejoin="miter">
+            <path d="M4 2h11l5 5v15H4V2z" />
+            <polyline points="14 2 14 8 20 8" />
+            <rect x="9" y="12" width="6" height="6" />
+        </symbol>
+    </svg>
+
+    <main class="container">
+        <!-- Header -->
+        <header class="header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <svg class="icon">
+                    <use href="#icon-folder"></use>
+                </svg>
+                <div>
+                    <span class="badge">HYP MINI SERVER</span>
+                    <h1>
+                        DIRECTORY LISTING
+                    </h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Lokasi Direktori -->
+        <div class="path-bar">
+            <span>LOKASI:</span> {{directoryPath}}
+        </div>
+
+        <!-- Header Kolom -->
+        <div class="list-header">
+            <div>Nama Item</div>
+            <div>Tipe</div>
+        </div>
+
+        <ul class="file-list">
+            {{directoryContent}}
+        </ul>
+
+        <footer class="footer">
+            <span>{{itemCount}} items ({{folderCount}} folders, {{fileCount}} files)</span>
+        </footer>
+    </main>
+
+</body>
+
+</html>
