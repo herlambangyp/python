@@ -16,7 +16,7 @@ Tersedia 2 aplikasi atau script:
 ## Penggunaan (`main.py`)
 Build dulu dengan perintah ini
 ```bash
-py -m PyInstaller --onefile --console --icon="lg.png" --copy-metadata questionary --copy-metadata prompt_toolkit --name "HYP_miniServer" main.py
+py -m PyInstaller --onefile --console --icon="assets/icon/lg.png" --add-data "assets/html;assets/html" --add-data "assets/icon;assets/icon" --copy-metadata questionary --copy-metadata prompt_toolkit --name "HYP_miniServer" main.py
 ```
 Lalu ikuti cara penggunaan aplikasi jadi
 

@@ -8,6 +8,7 @@ import sys
 import socket
 import questionary
 import html
+import time
 
 if getattr(sys, 'frozen', False):
     DIRECTORY = os.path.dirname(sys.executable)
@@ -44,6 +45,7 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
                 content = content.replace("{{errorCode}}", str(code))
                 content = content.replace("{{errorMessage}}", html.escape(message))
+                content = content.replace("{{dateNowPy}}", str(time.time()))
                 content = content.encode("utf-8")
 
                 self.send_response(code)
@@ -115,6 +117,18 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 elif extension in (".css", ".scss" ):
                     icon = "icon-style"
                     itemType = "WEB STYLE"
+
+                elif extension in (".png", ".jpg", ".jpeg",".webp", ".gif"  ):
+                    icon = "icon-style"
+                    itemType = "Image"
+
+                elif extension in (".mp4", ".mov", ".mkv", ".avi", ".webm"  ):
+                    icon = "icon-video"
+                    itemType = "Video"
+
+                elif extension in (".mp3", ".wav", ".aac", ".flac", ".ogg", ".wma" ):
+                    icon = "icon-sound"
+                    itemType = "Sound"
 
                 elif extension:
                     icon = "icon-file"
