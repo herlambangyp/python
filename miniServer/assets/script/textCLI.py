@@ -14,17 +14,20 @@ def cekIp(port=8000):
 
 
 def pesanCLI(dir='', port=8000, link="url"):
-    questionary.print("\n> ",end="")
+    questionary.print("> ",end="")
     questionary.print("By Herlambang YP", style="bold fg:ansicyan")
     questionary.print("Source-code: ",end="")
     questionary.print("https://github.com/herlambangyp/python/tree/main/miniServer", style="underline")
     questionary.print(f"(Ctrl + Klik Link)", style="bold")
+
     questionary.print(f"\n> Membuat Server Mini di:")
     questionary.print(f"  {dir}", style="bold")
+
     questionary.print("\n> Server lokal aktif di:")
     questionary.print("  ",end="")                
     questionary.print(f"{link}", style="fg:ansigreen bold underline", end="")
     questionary.print(f" (Ctrl + Klik Link)", style="bold")
+
     questionary.print("\n> Akses di perangkat lain (di jaringan yg sama):")
     questionary.print("  ",end="")        
     cekIp(port)                
@@ -39,14 +42,23 @@ def pesanCLI(dir='', port=8000, link="url"):
     questionary.print("    - Jika ping berhasil, buka lagi website di perangkat lain." )
     questionary.print("    - Tidak perlu melakukanya untuk semua perangkat" )
     questionary.print("    - 1 Perangkat terhubung, seharusnya bisa memicu pembaruan seluruh koneksi" )
-    questionary.print("\n> Info:")
+
+    questionary.print("\n> ",end="")
+    questionary.print("Info:", style="fg:ansicyan")
     questionary.print("  Tekan ",end="")
-    questionary.print("Ctrl + C atau tutup terminal ini", style="bold underline fg:ansiyellow", end="")
+    questionary.print("Ctrl + C atau tutup terminal ini", style="bold fg:ansiyellow", end="")
     questionary.print(" untuk mematikan server.")
+
+    questionary.print("\n  Pengaturan Server:")
+    questionary.print("  ",end="")                
+    questionary.print(f"{link}/settings", style="fg:ansiyellow bold underline", end="")
+    questionary.print(f" (Ctrl + Klik Link)", style="bold")
+
     questionary.print("\n  SERVER INI DIBUAT SANGAT SPESIFIK UNTUK ENVIRONMENT FRONT END LOKAL", style="bold")
     questionary.print("  Tanpa koneksi database, tanpa PHP, tanpa NodeJS (server-side).")
     questionary.print("  Arsitektur dibuat sangat spesifik meniru Github-Pages")
     questionary.print("  TIDAK untuk port forwarding (hosting server) ke publik! Baca source-code terkait hal ini", style="bold")
+
     questionary.print("\n> ",end="")
     questionary.print("Lalu lintas server:", style="fg:ansiyellow")
     questionary.print('\nIP yang request - - [Waktu request] "method dan yang di request" kode respon server\n')
