@@ -43,8 +43,7 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                     content = file.read()
 
                 content = content.replace("{{errorCode}}", str(code))
-                content = content.replace("{{errorMessage}}", html.escape(message or "Terjadi kesalahan."))
-                content = content.replace("{{errorExplain}}", html.escape(explain or "Terjadi kesalahan."))
+                content = content.replace("{{errorMessage}}", html.escape(message))
                 content = content.encode("utf-8")
 
                 self.send_response(code)
@@ -69,7 +68,7 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(404, "Directory not accessible")
             return None
 
-        # Folder ditampilkan lebih dahulu
+        # Folder ditampilkan dulu
         entries.sort(key=lambda name: (
             not os.path.isdir(os.path.join(path, name)),
             name.lower()
@@ -83,7 +82,7 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             fullname = os.path.join(path, name)
             isFolder = os.path.isdir(fullname)
 
-            # URL untuk membuka item
+            # URL item
             href = quote(name, safe="")
             displayName = name
 
@@ -100,10 +99,22 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 fileCount += 1
                 extension = os.path.splitext(name)[1].lower()
 
-                # Identifikasi file konfigurasi
+                # cek jenis file
                 if name.startswith(".") or extension in (".cfg", ".ini", ".conf"):
                     icon = "icon-config"
                     itemType = "Config"
+
+                elif extension in (".html", ".php"):
+                    icon = "icon-doc"
+                    itemType = "WEB DOCUMENT"
+
+                elif extension in (".js", ".ts" ):
+                    icon = "icon-config"
+                    itemType = "WEB SCRIPT"
+
+                elif extension in (".css", ".scss" ):
+                    icon = "icon-style"
+                    itemType = "WEB STYLE"
 
                 elif extension:
                     icon = "icon-file"
@@ -154,11 +165,7 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             return super().list_directory(path)
 
         # Ganti placeholder
-        content = content.replace(
-            "{{directoryPath}}",
-            html.escape(currentPath)
-        )
-
+        content = content.replace("{{directoryPath}}",html.escape(currentPath))
         content = content.replace("{{directoryContent}}", items)
         content = content.replace("{{itemCount}}", str(folderCount + fileCount))
         content = content.replace("{{folderCount}}", str(folderCount))
@@ -175,6 +182,15 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(content)
 
         return None
+
+    def translate_path(self, path):
+        urlPath = urlsplit(path).path
+
+        # Sediakan icon
+        if urlPath == "/__mini_server__/favicon.png":
+            return resourcePath("assets/icon/lg.png")
+
+        return super().translate_path(path)
 
     def end_headers(self):
         self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")

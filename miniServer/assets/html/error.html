@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{errorCode}} - {{errorMassage}}</title>
+  <link rel="icon" type="image/png" href="/__mini_server__/favicon.png">
   <style>
     * {
       margin: 0;
@@ -31,6 +33,15 @@
       padding: 48px 32px;
       border-radius: 0px;
       box-shadow: 8px 8px 0px #000000;
+    }
+
+    .badge {
+      background-color: #3b82f6;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 3px;
+      border-radius: 3px;
     }
 
     .error-code {
@@ -92,57 +103,71 @@
       margin-top: 12px;
     }
 
-    .credits a {
+    a {
       color: #94a3b8;
       text-decoration: none;
       border-bottom: 1px solid #64748b;
     }
 
-    .credits a:hover {
+    a:hover {
       color: #ffffff;
     }
   </style>
 </head>
+
 <body>
 
   <main class="container">
     <div class="error-code">{{errorCode}}</div>
     <h1 class="error-title">{{errorMessage}}</h1>
     <p class="error-desc">
-      {{errorExplain}}
+      The server failed to complete your request due to a validation issue, access restriction, or an internal service
+      error
     </p>
-    
+
     <!-- Ilustrasi SVG bawaan (tanpa gambar eksternal) -->
     <div class="illustration">
       <svg viewBox="0 0 300 160" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
         <!-- Grid background kotak -->
-        <rect x="10" y="10" width="280" height="140" fill="#0b0e14" stroke="#2d3748" stroke-width="2"/>
-        <line x1="10" y1="45" x2="290" y2="45" stroke="#2d3748" stroke-width="2"/>
-        
+        <rect x="10" y="10" width="280" height="140" fill="#0b0e14" stroke="#2d3748" stroke-width="2" />
+        <line x1="10" y1="45" x2="290" y2="45" stroke="#2d3748" stroke-width="2" />
+
         <!-- Tombol window kotak -->
-        <rect x="22" y="22" width="10" height="10" fill="#ef4444"/>
-        <rect x="38" y="22" width="10" height="10" fill="#eab308"/>
-        <rect x="54" y="22" width="10" height="10" fill="#22c55e"/>
-        
+        <rect x="22" y="22" width="10" height="10" fill="#ef4444" />
+        <rect x="38" y="22" width="10" height="10" fill="#eab308" />
+        <rect x="54" y="22" width="10" height="10" fill="#22c55e" />
+
         <!-- Elemen blok rusak/terpisah -->
-        <rect x="45" y="70" width="60" height="55" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
-        <line x1="60" y1="88" x2="90" y2="108" stroke="#ef4444" stroke-width="3"/>
-        <line x1="90" y1="88" x2="60" y2="108" stroke="#ef4444" stroke-width="3"/>
+        <rect x="45" y="70" width="60" height="55" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+        <image href="/__mini_server__/favicon.png" x="52" y="75" width="46" height="46"
+          preserveAspectRatio="xMidYMid meet" />
 
         <!-- Garis putus-putus koneksi terputus -->
-        <line x1="115" y1="97" x2="175" y2="97" stroke="#64748b" stroke-width="2" stroke-dasharray="6,6"/>
+        <line x1="115" y1="97" x2="175" y2="97" stroke="#64748b" stroke-width="2" stroke-dasharray="6,6" />
 
+        <line x1="155" y1="87" x2="135" y2="107" stroke="#ef4444" stroke-width="3" />
+        <line x1="135" y1="87" x2="155" y2="107" stroke="#ef4444" stroke-width="3" />
         <!-- Blok tujuan kosong -->
-        <rect x="185" y="70" width="70" height="55" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="5,5"/>
-        <rect x="205" y="88" width="30" height="6" fill="#334155"/>
-        <rect x="205" y="100" width="20" height="6" fill="#334155"/>
+        <!-- Blok tujuan berisi teks .Net -->
+        <rect x="185" y="70" width="70" height="55" fill="#1e293b" stroke="#64748b" stroke-width="2"
+          stroke-dasharray="5,5" />
+        <text x="220" y="98" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Consolas, monospace"
+          font-size="22" font-weight="700" text-anchor="middle" dominant-baseline="central">.PATH</text>
       </svg>
+      <!-- <img style="
+    max-height: 35px;
+    position: relative;
+    bottom: 77px;
+    right: 64px;
+" src="lg.png"> -->
     </div>
 
     <div class="credits">
-      By @Herlambang YP<br>
+      <span class="badge">HYP MINI SERVER</span>
+      By <a href="https://herlambangyp.github.io/">@Herlambang YP</a>
     </div>
   </main>
 
 </body>
+
 </html>
