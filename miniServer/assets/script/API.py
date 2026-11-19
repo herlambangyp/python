@@ -1,48 +1,65 @@
 
 from assets.script.respon import kirimRespon
-from assets.script.config import SETTINGS
+from assets.script.config import SETTINGS, saveSettings
 import ipaddress
-
+import json
 
 def isLocalhost(self):
     ip = ipaddress.ip_address(self.client_address[0])
     return ip.is_loopback
 
+def ambilJSON(self):
+    length = int(self.headers.get("Content-Length", 0))
+    body = self.rfile.read(length).decode("utf-8")
+    return json.loads(body)
 
 def api_get(self, urlPath, resourcePath, port):
 
     if urlPath.rstrip("/") == "/settings":
-
         if not isLocalhost(self):
-            self.send_error(
-                403,
-                "Server settings only allowed in localhost"
-            )
+            self.send_error(403,"Server settings only allowed in localhost")
             return True
 
         try:
-            with open(
-                resourcePath("assets/html/settings.html"),
-                "r",
-                encoding="utf-8"
-            ) as file:
+            with open(resourcePath("assets/html/settings.html"),"r",encoding="utf-8") as file:
                 content = file.read()
 
             content = content.replace("{{dataPort}}", str(port))
-            content = content.replace(
-                "{{noCache}}",
-                str(SETTINGS["no_cache"])
-            )
-
-            kirimRespon(
-                self,
-                content,
-                "text/html; charset=utf-8"
-            )
+            content = content.replace("{{noCache}}",str(SETTINGS["no_cache"]))
+            kirimRespon(self,content,"text/html; charset=utf-8")
 
         except OSError:
             self.send_error(404)
-
         return True
 
     return False
+
+def api_post(self):
+    if self.path == "/api/settings":
+        try:
+            data = ambilJSON(self)
+            if not isinstance(data, dict):
+                raise ValueError("Data harus berupa JSON object")
+            
+            if "no_cache" not in data or not isinstance(data["no_cache"], bool):
+                raise ValueError("Pengaturan no_cache tidak valid")
+            
+            saveSettings({"no_cache": data["no_cache"]})
+            kirimRespon(self, json.dumps({
+                "success": True,
+                "message": "Pengaturan berhasil disimpan",
+                "settings": SETTINGS
+            }))
+        except (ValueError, json.JSONDecodeError, UnicodeDecodeError):
+            kirimRespon(self, json.dumps({
+                "success": False,
+                "message": "Data pengaturan tidak valid"
+            }))
+
+    if self.path == "/api/test":
+        kirimRespon(self,'{"message": "Halo dari Python!"}')
+        
+    else:
+        self.send_error(404)
+
+

@@ -1,5 +1,5 @@
 from assets.script.textCLI import pesanCLI
-from assets.script.API import api_get
+from assets.script.API import api_get, api_post
 from assets.script.respon import kirimRespon
 from assets.script.exploreFormater import fileFormatter
 from assets.script.config import SETTINGS, loadSettings, saveSettings
@@ -39,10 +39,6 @@ def resourcePath(relativePath):
 
     return os.path.join(basePath, relativePath)
 
-def ambilJSON(self):
-    length = int(self.headers.get("Content-Length", 0))
-    body = self.rfile.read(length).decode("utf-8")
-    return json.loads(body)
 
 class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -72,13 +68,10 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(404, "Directory not accessible")
             return None
 
-        # Folder ditampilkan dulu
-        entries.sort(key=lambda name: (
-            not os.path.isdir(os.path.join(path, name)),
-            name.lower()
-        ))
+        entries.sort(key=lambda name: (not os.path.isdir(os.path.join(path, name)),name.lower()))
 
-        currentPath, items, fileCount, folderCount = fileFormatter(self, entries, path)        
+        currentPath, items, fileCount, folderCount = fileFormatter(self, entries, path)    
+
         try:
             with open(resourcePath("assets/html/fileExplorer.html"), "r", encoding="utf-8") as file:
                 content = file.read()
@@ -108,36 +101,9 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             return
 
         super().do_GET()
+        
     def do_POST(self):
-        if self.path == "/api/settings":
-            try:
-                data = ambilJSON(self)
-
-                if not isinstance(data, dict):
-                    raise ValueError("Data harus berupa JSON object")
-
-                if "no_cache" not in data or not isinstance(data["no_cache"], bool):
-                    raise ValueError("Pengaturan no_cache tidak valid")
-
-                saveSettings({"no_cache": data["no_cache"]})
-
-                kirimRespon(self, json.dumps({
-                    "success": True,
-                    "message": "Pengaturan berhasil disimpan",
-                    "settings": SETTINGS
-                }))
-
-            except (ValueError, json.JSONDecodeError, UnicodeDecodeError):
-                kirimRespon(self, json.dumps({
-                    "success": False,
-                    "message": "Data pengaturan tidak valid"
-                }))
-            
-        if self.path == "/api/test":
-            kirimRespon(self,'{"message": "Halo dari Python!"}')
-
-        else:
-            self.send_error(404)
+        api_post(self)
 
     def end_headers(self):
         if SETTINGS["no_cache"]:
