@@ -1,6 +1,8 @@
 from assets.script.textCLI import pesanCLI
+from assets.script.API import api_get
 from assets.script.respon import kirimRespon
 from assets.script.exploreFormater import fileFormatter
+from assets.script.config import SETTINGS, loadSettings, saveSettings
 from urllib.parse import urlsplit
 import http.server
 import socketserver
@@ -26,7 +28,8 @@ def cariPortKosong(defaultPort=8000):
                 return port
             port += 1
 
-PORT = cariPortKosong()
+loadSettings()
+PORT = cariPortKosong(SETTINGS["port"])
 
 def resourcePath(relativePath):
     if getattr(sys, 'frozen', False):
@@ -101,22 +104,34 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     
     def do_GET(self):
         urlPath = urlsplit(self.path).path
-
-        if urlPath.rstrip("/") == "/settings":
-            try:
-                with open(resourcePath("assets/html/settings.html"), "r", encoding="utf-8") as file:
-                    content = file.read()
-                    content = content.replace("{{dataPort}}", str(PORT))
-                    kirimRespon(self,content, "text/html; charset=utf-8")
-                    return
-
-            except OSError:
-                self.send_error(404)
-                return
-
+        api_get(self, urlPath)
         super().do_GET()
 
     def do_POST(self):
+        if self.path == "/api/settings":
+            try:
+                data = ambilJSON(self)
+
+                if not isinstance(data, dict):
+                    raise ValueError("Data harus berupa JSON object")
+
+                if "no_cache" not in data or not isinstance(data["no_cache"], bool):
+                    raise ValueError("Pengaturan no_cache tidak valid")
+
+                saveSettings({"no_cache": data["no_cache"]})
+
+                kirimRespon(self, json.dumps({
+                    "success": True,
+                    "message": "Pengaturan berhasil disimpan",
+                    "settings": SETTINGS
+                }))
+
+            except (ValueError, json.JSONDecodeError, UnicodeDecodeError):
+                kirimRespon(self, json.dumps({
+                    "success": False,
+                    "message": "Data pengaturan tidak valid"
+                }))
+            
         if self.path == "/api/test":
             kirimRespon(self,'{"message": "Halo dari Python!"}')
 
@@ -124,9 +139,10 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(404)
 
     def end_headers(self):
-        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
-        self.send_header("Pragma", "no-cache")
-        self.send_header("Expires", "0")
+        if SETTINGS["no_cache"]:
+            self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
         self.send_header("Access-Control-Allow-Origin", "*")
         super().end_headers()
 

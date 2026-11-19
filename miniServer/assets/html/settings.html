@@ -283,6 +283,7 @@
             }
         }
     </style>
+    
 </head>
 
 <body>
@@ -343,7 +344,7 @@
                     </div>
                     <div class="setting-control">
                         <label class="checkbox-wrapper">
-                            <input type="checkbox" id="no_cache" name="no_cache" checked>
+                            <input type="checkbox" id="no_cache" name="no_cache">
                             <span>NO-CACHE</span>
                         </label>
                     </div>
@@ -378,7 +379,37 @@
 
         </footer>
     </main>
+<script>
+document.querySelector(".btn-primary").addEventListener("click", async (event) => {
+    event.preventDefault();
 
+    let noCache = document.getElementById("no_cache").checked;
+
+    try {
+        const response = await fetch("/api/settings", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                no_cache: noCache
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert("Pengaturan berhasil disimpan!");
+        } else {
+            alert(result.message);
+        }
+
+    } catch (error) {
+        alert("Gagal menghubungi Mini Server.");
+        console.error(error);
+    }
+});
+</script>
 </body>
 
 </html>
