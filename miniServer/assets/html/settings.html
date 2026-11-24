@@ -327,14 +327,29 @@
             <div class="setting-row">
                 <div class="setting-info">
                     <label for="bahasa"><span class="ind">Bahasa</span><span class="en">Language</span></label>
-                    <p class="ind">Menentukan bahasa untuk menu, pesan error, dan notifikasi sistem miniserver. (Bukan bahasa web yang dipreview)</p>
-                    <p class="en">Sets the display language for miniserver menus, error message, and system notifications. (Not web preview language)</p>
+                    <p class="ind">Menentukan bahasa untuk menu, pesan error, dan notifikasi sistem miniserver. (Bukan
+                        bahasa web yang dipreview)</p>
+                    <p class="en">Sets the display language for miniserver menus, error message, and system
+                        notifications. (Not web preview language)</p>
                 </div>
                 <div class="setting-control">
                     <select id="bahasaServer" name="bahasa">
                         <option value="en">English</option>
                         <option value="id">Indonesia</option>
                     </select>
+                </div>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label for="bahasa"><span class="ind">Lokasi File Konfigurasi</span><span class="en">Config
+                            File Location</span></label>
+                    <p class="ind">Seluruh File atau folder aman dihapus kapan
+                        saja jika miniserver sudah tidak digunakan</p>
+                    <p class="en">Any files or folder deletable in those
+                        directory</p>
+                </div>
+                <div class="setting-control" style="font-size: x-small;color: gray;">
+                    {{directoryConfig}}
                 </div>
             </div>
         </div>
@@ -371,6 +386,24 @@
                     <label class="checkbox-wrapper">
                         <input type="checkbox" id="dir_listing" name="dir_listing" {{ceklistDirList}}>
                         <span>ENABLED</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label for="serverAkses"><span class="ind">Akses Pengaturan Server</span><span class="en">Server
+                            Settings Access</span></label>
+                    <p class="ind">Izinkan semua perangkat yang terhubung ke miniserver untuk mengubah pengaturan. Jika
+                        tidak, akses hanya untuk localhost (komputer induk).</p>
+                    <p class="en">Allow all devices connected to the miniserver to modify settings. When unchecked,
+                        access is restricted to localhost (host computer) only.</p>
+                </div>
+                <div class="setting-control">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="serverAkses" name="serverAkses" {{ceklistAkses}}>
+                        <span class="en">ENABLED</span>
+                        <span class="ind">IZINKAN SEMUA</span>
                     </label>
                 </div>
             </div>
@@ -428,7 +461,8 @@
             noCache = $("#no_cache"),
             bahasaServer = $("#bahasaServer"),
             dir_listing = $('#dir_listing')
-            cors_mode = $('#cors_mode')
+        cors_mode = $('#cors_mode'),
+        serverAkses = $('#serverAkses')
 
         bahasaServer.value = `{{lang}}`
         cors_mode.value = `{{CORS}}`
@@ -444,7 +478,8 @@
                     },
                     body: JSON.stringify({
                         no_cache: noCache.checked,
-                        dir_listing : dir_listing.checked,
+                        dir_listing: dir_listing.checked,
+                        serverAkses: serverAkses.checked,
                         CORS: cors_mode.value,
                         lang: bahasaServer.value
                     })

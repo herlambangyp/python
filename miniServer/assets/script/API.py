@@ -1,6 +1,6 @@
 
 from assets.script.respon import kirimRespon
-from assets.script.config import saveSettings, loadSettings
+from assets.script.config import saveSettings, loadSettings, CONFIG_FILE
 from assets.script.errorMassage import msgError
 
 import ipaddress
@@ -20,8 +20,8 @@ def ambilJSON(self):
 def api_get(self, urlPath, resourcePath, port):
 
     if urlPath.rstrip("/") == "/settings":
-        if not isLocalhost(self):
-            self.send_error(403,"Server settings only allowed in localhost")
+        if not isLocalhost(self) and not SETTINGS["allSetting"]:
+            self.send_error(403,msgError["settingAkses"][SETTINGS["lang"]])
             return True
 
         try:
@@ -32,8 +32,10 @@ def api_get(self, urlPath, resourcePath, port):
             content = content.replace("{{lang}}",str(SETTINGS["lang"]))
             content = content.replace("{{CORS}}",str(SETTINGS["CORS"]))
             content = content.replace("{{noCache}}",str(SETTINGS["no_cache"]))
+            content = content.replace("{{directoryConfig}}",str(CONFIG_FILE))
             content = content.replace("{{ceklistNoCache}}", "checked" if SETTINGS["no_cache"] else "")
             content = content.replace("{{ceklistDirList}}", "checked" if SETTINGS["dir_listing"] else "")
+            content = content.replace("{{ceklistAkses}}", "checked" if SETTINGS["serverAkses"] else "")
             kirimRespon(self,content,"text/html; charset=utf-8")
 
         except OSError:
@@ -46,8 +48,8 @@ def api_get(self, urlPath, resourcePath, port):
 def api_post(self, urlPath):
 
     if urlPath == "/api/settings":
-        if not isLocalhost(self):
-            self.send_error(403,"Server settings only allowed in localhost")
+        if not isLocalhost(self) and not SETTINGS["allSetting"]:
+            self.send_error(403,msgError["settingAkses"][SETTINGS["lang"]])
             return True
 
         try:
@@ -63,6 +65,7 @@ def api_post(self, urlPath):
                 "no_cache": data["no_cache"],
                 "dir_listing": data["dir_listing"],
                 "CORS": data["CORS"],
+                "serverAkses" : data["serverAkses"],
                 "lang": data["lang"]
                 })
 

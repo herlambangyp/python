@@ -100,6 +100,9 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         if urlPath == "/miniServer/template/Error.html":
             return resourcePath("assets/html/error.html")
 
+        if urlPath == "/miniServer/template/responseModal.html":
+            return resourcePath("assets/html/responseModal.html")
+
         return super().translate_path(path)
     
     def do_GET(self):

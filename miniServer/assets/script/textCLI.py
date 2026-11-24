@@ -38,15 +38,15 @@ def pesanCLI(dir='', port=8000, link="url"):
     questionary.print("    - Misalnya: ", end="" )
     questionary.print("ping ", style="fg:ansiyellow", end="")
     questionary.print("192.168.11.134 ", style="bold", end="")
-    questionary.print("(ip perangkat lain)")
-    questionary.print("    - Jika ping berhasil, buka lagi website di perangkat lain." )
+    questionary.print("(ip perangkat lain yg dituju)")
+    questionary.print("    - Jika ping berhasil, buka lagi website di perangkat yg dituju." )
     questionary.print("    - Tidak perlu melakukanya untuk semua perangkat" )
     questionary.print("    - 1 Perangkat terhubung, seharusnya bisa memicu pembaruan seluruh koneksi" )
 
     questionary.print("\n> ",end="")
     questionary.print("Info:", style="fg:ansicyan")
     questionary.print("  Tekan ",end="")
-    questionary.print("Ctrl + C atau tutup terminal ini", style="bold fg:ansiyellow", end="")
+    questionary.print("Ctrl + C atau tutup terminal ini", style="bold fg:ansired", end="")
     questionary.print(" untuk mematikan server.")
 
     questionary.print("\n  Pengaturan Server:")

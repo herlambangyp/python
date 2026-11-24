@@ -13,6 +13,7 @@ DEFAULT_SETTINGS = {
     "lang" : "en",
     "port": 8000,
     "dir_listing": True,
+    "serverAkses": False,
     "no_cache": True,
     "CORS": "*"
 }
