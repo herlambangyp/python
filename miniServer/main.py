@@ -134,7 +134,7 @@ if __name__ == "__main__":
     
     with ReusableTCPServer(("0.0.0.0", PORT), DevHTTPRequestHandler) as httpd:
         pesanCLI(DIRECTORY, PORT, url)
-        # webbrowser.open(url)
+        webbrowser.open(url)
         
         try:
             httpd.serve_forever()

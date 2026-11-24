@@ -1,6 +1,6 @@
 
 from assets.script.respon import kirimRespon
-from assets.script.config import saveSettings, loadSettings, CONFIG_FILE
+from assets.script.config import saveSettings, loadSettings, CONFIG_FILE, resetSettings
 from assets.script.errorMassage import msgError
 
 import ipaddress
@@ -60,8 +60,14 @@ def api_post(self, urlPath):
 
             if "no_cache" not in data or not isinstance(data["no_cache"], bool):
                 raise ValueError("Pengaturan no_cache tidak valid")
+            
+            port = data.get("port")
 
+            if isinstance(port, bool) or not isinstance(port, int) or not 1 <= port <= 65535:
+                raise ValueError("Port tidak valid")
+            
             saveSettings({
+                "port": port,
                 "no_cache": data["no_cache"],
                 "dir_listing": data["dir_listing"],
                 "CORS": data["CORS"],
@@ -88,7 +94,28 @@ def api_post(self, urlPath):
             }))
 
         return True
+    elif urlPath == "/api/settings/reset":
+        if not isLocalhost(self) and not SETTINGS["serverAkses"]:
+            self.send_error(403, msgError["settingAkses"][SETTINGS["lang"]])
+            return True
 
+        try:    
+            resetSettings()
+
+            kirimRespon(self, json.dumps({
+                "success": True,
+                "restart": True,
+                "port": SETTINGS["port"],
+                "message": "Pengaturan berhasil dikembalikan ke default"
+            }))
+
+        except OSError:
+            kirimRespon(self, json.dumps({
+                "success": False,
+                "message": "Gagal mereset konfigurasi"
+            }))
+
+        return True
     elif urlPath == "/api/test":
         kirimRespon(self, '{"message": "Halo dari Python!"}')
         return True

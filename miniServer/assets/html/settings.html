@@ -362,8 +362,8 @@
             <div class="setting-row">
                 <div class="setting-info">
                     <label for="port">Server Port</label>
-                    <p class="ind">Port HTTP yang digunakan saat server berjalan.</p>
-                    <p class="en">Use specified HTTP Port when the server running</p>
+                    <p class="ind">Port HTTP yang digunakan saat server berjalan. (Perlu restart server manual)</p>
+                    <p class="en">Use specified HTTP Port when the server running. (Manually server retstart required)</p>
                 </div>
                 <div class="setting-control">
                     <input type="number" id="port" name="port" value="{{dataPort}}" min="1" max="65535">
@@ -465,7 +465,9 @@
             bahasaServer = $("#bahasaServer"),
             dir_listing = $('#dir_listing'),
             cors_mode = $('#cors_mode'),
-            serverAkses = $('#serverAkses')
+            serverAkses = $('#serverAkses'),
+            port = $("#port"),
+            portLama = port.value
 
         bahasaServer.value = `{{lang}}`
         cors_mode.value = `{{CORS}}`
@@ -480,6 +482,7 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
+                        port: Number(port.value),
                         no_cache: noCache.checked,
                         dir_listing: dir_listing.checked,
                         serverAkses: serverAkses.checked,
@@ -490,8 +493,43 @@
 
                 const result = await response.json();
 
+                if (result.success && portLama === port.value) {
+                    if (bahasaServer.value === 'id') alert("Pengaturan berhasil disimpan!")
+                    else alert('Configuration successfully saved!')
+                    console.log('portlama = ', portLama, ' port = ', port.value, ' bahasa = ', bahasaServer.value)
+                }
+                else if (result.success && portLama !== port.value) {
+                    if (bahasaServer.value === 'id') alert("Pengaturan berhasil disimpan! Perubahan port akan berlaku setelah miniserver dijalankan ulang.")
+                    else alert("Settings saved successfully! Port changes will take effect after restarting the miniserver.")
+                    console.log('portlama = ', portLama, ' port = ', port.value, ' bahasa = ', bahasaServer.value)
+                }
+                else {
+                    alert(result.message);
+                }
+
+            } catch (error) {
+                alert("Gagal menghubungi Mini Server.");
+                console.error(error);
+            }
+        };
+
+        document.querySelector(".btn-secondary").onclick = async (e) => {
+            e.preventDefault();
+
+            if(bahasaServer.value === 'id') {if (!confirm("Kembalikan seluruh pengaturan ke default?")) return}
+            else{ if (!confirm("Discard all changes and return to default config?")) return}
+
+            try {
+                const response = await fetch("/api/settings/reset", {
+                    method: "POST"
+                });
+
+                const result = await response.json();
+
                 if (result.success) {
-                    alert("Pengaturan berhasil disimpan!");
+                    if (bahasaServer.value === 'id') alert("Pengaturan berhasil direset ke default!")
+                    else alert('Configuration successfully reseted to default!')
+                    console.log('portlama = ', portLama, ' port = ', port.value, ' bahasa = ', bahasaServer.value)
                 } else {
                     alert(result.message);
                 }
@@ -501,6 +539,7 @@
                 console.error(error);
             }
         };
+
     </script>
 </body>
 
