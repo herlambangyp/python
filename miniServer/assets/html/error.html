@@ -5,8 +5,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{errorCode}} - {{errorMessage}}</title>
-  <link rel="icon" type="image/png" href="/__mini_server__/favicon.png?v={{dateNowPy}}">
+  <link rel="icon" type="image/png" href="/miniServer/icon/favicon.png?v={{dateNowPy}}">
   <style>
+    .en,
+    .ind {
+      display: none;
+    }
+
+    html[lang="en"] .en {
+      display: inherit;
+    }
+
+    html[lang="id"] .ind {
+      display: inherit;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -120,8 +133,10 @@
     <div class="error-code">{{errorCode}}</div>
     <h1 class="error-title">{{errorMessage}}</h1>
     <p class="error-desc">
-      The server failed to complete your request due to a validation issue, access restriction, or an internal service
-      error
+    <span class="ind">Server gagal memproses permintaan Anda karena kendala validasi, pembatasan akses, atau kesalahan
+      internal layanan. Silakan periksa konfigurasi server atau muat ulang halaman.</span>
+    <span class="en">The server failed to complete your request due to a validation issue, access restriction, or an
+      internal service error. Please check the server configuration or reload the page.</span>
     </p>
     <div class="illustration">
       <svg viewBox="0 0 300 160" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">

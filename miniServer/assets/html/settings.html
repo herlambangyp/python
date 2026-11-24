@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{lang}}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings - Mini Server</title>
+    <link rel="icon" type="image/png" href="/miniServer/icon/favicon.png?v={{dateNowPy}}">
     <style>
+        .en,
+        .ind {
+            display: none;
+        }
+
+        html[lang="en"] .en {
+            display: inherit;
+        }
+
+        html[lang="id"] .ind {
+            display: inherit;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -283,7 +297,7 @@
             }
         }
     </style>
-    
+
 </head>
 
 <body>
@@ -292,12 +306,11 @@
         <!-- Header -->
         <header class="header">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="/__mini_server__/favicon.png" style="max-height: 50px; width: auto;">
+                <img src="/miniServer/icon/favicon.png" style="max-height: 50px; width: auto;">
                 <div>
                     <span class="badge">HYP MINI SERVER</span>
-                    <h1>
-                        Server Settings & Configuration
-                    </h1>
+                    <h1><span class="en">Server Settings & Configuration</span><span class="ind">Pengaturan &
+                            Konfigurasi Server</span></h1>
                 </div>
             </div>
         </header>
@@ -306,70 +319,95 @@
         <div class="path-bar">
             <div><span>PATH:</span> /settings</div>
         </div>
+        <div class="section-header">
+            <span class="ind">Pengaturan Umum</span>
+            <span class="en">General Settings</span>
+        </div>
+        <div class="settings-group">
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label for="bahasa"><span class="ind">Bahasa</span><span class="en">Language</span></label>
+                    <p class="ind">Menentukan bahasa tampilan untuk seluruh menu dan notifikasi sistem miniserver.</p>
+                    <p class="en">Sets the display language for all miniserver menus and system notifications.</p>
+                </div>
+                <div class="setting-control">
+                    <select id="bahasaServer" name="bahasa">
+                        <option value="en">English</option>
+                        <option value="id">Indonesia</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
-            <!-- Bagian 1: Network & Server -->
-            <div class="section-header">Network &amp; Binding</div>
-            <div class="settings-group">
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <label for="port">Server Port</label>
-                        <p>Port HTTP yang digunakan saat server berjalan.</p>
-                    </div>
-                    <div class="setting-control">
-                        <input type="number" id="port" name="port" value="{{dataPort}}" min="1" max="65535">
-                    </div>
+        <div class="section-header">
+            <span class="ind">Jaringan & Koneksi</span>
+            <span class="en">Network &amp; Binding</span>
+        </div>
+        <div class="settings-group">
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label for="port">Server Port</label>
+                    <p>Port HTTP yang digunakan saat server berjalan.</p>
+                </div>
+                <div class="setting-control">
+                    <input type="number" id="port" name="port" value="{{dataPort}}" min="1" max="65535">
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <span class="ind">Sistem & Perilaku Browser</span>
+            <span class="en">Behavior &amp; Headers</span>
+        </div>
+        <div class="settings-group">
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label for="dir_listing">Directory Listing</label>
+                    <p class="ind">Tampilkan daftar isi folder jika file index.html tidak ditemukan.</p>
+                    <p class="en">Explore server directory whenever index.html could'nt be found</p>
+                </div>
+                <div class="setting-control">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="dir_listing" name="dir_listing" checked>
+                        <span>ENABLED</span>
+                    </label>
                 </div>
             </div>
 
-            <!-- Bagian 2: Behavior & Headers -->
-            <div class="section-header">Behavior &amp; Headers</div>
-            <div class="settings-group">
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <label for="dir_listing">Directory Listing</label>
-                        <p>Tampilkan daftar isi folder jika file index.html tidak ditemukan.</p>
-                    </div>
-                    <div class="setting-control">
-                        <label class="checkbox-wrapper">
-                            <input type="checkbox" id="dir_listing" name="dir_listing" checked>
-                            <span>ENABLED</span>
-                        </label>
-                    </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label for="no_cache"><span class="en"> Disable Browser Cache</span><span class="ind">Matikan Cache
+                            Browser</span></label>
+                    <p>Kirim header Cache-Control: no-store untuk live development.</p>
                 </div>
-
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <label for="no_cache">Disable Browser Cache</label>
-                        <p>Kirim header Cache-Control: no-store untuk live development.</p>
-                    </div>
-                    <div class="setting-control">
-                        <label class="checkbox-wrapper">
-                            <input type="checkbox" id="no_cache" name="no_cache">
-                            <span>NO-CACHE</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <label for="cors_mode">CORS Policy</label>
-                        <p>Atur header Access-Control-Allow-Origin untuk request API/Fetch.</p>
-                    </div>
-                    <div class="setting-control">
-                        <select id="cors_mode" name="cors_mode">
-                            <option value="*" selected>Allow All (*)</option>
-                            <option value="same-origin">Same Origin Only</option>
-                            <option value="disabled">Disabled</option>
-                        </select>
-                    </div>
+                <div class="setting-control">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="no_cache" name="no_cache" {{ceklistNoCache}}>
+                        <span>NO-CACHE</span>
+                    </label>
                 </div>
             </div>
 
-            <!-- Tombol Simpan -->
-            <div class="action-bar">
-                <button type="reset" class="btn btn-secondary">Reset Default</button>
-                <button type="submit" class="btn btn-primary">Save Configuration</button>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <label for="cors_mode">CORS Policy</label>
+                    <p>Atur header Access-Control-Allow-Origin untuk request API/Fetch.</p>
+                </div>
+                <div class="setting-control">
+                    <select id="cors_mode" name="cors_mode">
+                        <option value="*" selected>Allow All (*)</option>
+                        <option value="same-origin">Same Origin Only</option>
+                        <option value="disabled">Disabled</option>
+                    </select>
+                </div>
             </div>
+        </div>
+
+        <!-- Tombol Simpan -->
+        <div class="action-bar">
+            <button type="reset" class="btn btn-secondary">Reset Default</button>
+            <button type="submit" class="btn btn-primary">Save Configuration</button>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
@@ -379,37 +417,40 @@
 
         </footer>
     </main>
-<script>
-document.querySelector(".btn-primary").addEventListener("click", async (event) => {
-    event.preventDefault();
+    <script>
+        let noCache = document.getElementById("no_cache"),
+            bahasaServer = document.getElementById("bahasaServer")
 
-    let noCache = document.getElementById("no_cache").checked;
+        bahasaServer.value = `{{lang}}`
+        document.querySelector(".btn-primary").onclick = async o => {
+            o.preventDefault()
 
-    try {
-        const response = await fetch("/api/settings", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                no_cache: noCache
-            })
-        });
+            try {
+                const response = await fetch("/api/settings", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        no_cache: noCache.checked,
+                        lang: bahasaServer.value
+                    })
+                })
 
-        const result = await response.json();
+                const result = await response.json();
 
-        if (result.success) {
-            alert("Pengaturan berhasil disimpan!");
-        } else {
-            alert(result.message);
-        }
+                if (result.success) {
+                    alert("Pengaturan berhasil disimpan!");
+                } else {
+                    alert(result.message);
+                }
 
-    } catch (error) {
-        alert("Gagal menghubungi Mini Server.");
-        console.error(error);
-    }
-});
-</script>
+            } catch (error) {
+                alert("Gagal menghubungi Mini Server.");
+                console.error(error);
+            }
+        };
+    </script>
 </body>
 
 </html>

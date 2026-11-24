@@ -1,6 +1,7 @@
 from assets.script.textCLI import pesanCLI
 from assets.script.API import api_get, api_post
 from assets.script.respon import kirimRespon
+from assets.script.errorMassage import msgError
 from assets.script.exploreFormater import fileFormatter
 from assets.script.config import SETTINGS, loadSettings, saveSettings
 from urllib.parse import urlsplit
@@ -13,7 +14,6 @@ import socket
 import questionary
 import html
 import time
-import json
 
 if getattr(sys, 'frozen', False):
     DIRECTORY = os.path.dirname(sys.executable)
@@ -30,7 +30,7 @@ def cariPortKosong(defaultPort=8000):
 
 loadSettings()
 PORT = cariPortKosong(SETTINGS["port"])
-
+BAHASA = SETTINGS["lang"]
 def resourcePath(relativePath):
     if getattr(sys, 'frozen', False):
         basePath = sys._MEIPASS
@@ -50,6 +50,7 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 with open(resourcePath("assets/html/error.html"), "r", encoding="utf-8") as file:
                     content = file.read()
 
+                content = content.replace("{{lang}}",str(BAHASA))
                 content = content.replace("{{errorCode}}", str(code))
                 content = content.replace("{{errorMessage}}", html.escape(message))
                 content = content.replace("{{dateNowPy}}", str(time.time()))
@@ -62,10 +63,14 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             super().send_error(code, message, explain)
 
     def list_directory(self, path):
+        if not SETTINGS["dir_listing"]:
+            self.send_error(403, msgError["errorListing"][BAHASA])
+            return None
+        
         try:
             entries = os.listdir(path)
         except OSError:
-            self.send_error(404, "Directory not accessible")
+            self.send_error(404, msgError["404"][BAHASA])
             return None
 
         entries.sort(key=lambda name: (not os.path.isdir(os.path.join(path, name)),name.lower()))
@@ -78,7 +83,8 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         except OSError:
             return super().list_directory(path)
-
+        
+        content = content.replace("{{lang}}",str(BAHASA))
         content = content.replace("{{directoryPath}}",html.escape(currentPath))
         content = content.replace("{{directoryContent}}", items)
         content = content.replace("{{itemCount}}", str(folderCount + fileCount))
@@ -89,9 +95,12 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def translate_path(self, path):
         urlPath = urlsplit(path).path
 
-        # Sediakan icon
-        if urlPath == "/__mini_server__/favicon.png":
+        # url asset statis
+        if urlPath == "/miniServer/icon/favicon.png":
             return resourcePath("assets/icon/lg.png")
+        
+        if urlPath == "/miniServer/template/Error.html":
+            return resourcePath("assets/html/error.html")
 
         return super().translate_path(path)
     
@@ -101,9 +110,13 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             return
 
         super().do_GET()
-        
+
     def do_POST(self):
-        api_post(self)
+        urlPath = urlsplit(self.path).path
+        if api_post(self, urlPath):
+            return
+        
+        self.send_error(404, msgError["404"][BAHASA])
 
     def end_headers(self):
         if SETTINGS["no_cache"]:

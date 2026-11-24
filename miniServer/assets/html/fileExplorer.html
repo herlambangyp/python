@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{lang}}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Server - Explorer</title>
-    <link rel="icon" type="image/png" href="/__mini_server__/favicon.png?v={{dateNowPy}}">
+    <link rel="icon" type="image/png" href="/miniServer/icon/favicon.png?v={{dateNowPy}}">
     <style>
+        .en, .ind {
+            display: none;
+        }
+
+        html[lang="en"] .en {
+            display: inherit;
+        }
+
+        html[lang="id"] .ind {
+            display: inherit;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -259,7 +271,7 @@
         <!-- Header -->
         <header class="header">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="/__mini_server__/favicon.png" style="max-height: 50px; width: auto;">
+                <img src="/miniServer/icon/favicon.png" style="max-height: 50px; width: auto;">
                 <div>
                     <span class="badge">HYP MINI SERVER</span>
                     <h1>
