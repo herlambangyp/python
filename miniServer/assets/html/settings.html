@@ -327,8 +327,8 @@
             <div class="setting-row">
                 <div class="setting-info">
                     <label for="bahasa"><span class="ind">Bahasa</span><span class="en">Language</span></label>
-                    <p class="ind">Menentukan bahasa tampilan untuk seluruh menu dan notifikasi sistem miniserver.</p>
-                    <p class="en">Sets the display language for all miniserver menus and system notifications.</p>
+                    <p class="ind">Menentukan bahasa untuk menu, pesan error, dan notifikasi sistem miniserver. (Bukan bahasa web yang dipreview)</p>
+                    <p class="en">Sets the display language for miniserver menus, error message, and system notifications. (Not web preview language)</p>
                 </div>
                 <div class="setting-control">
                     <select id="bahasaServer" name="bahasa">
@@ -347,7 +347,8 @@
             <div class="setting-row">
                 <div class="setting-info">
                     <label for="port">Server Port</label>
-                    <p>Port HTTP yang digunakan saat server berjalan.</p>
+                    <p class="ind">Port HTTP yang digunakan saat server berjalan.</p>
+                    <p class="en">Use specified HTTP Port when the server running</p>
                 </div>
                 <div class="setting-control">
                     <input type="number" id="port" name="port" value="{{dataPort}}" min="1" max="65535">
@@ -363,12 +364,12 @@
             <div class="setting-row">
                 <div class="setting-info">
                     <label for="dir_listing">Directory Listing</label>
-                    <p class="ind">Tampilkan daftar isi folder jika file index.html tidak ditemukan.</p>
+                    <p class="ind">Tampilkan isi direktori jika file index.html tidak ditemukan.</p>
                     <p class="en">Explore server directory whenever index.html could'nt be found</p>
                 </div>
                 <div class="setting-control">
                     <label class="checkbox-wrapper">
-                        <input type="checkbox" id="dir_listing" name="dir_listing" checked>
+                        <input type="checkbox" id="dir_listing" name="dir_listing" {{ceklistDirList}}>
                         <span>ENABLED</span>
                     </label>
                 </div>
@@ -376,9 +377,10 @@
 
             <div class="setting-row">
                 <div class="setting-info">
-                    <label for="no_cache"><span class="en"> Disable Browser Cache</span><span class="ind">Matikan Cache
+                    <label for="no_cache"><span class="en">Disable Browser Cache</span><span class="ind">Matikan Cache
                             Browser</span></label>
-                    <p>Kirim header Cache-Control: no-store untuk live development.</p>
+                    <p class="ind">Cegah browser untuk membuat cache web, khusus untuk miniserver</p>
+                    <p class="en">Disable browser for caching any web for this miniserver</p>
                 </div>
                 <div class="setting-control">
                     <label class="checkbox-wrapper">
@@ -391,11 +393,12 @@
             <div class="setting-row">
                 <div class="setting-info">
                     <label for="cors_mode">CORS Policy</label>
-                    <p>Atur header Access-Control-Allow-Origin untuk request API/Fetch.</p>
+                    <p class="ind">Izinkan request Fetch dari internal (same origin) atau API eksternal.</p>
+                    <p class="en">Allow request from internal Fetch (same origin) or external API.</p>
                 </div>
                 <div class="setting-control">
                     <select id="cors_mode" name="cors_mode">
-                        <option value="*" selected>Allow All (*)</option>
+                        <option value="*">Allow All(*)</option>
                         <option value="same-origin">Same Origin Only</option>
                         <option value="disabled">Disabled</option>
                     </select>
@@ -406,7 +409,10 @@
         <!-- Tombol Simpan -->
         <div class="action-bar">
             <button type="reset" class="btn btn-secondary">Reset Default</button>
-            <button type="submit" class="btn btn-primary">Save Configuration</button>
+            <button type="submit" class="btn btn-primary">
+                <span class="ind">Simpan Perubahan</span>
+                <span class="en">Save Changes</span>
+            </button>
         </div>
 
         <!-- Footer -->
@@ -418,10 +424,15 @@
         </footer>
     </main>
     <script>
-        let noCache = document.getElementById("no_cache"),
-            bahasaServer = document.getElementById("bahasaServer")
+        const $ = (element) => document.querySelector(element),
+            noCache = $("#no_cache"),
+            bahasaServer = $("#bahasaServer"),
+            dir_listing = $('#dir_listing')
+            cors_mode = $('#cors_mode')
 
         bahasaServer.value = `{{lang}}`
+        cors_mode.value = `{{CORS}}`
+
         document.querySelector(".btn-primary").onclick = async o => {
             o.preventDefault()
 
@@ -433,6 +444,8 @@
                     },
                     body: JSON.stringify({
                         no_cache: noCache.checked,
+                        dir_listing : dir_listing.checked,
+                        CORS: cors_mode.value,
                         lang: bahasaServer.value
                     })
                 })

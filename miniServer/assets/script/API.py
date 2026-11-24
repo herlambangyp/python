@@ -30,8 +30,10 @@ def api_get(self, urlPath, resourcePath, port):
 
             content = content.replace("{{dataPort}}", str(port))
             content = content.replace("{{lang}}",str(SETTINGS["lang"]))
+            content = content.replace("{{CORS}}",str(SETTINGS["CORS"]))
             content = content.replace("{{noCache}}",str(SETTINGS["no_cache"]))
             content = content.replace("{{ceklistNoCache}}", "checked" if SETTINGS["no_cache"] else "")
+            content = content.replace("{{ceklistDirList}}", "checked" if SETTINGS["dir_listing"] else "")
             kirimRespon(self,content,"text/html; charset=utf-8")
 
         except OSError:
@@ -59,6 +61,8 @@ def api_post(self, urlPath):
 
             saveSettings({
                 "no_cache": data["no_cache"],
+                "dir_listing": data["dir_listing"],
+                "CORS": data["CORS"],
                 "lang": data["lang"]
                 })
 
