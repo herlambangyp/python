@@ -1,13 +1,12 @@
 
 from assets.script.respon import kirimRespon
-from assets.script.config import SETTINGS, saveSettings, loadSettings
+from assets.script.config import saveSettings, loadSettings
 from assets.script.errorMassage import msgError
 
 import ipaddress
 import json
 
-loadSettings()
-BAHASA = SETTINGS["lang"]
+SETTINGS = loadSettings()
 
 def isLocalhost(self):
     ip = ipaddress.ip_address(self.client_address[0])
@@ -36,7 +35,7 @@ def api_get(self, urlPath, resourcePath, port):
             kirimRespon(self,content,"text/html; charset=utf-8")
 
         except OSError:
-            self.send_error(404, msgError["404"][BAHASA])
+            self.send_error(404, msgError["404"][SETTINGS["lang"]])
         return True
 
     return False

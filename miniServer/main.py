@@ -3,7 +3,7 @@ from assets.script.API import api_get, api_post
 from assets.script.respon import kirimRespon
 from assets.script.errorMassage import msgError
 from assets.script.exploreFormater import fileFormatter
-from assets.script.config import SETTINGS, loadSettings, saveSettings
+from assets.script.config import loadSettings, saveSettings
 from urllib.parse import urlsplit
 import http.server
 import socketserver
@@ -28,9 +28,9 @@ def cariPortKosong(defaultPort=8000):
                 return port
             port += 1
 
-loadSettings()
+SETTINGS = loadSettings()
 PORT = cariPortKosong(SETTINGS["port"])
-BAHASA = SETTINGS["lang"]
+
 def resourcePath(relativePath):
     if getattr(sys, 'frozen', False):
         basePath = sys._MEIPASS
@@ -45,32 +45,30 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
 
     def send_error(self, code, message=None, explain=None):
-        if code in (400, 403, 404, 500):
+            if code == 404:
+                message = msgError["404"][SETTINGS["lang"]]
             try:
                 with open(resourcePath("assets/html/error.html"), "r", encoding="utf-8") as file:
                     content = file.read()
 
-                content = content.replace("{{lang}}",str(BAHASA))
+                content = content.replace("{{lang}}",str(SETTINGS["lang"]))
                 content = content.replace("{{errorCode}}", str(code))
                 content = content.replace("{{errorMessage}}", html.escape(message))
                 content = content.replace("{{dateNowPy}}", str(time.time()))
-                kirimRespon(self,content, "text/html; charset=utf-8")
+                kirimRespon(self,content, "text/html; charset=utf-8",code)
 
             except OSError:
                 super().send_error(code, message, explain)
 
-        else:
-            super().send_error(code, message, explain)
-
     def list_directory(self, path):
         if not SETTINGS["dir_listing"]:
-            self.send_error(403, msgError["errorListing"][BAHASA])
+            self.send_error(403, msgError["errorListing"][SETTINGS["lang"]])
             return None
         
         try:
             entries = os.listdir(path)
         except OSError:
-            self.send_error(404, msgError["404"][BAHASA])
+            self.send_error(404)
             return None
 
         entries.sort(key=lambda name: (not os.path.isdir(os.path.join(path, name)),name.lower()))
@@ -84,7 +82,7 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         except OSError:
             return super().list_directory(path)
         
-        content = content.replace("{{lang}}",str(BAHASA))
+        content = content.replace("{{lang}}",str(SETTINGS["lang"]))
         content = content.replace("{{directoryPath}}",html.escape(currentPath))
         content = content.replace("{{directoryContent}}", items)
         content = content.replace("{{itemCount}}", str(folderCount + fileCount))
@@ -108,7 +106,6 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         urlPath = urlsplit(self.path).path
         if api_get(self, urlPath, resourcePath, PORT):
             return
-
         super().do_GET()
 
     def do_POST(self):
@@ -116,7 +113,7 @@ class DevHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         if api_post(self, urlPath):
             return
         
-        self.send_error(404, msgError["404"][BAHASA])
+        self.send_error(404)
 
     def end_headers(self):
         if SETTINGS["no_cache"]:
