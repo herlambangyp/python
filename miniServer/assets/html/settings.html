@@ -330,7 +330,7 @@
                     <p class="ind">Menentukan bahasa untuk menu, pesan error, dan notifikasi sistem miniserver. (Bukan
                         bahasa web yang dipreview)</p>
                     <p class="en">Sets the display language for miniserver menus, error message, and system
-                        notifications. (Not web preview language)</p>
+                        notifications. (Not the previewed web language)</p>
                 </div>
                 <div class="setting-control">
                     <select id="bahasaServer" name="bahasa">
@@ -343,10 +343,10 @@
                 <div class="setting-info">
                     <label for="bahasa"><span class="ind">Lokasi File Konfigurasi</span><span class="en">Config
                             File Location</span></label>
-                    <p class="ind">Seluruh File atau folder aman dihapus kapan
-                        saja jika miniserver sudah tidak digunakan</p>
-                    <p class="en">Any files or folder deletable in those
-                        directory</p>
+                    <p class="ind">Seluruh file dan folder di dalamnya aman dihapus kapan saja setelah miniserver tidak
+                        lagi digunakan.</p>
+                    <p class="en">All files and folders inside can be safely deleted anytime once the miniserver is no
+                        longer in use.</p>
                 </div>
                 <div class="setting-control" style="font-size: x-small;color: gray;">
                     {{directoryConfig}}
@@ -379,8 +379,8 @@
             <div class="setting-row">
                 <div class="setting-info">
                     <label for="dir_listing">Directory Listing</label>
-                    <p class="ind">Tampilkan isi direktori jika file index.html tidak ditemukan.</p>
-                    <p class="en">Explore server directory whenever index.html could'nt be found</p>
+                    <p class="ind">Tampilkan daftar isi direktori jika file index.html tidak ditemukan.</p>
+                    <p class="en">Display directory listing if index.html could'nt be found.</p>
                 </div>
                 <div class="setting-control">
                     <label class="checkbox-wrapper">
@@ -402,7 +402,7 @@
                 <div class="setting-control">
                     <label class="checkbox-wrapper">
                         <input type="checkbox" id="serverAkses" name="serverAkses" {{ceklistAkses}}>
-                        <span class="en">ENABLED</span>
+                        <span class="en">ALLOW ALL</span>
                         <span class="ind">IZINKAN SEMUA</span>
                     </label>
                 </div>
@@ -412,8 +412,10 @@
                 <div class="setting-info">
                     <label for="no_cache"><span class="en">Disable Browser Cache</span><span class="ind">Matikan Cache
                             Browser</span></label>
-                    <p class="ind">Cegah browser untuk membuat cache web, khusus untuk miniserver</p>
-                    <p class="en">Disable browser for caching any web for this miniserver</p>
+                    <p class="ind">Nonaktifkan cache browser khusus untuk miniserver agar perubahan file selalu dimuat
+                        secara langsung.</p>
+                    <p class="en">Disable browser caching specifically for the miniserver so file changes are always
+                        loaded immediately.</p>
                 </div>
                 <div class="setting-control">
                     <label class="checkbox-wrapper">
@@ -426,8 +428,9 @@
             <div class="setting-row">
                 <div class="setting-info">
                     <label for="cors_mode">CORS Policy</label>
-                    <p class="ind">Izinkan request Fetch dari internal (same origin) atau API eksternal.</p>
-                    <p class="en">Allow request from internal Fetch (same origin) or external API.</p>
+                    <p class="ind">Izinkan permintaan data (fetch) ke server internal (same-origin) maupun API
+                        eksternal.</p>
+                    <p class="en">Allow data requests (fetch) to internal (same-origin) servers or external APIs.</p>
                 </div>
                 <div class="setting-control">
                     <select id="cors_mode" name="cors_mode">
@@ -450,7 +453,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <span>config.json / runtime</span>
+            <span>settings.json</span>
             <span style="display: flex; align-items: center;">By&nbsp;<a
                     href="https://herlambangyp.github.io/">@Herlambang YP</a></span>
 
@@ -460,9 +463,9 @@
         const $ = (element) => document.querySelector(element),
             noCache = $("#no_cache"),
             bahasaServer = $("#bahasaServer"),
-            dir_listing = $('#dir_listing')
-        cors_mode = $('#cors_mode'),
-        serverAkses = $('#serverAkses')
+            dir_listing = $('#dir_listing'),
+            cors_mode = $('#cors_mode'),
+            serverAkses = $('#serverAkses')
 
         bahasaServer.value = `{{lang}}`
         cors_mode.value = `{{CORS}}`

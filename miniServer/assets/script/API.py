@@ -20,7 +20,7 @@ def ambilJSON(self):
 def api_get(self, urlPath, resourcePath, port):
 
     if urlPath.rstrip("/") == "/settings":
-        if not isLocalhost(self) and not SETTINGS["allSetting"]:
+        if not isLocalhost(self) and not SETTINGS["serverAkses"]:
             self.send_error(403,msgError["settingAkses"][SETTINGS["lang"]])
             return True
 
@@ -48,7 +48,7 @@ def api_get(self, urlPath, resourcePath, port):
 def api_post(self, urlPath):
 
     if urlPath == "/api/settings":
-        if not isLocalhost(self) and not SETTINGS["allSetting"]:
+        if not isLocalhost(self) and not SETTINGS["serverAkses"]:
             self.send_error(403,msgError["settingAkses"][SETTINGS["lang"]])
             return True
 
