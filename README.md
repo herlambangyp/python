@@ -46,3 +46,13 @@ Beberapa package mungkin akan memerlukan update
 ```bash
  py -m pip freeze > requirements.txt
 ```
+
+2. Reset Python Global
+Diluar venv jalanakn:
+```bash
+ py -m pip freeze > global-packages.txt
+```
+Lalu jalankan:
+```bash
+ py -m pip uninstall -y -r global-packages.txt
+```
